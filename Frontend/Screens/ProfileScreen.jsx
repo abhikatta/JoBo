@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-const ProfilePage = ({ navigation, route }) => {
+const ProfileScreen = ({ navigation, route }) => {
   return (
     <View>
       <Text>This is the profile page</Text>
@@ -9,4 +9,4 @@ const ProfilePage = ({ navigation, route }) => {
   );
 };
 
-export default ProfilePage;
+export default ProfileScreen;
