@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, Button, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import ProfilePage from "../ProfilePage/ProfilePage";
+import SettingsPage from "../SettingsPage/SettingPage";
+import BooksPage from "../BooksPage/BooksPage";
+import NewJoBoPage from "../BooksPage/NewJoBoPage";
+import FavoritesPage from "../BooksPage/FavoritesPage";
 const NavBar = () => {
   const buttons = {
-    heart: "Favorites",
-    book: "Books",
-    plus: "JoBo",
-    gear: "Settings",
-    male: "Profile",
+    heart: { name: "Favorites", page: FavoritesPage },
+    book: { name: "Books", page: BooksPage },
+    plus: { name: "JoBo", page: NewJoBoPage },
+    gear: { name: "Settings", page: SettingsPage },
+    male: { name: "Profile", page: ProfilePage },
   };
+
   return (
     <View>
       <View style={styles.navbar}>
@@ -29,7 +35,11 @@ const NavBar = () => {
               onLongPress={() => alert("Long pressing")}
               onPress={() => alert("This is a button")}
             />
-            {<Text style={{ textAlign: "center" }}>{value}</Text>}
+            {
+              <Text style={{ textAlign: "center", marginBottom: 7 }}>
+                {value}
+              </Text>
+            }
           </View>
         ))}
       </View>
@@ -49,9 +59,8 @@ const styles = StyleSheet.create({
     size: 30,
   },
   navbar: {
-    marginTop: "10%",
     justifyContent: "space-evenly",
-    alignContent: "center",
+    // alignContent: "center",
     flexDirection: "row",
   },
 });
