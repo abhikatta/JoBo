@@ -1,11 +1,10 @@
 import { View, StyleSheet } from "react-native";
 import React from "react";
-import NavBar from "./NavBar";
+import NavBar from "./HomeScreen";
 
-const Home = () => {
+const Home = ({ navigation }) => {
   return (
     <View style={styles.main}>
-      {/* <Camera> */}
       <View style={styles.navbar}>
         <NavBar />
       </View>

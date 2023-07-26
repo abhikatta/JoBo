@@ -1,10 +1,12 @@
 import { View, Text } from "react-native";
 import React from "react";
+import NavBar from "./HomeScreen";
 
-const BooksPage = () => {
+const BooksPage = ({ navigation }) => {
   return (
     <View>
-      <Text>This is the BooksPage</Text>
+      <Text>Tis is the BooksPage</Text>
+      <NavBar />
     </View>
   );
 };
