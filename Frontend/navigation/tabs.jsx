@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet, Image, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
-import HomeScreen from "../Screens/HomeScreen";
+
 import FavoritesScreen from "../Screens/FavoritesScreen";
 import ProfileScreen from "../Screens/ProfileScreen";
 import BooksScreen from "../Screens/BooksScreen";
@@ -61,8 +61,7 @@ const Tabs = () => {
         component={FavoritesScreen}
       />
       <Tab.Screen
-        name="New"
-        style={{ fontSize: 12 }}
+        name="JoBo "
         component={NewJoBoScreen}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -74,8 +73,10 @@ const Tabs = () => {
                   height: 60,
                   width: 60,
                   top: -10,
-                  backgroundColor: "#eeeeee",
+                  backgroundColor: "#dddddd",
                   borderTopLeftRadius: 20,
+                  borderBottomLeftRadius: 10,
+                  borderBottomRightRadius: 10,
                   borderTopRightRadius: 20,
                   tintColor: "black",
                 }}
@@ -84,6 +85,7 @@ const Tabs = () => {
           ),
         }}
       />
+
       <Tab.Screen
         options={{
           tabBarIcon: ({ focused }) => (
@@ -141,13 +143,13 @@ export default Tabs;
 const styles = StyleSheet.create({
   navBar: {
     borderRadius: 15,
-    color: "blue",
+
     position: "absolute",
     bottom: 10,
     height: 70,
     left: 20,
     right: 20,
-    backgroundColor: "#eeeeee",
+    backgroundColor: "#dddddd",
     elevation: 5,
     shadowColor: "maroon",
   },
