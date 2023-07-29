@@ -1,24 +1,17 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, Image, Text, View } from "react-native";
+import { StyleSheet, Image, View } from "react-native";
 import React from "react";
-
 import FavoritesScreen from "../Screens/FavoritesScreen";
 import ProfileScreen from "../Screens/ProfileScreen";
 import BooksScreen from "../Screens/BooksScreen";
 import SettingScreen from "../Screens/SettingScreen";
-import NewJoBoScreen from "../Screens/(deprecated)CameraScreen";
+// Deprecated lmao:
+// import NewJoBoScreen from "../Screens/(deprecated)CameraScreen";
 import CameraScreen from "../Screens/CameraScreen";
-
-// test:
-import { useNavigation } from "@react-navigation/native";
 
 const Tabs = () => {
   const Tab = createBottomTabNavigator();
-  // test:
-  const navigation = useNavigation();
-  function returnName(name) {
-    return <Text style={{ fontSize: 12 }}>{name}</Text>;
-  }
+
   return (
     <Tab.Navigator
       backBehavior="firstRoute"
@@ -71,6 +64,7 @@ const Tabs = () => {
         name="NEW JOBO"
         component={CameraScreen}
         options={{
+          unmountOnBlur: true,
           tabBarStyle: { display: "none" },
           tabBarIcon: ({ focused }) => (
             <Image

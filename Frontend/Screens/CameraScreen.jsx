@@ -1,71 +1,40 @@
-// import { StatusBar } from "expo-status-bar";
-// import {
-//   StyleSheet,
-//   Text,
-//   View,
-//   SafeAreaView,
-//   Button,
-//   Image,
-// } from "react-native";
-// import React, { useEffect, useRef, useState } from "react";
-// import { Camera, CameraType } from "expo-camera";
-// import { shareAsync } from "expo-sharing";
-// import * as MediaLibrary from "expo-media-library";
-// const CameraScreen = () => {
-//   const [hasCameraPermissions, setHasCameraPermissions] = useState(null);
-//   const [image, setImage] = useState(null);
-//   const [type, setType] = useState(Camera.Constants.Type.back);
-//   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
-//   const cameraRef = useRef(null);
-//   useEffect =
-//     (() => {
-//       async () => {
-//         MediaLibrary.requestPermissionsAsync();
-//         const cameraStatus = await Camera.requestCameraPermissionsAsync();
-//         setHasCameraPermissions(cameraStatus.status === "granted");
-//       };
-//     },
-//     []);
-
-//   return (
-//     <View style={styles.container}>
-//       <Camera
-//         style={styles.camera}
-//         type={type}
-//         flashMode={flash}
-//         ref={cameraRef}>
-//         <Text>Camera Test</Text>
-//       </Camera>
-//     </View>
-//   );
-// };
-// export default CameraScreen;
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#ffffff",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   camera: {
-//     flex: 1,
-//     borderRadius: 20,
-//   },
-// });
-
 import { Camera, CameraType } from "expo-camera";
-import { useState } from "react";
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useState, useRef } from "react";
+import {
+  Button,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function CameraScreen() {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
+
   const [toggleFlash, setToggleFlash] = useState(false);
+  const [cameraReady, setCameraReady] = useState(false);
+  const ref = useRef(null);
+
+  const takePhoto = async () => {
+    const photo = await ref.current.takePictureAsync();
+    console.debug(photo);
+    console.log(photo.uri);
+  };
+
   if (!permission) {
     // Camera permissions are still loading
     return (
       <View>
-        <Text>persmisinsg</Text>
+        <Text
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: 30,
+          }}>
+          Loading...
+        </Text>
       </View>
     );
   }
@@ -77,21 +46,24 @@ export default function CameraScreen() {
         <Text style={{ textAlign: "center" }}>
           We need your permission to show the camera
         </Text>
-        <Button onPress={requestPermission} title="grant permission" />
+        <Button title="Grant Permission" onPress={requestPermission} />
       </View>
     );
   }
 
   function toggleCameraType() {
     setType((current) =>
-      current === CameraType.back ? CameraType.front : CameraType.back
+      current === CameraType.front ? CameraType.back : CameraType.front
     );
   }
 
   return (
     <View style={styles.container}>
       <Camera
+        ratio="16:9"
+        ref={ref}
         style={styles.camera}
+        onCameraReady={() => setCameraReady(() => !cameraReady)}
         flashMode={toggleFlash ? "torch" : "off"}
         type={type}>
         <View style={styles.buttonContainer}>
@@ -103,6 +75,13 @@ export default function CameraScreen() {
             onPress={() => setToggleFlash(() => !toggleFlash)}>
             <Text style={styles.text}>Flash</Text>
           </TouchableOpacity>
+          {
+            <TouchableOpacity
+              style={styles.button}
+              onPress={cameraReady && takePhoto}>
+              <Text style={styles.text}>Take Photo</Text>
+            </TouchableOpacity>
+          }
         </View>
       </Camera>
     </View>
@@ -121,7 +100,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     backgroundColor: "transparent",
-    margin: 64,
+    marginHorizontal: 20,
+    marginBottom: 40,
     bottom: 40,
   },
   button: {
