@@ -1,4 +1,5 @@
 import { Camera, CameraType } from "expo-camera";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useState, useRef } from "react";
 import {
   Button,
@@ -14,7 +15,6 @@ export default function CameraScreen() {
   const [permission, requestPermission] = Camera.useCameraPermissions();
 
   const [toggleFlash, setToggleFlash] = useState(false);
-  const [cameraReady, setCameraReady] = useState(false);
   const ref = useRef(null);
 
   const takePhoto = async () => {
@@ -63,25 +63,35 @@ export default function CameraScreen() {
         ratio="16:9"
         ref={ref}
         style={styles.camera}
-        onCameraReady={() => setCameraReady(() => !cameraReady)}
         flashMode={toggleFlash ? "torch" : "off"}
         type={type}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-            <Text style={styles.text}>Flip Camera</Text>
+            <Image
+              resizeMode="contain"
+              source={require("../assets/icons/flip_camera.png")}
+              style={styles.button}
+            />
+            <Text style={styles.text}>Flip</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={takePhoto}>
+            <Image
+              resizeMode="contain"
+              source={require("../assets/icons/take_photo.png")}
+              style={styles.button}
+            />
+            <Text style={styles.text}>JoBo </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => setToggleFlash(() => !toggleFlash)}>
-            <Text style={styles.text}>Flash</Text>
-          </TouchableOpacity>
-          {
-            <TouchableOpacity
+            <Image
+              resizeMode="contain"
+              source={require("../assets/icons/flash.png")}
               style={styles.button}
-              onPress={cameraReady && takePhoto}>
-              <Text style={styles.text}>Take Photo</Text>
-            </TouchableOpacity>
-          }
+            />
+            <Text style={styles.text}>Flash </Text>
+          </TouchableOpacity>
         </View>
       </Camera>
     </View>
@@ -98,19 +108,26 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
+    borderRadius: 10,
+
+    marginTop: 650,
+    marginHorizontal: 30,
+    marginBottom: 50,
     flexDirection: "row",
     backgroundColor: "transparent",
-    marginHorizontal: 20,
-    marginBottom: 40,
-    bottom: 40,
+
+    opacity: 0.6,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
   },
   button: {
     flex: 1,
-    alignSelf: "flex-end",
+    tintColor: "white",
+    alignSelf: "center",
     alignItems: "center",
   },
   text: {
-    fontSize: 24,
+    fontSize: 16,
     fontWeight: "bold",
     color: "white",
   },
