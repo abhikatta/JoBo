@@ -2,7 +2,12 @@ import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { useState, useRef } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
+export let JoBoText = {
+  value: [],
+};
+function print(data) {
+  console.log(data);
+}
 export default function CameraScreen() {
   const [type, setType] = useState(CameraType.back);
   const [cameraPermissionResponse, cameraRequestPermission] =
@@ -16,6 +21,11 @@ export default function CameraScreen() {
   const takePhoto = async () => {
     const photo = await ref.current.takePictureAsync();
     MediaLibrary.saveToLibraryAsync(photo.uri);
+    JoBoText.value.push(photo.uri + "\n");
+    JoBoText.updated = true;
+    print("New photo.uri set ");
+    print(JoBoText.value);
+    print(JoBoText.updated);
     alert("Photo Saved to Camera Roll.");
   };
 

@@ -5,8 +5,6 @@ import FavoritesScreen from "../Screens/FavoritesScreen";
 import ProfileScreen from "../Screens/ProfileScreen";
 import BooksScreen from "../Screens/BooksScreen";
 import SettingScreen from "../Screens/SettingScreen";
-// Deprecated lmao:
-// import NewJoBoScreen from "../Screens/(deprecated)CameraScreen";
 import CameraScreen from "../Screens/CameraScreen";
 
 const Tabs = () => {
@@ -26,6 +24,7 @@ const Tabs = () => {
         name="HOME"
         component={BooksScreen}
         options={{
+          unmountOnBlur: true,
           tabBarIcon: ({ focused }) => (
             <View style={styles.navIconView}>
               <Image
