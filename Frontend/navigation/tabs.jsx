@@ -71,7 +71,6 @@ const Tabs = () => {
               resizeMode="contain"
               style={{
                 height: 60,
-
                 width: 60,
                 top: -10,
                 backgroundColor: "#dddddd",

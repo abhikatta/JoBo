@@ -1,13 +1,12 @@
 import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { useState, useRef } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 export let JoBoText = {
-  value: [],
+  imagePaths: [],
 };
-function print(data) {
-  console.log(data);
-}
+
 export default function CameraScreen() {
   const [type, setType] = useState(CameraType.back);
   const [cameraPermissionResponse, cameraRequestPermission] =
@@ -19,14 +18,35 @@ export default function CameraScreen() {
   const ref = useRef(null);
 
   const takePhoto = async () => {
-    const photo = await ref.current.takePictureAsync();
-    MediaLibrary.saveToLibraryAsync(photo.uri);
-    JoBoText.value.push(photo.uri + "\n");
-    JoBoText.updated = true;
-    print("New photo.uri set ");
-    print(JoBoText.value);
-    print(JoBoText.updated);
+    const { uri } = await ref.current.takePictureAsync();
+    const asset = await MediaLibrary.createAssetAsync(uri);
+    // JoBoText.folder = MediaLibrary.getAlbumAsync(assetAlbum);
+    // api test:
+    // const query = async (filename) => {
+    //   const data = MediaLibrary.readFileSync(filename);
+    //   const response = await fetch(
+    //     "https://api-inference.huggingface.co/models/microsoft/trocr-large-handwritten",
+    //     {
+    //       headers: {
+    //         Authorization: "Bearer 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",
+    //       },
+    //       method: "POST",
+    //       body: data,
+    //     }
+    //   );
+    //   const result = await response.json();
+    //   return result;
+    // };
+    // filename = MediaLibrary.createAssetAsync(photoURI);
+    // query(filename).then((response) => {
+    //   console.log(JSON.stringify(response));
+    // });
+    //
+
     alert("Photo Saved to Camera Roll.");
+    JoBoText.imagePaths.push(
+      <Image style={{ width: 90, height: 160 }} source={{ uri: asset.uri }} />
+    );
   };
 
   if (!cameraPermissionResponse) {
