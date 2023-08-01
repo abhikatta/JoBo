@@ -16,8 +16,13 @@ const Tabs = () => {
       screenOptions={{
         tabBarStyle: styles.navBar,
 
+        tabBarHideOnKeyboard: true,
+        tabBarIconStyle: {
+          top: "10%",
+        },
         tabBarLabelStyle: {
           fontSize: 12,
+          bottom: -8,
         },
         tabBarActiveTintColor: "maroon",
       }}>
@@ -87,7 +92,6 @@ const Tabs = () => {
 
       <Tab.Screen
         options={{
-          tabBarStyle: { display: "none" },
           tabBarIcon: ({ focused }) => (
             <View style={styles.navIconView}>
               <Image
@@ -133,7 +137,7 @@ const styles = StyleSheet.create({
   navBar: {
     borderRadius: 15,
     position: "absolute",
-    bottom: 10,
+    bottom: "3.5%",
     height: 60,
     left: 20,
     right: 20,
@@ -145,5 +149,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  newJoBoIcon: {},
 });
