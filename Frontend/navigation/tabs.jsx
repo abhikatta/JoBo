@@ -15,6 +15,7 @@ const Tabs = () => {
       backBehavior="firstRoute"
       screenOptions={{
         tabBarStyle: styles.navBar,
+
         tabBarLabelStyle: {
           fontSize: 12,
         },
@@ -24,7 +25,6 @@ const Tabs = () => {
         name="HOME"
         component={BooksScreen}
         options={{
-          unmountOnBlur: true,
           tabBarIcon: ({ focused }) => (
             <View style={styles.navIconView}>
               <Image
@@ -87,6 +87,7 @@ const Tabs = () => {
 
       <Tab.Screen
         options={{
+          tabBarStyle: { display: "none" },
           tabBarIcon: ({ focused }) => (
             <View style={styles.navIconView}>
               <Image

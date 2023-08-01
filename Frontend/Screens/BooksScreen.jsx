@@ -1,33 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
-
+import {
+  View,
+  Image,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  RefreshControl,
+  TouchableOpacity,
+} from "react-native";
 import { JoBoText } from "./CameraScreen";
 
 const BooksScreen = () => {
-  const [data, setData] = useState("");
-  console.log(data);
-  const API = "http://10.74.30.242:5000/returnjson";
-  useEffect(() => {
-    fetch(API)
-      .then((response) => response.json())
-      .then((json) => setData(json))
-      .catch((error) => console.error(error))
-      .finally(console.log("loading"));
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
   }, []);
-  //   const res = async DocumentPicker.pick({
-  //     type: [DocumentPicker.types.allFiles],
-  // });
-  this.setState({ singleFile: res });
 
   return (
     <View style={styles.main}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }></ScrollView>
       {/* columns container: */}
       <View style={styles.columns}>
         {JoBoText.imagePaths.map((image, index) => (
           <View key={index}>{image}</View>
         ))}
       </View>
-      <Text style={styles.text}>{data.Text}</Text>
     </View>
   );
 };
@@ -35,14 +40,15 @@ export default BooksScreen;
 
 const styles = StyleSheet.create({
   main: {
+    flex: 1,
     height: "100%",
-    backgroundColor: "#223344",
     width: "100%",
   },
   text: {
     color: "#eeddff",
   },
   columns: {
+    flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
   },
@@ -60,5 +66,11 @@ const styles = StyleSheet.create({
     shadowColor: "#00aaff",
     borderRadius: 10,
     marginVertical: "2%",
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: "pink",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

@@ -18,9 +18,21 @@ export default function CameraScreen() {
   const ref = useRef(null);
 
   const takePhoto = async () => {
+    const assetAlbum = "JoBoCaptures";
     const { uri } = await ref.current.takePictureAsync();
     const asset = await MediaLibrary.createAssetAsync(uri);
-    // JoBoText.folder = MediaLibrary.getAlbumAsync(assetAlbum);
+    // let { folder } = "";
+    // if (await MediaLibrary.getAlbumAsync(assetAlbum)) {
+    //   folder = await MediaLibrary.getAlbumAsync(assetAlbum);
+    // } else {
+    //   folder = await MediaLibrary.createAlbumAsync(
+    //     assetAlbum,
+    //     asset.uri,
+    //     false
+    //   );
+    // }
+    // const { fromFolder } = MediaLibrary.getAlbumAsync(assetAlbum);
+    // console.log(folder);
     // api test:
     // const query = async (filename) => {
     //   const data = MediaLibrary.readFileSync(filename);
@@ -44,6 +56,7 @@ export default function CameraScreen() {
     //
 
     alert("Photo Saved to Camera Roll.");
+
     JoBoText.imagePaths.push(
       <Image style={{ width: 90, height: 160 }} source={{ uri: asset.uri }} />
     );
