@@ -1,8 +1,8 @@
 import { Client, Account } from "appwrite";
 import { config } from "../appwrite.config";
 console.log("this works");
-const SERVER_ENDPOINT = config.SERVER_ENDPOINT;
-const PROJECT_ID = config.PROJECT_ID;
+const SERVER_ENDPOINT = config.SERVER_ENDPOINT; //your server endpoint
+const PROJECT_ID = config.PROJECT_ID; //your project id
 const client = new Client();
 console.log(client);
 console.log(typeof client);
