@@ -6,7 +6,6 @@ const ProfileScreen = ({ navigation, route }) => {
     <View>
       <Text>This is the profile page</Text>
     </View>
-  );// asd sa dsa dsa das 
-};
-// testing github.dev
+  ); 
+}; 
 export default ProfileScreen;
