@@ -10,40 +10,35 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { account } from "../appwrite/appwrite";
-
 const Stack = createNativeStackNavigator();
-
-// const [disableSignp, SetEnableSignUp] = useState();
-export const User = {
-  disableSignIn: false,
-  disableSignUp: false,
-  disableSignOut: true,
-};
 export const ProfileScreen = ({ navigation, route }) => {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator>
-        {/* drop in all the screens here every child screen and parent screen should be here */}
         <Stack.Screen
           name="Register"
           options={{ headerTintColor: "purple" }}
           component={ProfileHomePage}
         />
-        <Stack.Screen
-          name="LogIn"
-          options={{ headerTintColor: "purple" }}
-          component={LogIn}
-        />
-        <Stack.Screen
-          name="SignUp"
-          options={{ headerTintColor: "purple" }}
-          component={SignUp}
-        />
+        {/* When user is logged in, disable Login and Signup components */}
         <Stack.Screen
           name="LogOut"
           options={{ headerTintColor: "teal" }}
           component={LogOut}
         />
+        {/* When user is logged out, disable Logout component */}
+        <>
+          <Stack.Screen
+            name="LogIn"
+            options={{ headerTintColor: "purple" }}
+            component={LogIn}
+          />
+          <Stack.Screen
+            name="SignUp"
+            options={{ headerTintColor: "purple" }}
+            component={SignUp}
+          />
+        </>
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -53,19 +48,16 @@ export const ProfileHomePage = ({ navigation }) => {
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.button}
-        // disabled={User.disableSignIn}
         onPress={() => navigation.navigate("LogIn")}>
         <Text>LogIn</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        // disabled={User.disableSignUp}
         onPress={() => navigation.navigate("SignUp")}>
         <Text>SignUp</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        // disabled={User.disableSignOut}
         onPress={() => navigation.navigate("LogOut")}>
         <Text>LogOut</Text>
       </TouchableOpacity>
@@ -76,10 +68,9 @@ export const ProfileHomePage = ({ navigation }) => {
 export const LogIn = ({ navigation }) => {
   const login = async () => {
     await account.createEmailSession(email, password);
-    alert("Loggin In");
-    User.disableSignIn = true;
-    User.disableSignUp = true;
-    User.disableSignOut = false;
+    if (await account.getSession("current")) {
+      alert("Loggin In");
+    }
     navigation.goBack();
   };
   const [email, setEmail] = useState("");
@@ -133,9 +124,7 @@ export const SignUp = ({ navigation }) => {
   const signup = async () => {
     await account.create("unique()", email, password, username);
     await account.createEmailSession(email, password);
-    User.disableSignIn = true;
-    User.disableSignOut = false;
-    User.disableSignUp = true;
+
     navigation.goBack();
   };
 
@@ -191,9 +180,6 @@ export const SignUp = ({ navigation }) => {
 export const LogOut = ({ navigation }) => {
   const logout = async () => {
     await account.deleteSession("current");
-    User.disableSignUp = false;
-    User.disableSignOut = true;
-    User.disableSignIn = false;
     navigation.goBack();
   };
   return (

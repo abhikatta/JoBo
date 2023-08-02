@@ -15,14 +15,15 @@ const Tabs = () => {
       backBehavior="firstRoute"
       screenOptions={{
         tabBarStyle: styles.navBar,
-
         tabBarHideOnKeyboard: true,
         tabBarIconStyle: {
           top: "10%",
+          padding: "10%",
+          marginBottom: "10%",
+          marginTop: "10%",
         },
         tabBarLabelStyle: {
-          fontSize: 12,
-          bottom: -8,
+          bottom: "10%",
         },
         tabBarActiveTintColor: "maroon",
       }}>
@@ -137,10 +138,10 @@ const styles = StyleSheet.create({
   navBar: {
     borderRadius: 15,
     position: "absolute",
-    bottom: "3.5%",
-    height: 60,
-    left: 20,
-    right: 20,
+    bottom: "3%",
+    height: "7%",
+    left: "5%",
+    right: "5%",
     backgroundColor: "#dddddd",
     elevation: 5,
     shadowColor: "maroon",
