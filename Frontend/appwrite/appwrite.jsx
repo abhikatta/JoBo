@@ -1,15 +1,16 @@
-import { Client, Account } from "appwrite";
+import { Client, Account, Storage, ID } from "appwrite";
 import { config } from "../appwrite.config";
-console.log("this works");
 const SERVER_ENDPOINT = config.SERVER_ENDPOINT; //your server endpoint
 const PROJECT_ID = config.PROJECT_ID; //your project id
 const client = new Client();
-console.log(client);
-console.log(typeof client);
-
 client.setEndpoint(SERVER_ENDPOINT).setProject(PROJECT_ID);
-
 const account = new Account(client);
+const storage = new Storage(client);
 
-console.log(account);
+// const promise = storage.createFile(
+//   "[BUCKET_ID]",
+//   ID.unique(),
+//   document.getElementById("uploader").files[0]
+// );
+
 export { account };

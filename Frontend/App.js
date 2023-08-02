@@ -1,10 +1,10 @@
 import { NavigationContainer } from "@react-navigation/native";
-import Tabs from "./navigation/tabs";
+import SplashScreen from "./Screens/SplashScreen";
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Tabs />
+    <NavigationContainer independent={true}>
+      <SplashScreen />
     </NavigationContainer>
   );
 };

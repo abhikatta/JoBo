@@ -1,19 +1,8 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Image,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  RefreshControl,
-  TouchableOpacity,
-} from "react-native";
+import React from "react";
+import { View, ScrollView, StyleSheet, RefreshControl } from "react-native";
 import { JoBoText } from "./CameraScreen";
-
-const BooksScreen = () => {
+const BooksScreen = ({ navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false);
-
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
