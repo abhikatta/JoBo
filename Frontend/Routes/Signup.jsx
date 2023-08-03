@@ -2,7 +2,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { account } from "../appwrite/appwrite";
-import { styles } from "../Screens/ProfileScreen";
+import { styles } from "../styles";
 
 const SignUp = ({ navigation }) => {
   const [email, setEmail] = useState("");

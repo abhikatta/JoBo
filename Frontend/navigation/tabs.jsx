@@ -1,13 +1,12 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, Image, View, BackHandler } from "react-native";
-import React, { useEffect, useState } from "react";
+import { StyleSheet, Image, View } from "react-native";
+import React from "react";
 import FavoritesScreen from "../Screens/FavoritesScreen";
 import ProfileScreen from "../Screens/ProfileScreen";
 import BooksScreen from "../Screens/BooksScreen";
 import SettingScreen from "../Screens/SettingScreen";
 import CameraScreen from "../Screens/CameraScreen";
 import { NavigationContainer } from "@react-navigation/native";
-import { Alert } from "react-native";
 
 const Tabs = ({ navigation }) => {
   const Tab = createBottomTabNavigator();
