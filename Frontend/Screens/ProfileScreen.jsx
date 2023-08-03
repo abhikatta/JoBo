@@ -1,9 +1,15 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  StackActions,
+  useNavigation,
+} from "@react-navigation/native";
+
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { account } from "../appwrite/appwrite";
 import App from "../App";
+import SplashScreen from "./SplashScreen";
 
 const ProfileScreen = ({ navigation, route }) => {
   const Stack = createNativeStackNavigator();
@@ -31,20 +37,23 @@ const ProfileScreen = ({ navigation, route }) => {
   );
 };
 export const ProfileHomePage = ({ navigation }) => {
-  const [userName, setUserName] = useState("");
-
-  const getUser = async () => {
-    const user = await account.get(); // Make sure to replace account.get() with the actual function to fetch user data.
-    return user.name.toString();
-  };
+  const [userName, setUserName] = useState(" ");
 
   useEffect(() => {
-    getUser().then((name) => setUserName(name));
-  }, []);
+    async function getUser() {
+      try {
+        let user = await account.get();
+        setUserName(user.name);
+      } catch (error) {
+        setUserName("Something went wrong");
+      }
+    }
+    getUser();
+  }, [userName]);
 
   return (
     <View style={styles.container}>
-      <Text>{userName}</Text>
+      <Text style={styles.textProfileScreen}>{userName}</Text>
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("LogOut")}>
@@ -53,10 +62,16 @@ export const ProfileHomePage = ({ navigation }) => {
     </View>
   );
 };
-export const LogOut = ({ navigation }) => {
+export const LogOut = ({ navigation, route }) => {
   const logout = async () => {
-    await account.deleteSession("current");
-    alert("Logged out!");
+    try {
+      await account.deleteSession("current");
+      alert("Logged out!");
+      navigation.navigate("App");
+      route;
+    } catch (error) {
+      Alert.alert("Error!", "Something Went Wrong. Please try again later.");
+    }
   };
   return (
     <View style={styles.container}>
@@ -74,11 +89,15 @@ export const LogOut = ({ navigation }) => {
     </View>
   );
 };
-export default ProfileScreen;
 export const styles = StyleSheet.create({
   text: {
     textAlign: "center",
     fontSize: 16,
+  },
+  textProfileScreen: {
+    textAlign: "left",
+    top: -5,
+    backgroundColor: "beige",
   },
   container: {
     flex: 1,
@@ -113,3 +132,5 @@ export const styles = StyleSheet.create({
     marginLeft: "10%",
   },
 });
+
+export default ProfileScreen;
