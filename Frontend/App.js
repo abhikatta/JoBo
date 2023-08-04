@@ -9,11 +9,11 @@ import {
 import { useState } from "react";
 import { account } from "./appwrite/appwrite";
 import { NavigationContainer } from "@react-navigation/native";
-import { State } from "./State";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { styles } from "./styles";
 import Tabs from "./navigation/tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { State } from "./State";
 
 // Password recovery:
 // only redirects setting another one create mamnual updation of password
@@ -163,16 +163,19 @@ const App = () => {
       </ScrollView>
     );
   };
-  return isLoggedIn ? (
-    <Tabs />
-  ) : (
-    <NavigationContainer independent={true}>
-      <SplashTab.Navigator initialRouteName="LOGIN" backBehavior="firstRoute">
-        <SplashTab.Screen name="LOGIN" children={LOGIN}></SplashTab.Screen>
-        <SplashTab.Screen name="SIGNUP" children={SIGNUP}></SplashTab.Screen>
-      </SplashTab.Navigator>
-    </NavigationContainer>
-  );
+  // return isLoggedIn ? (
+  //   <Tabs />
+  // ) : (
+  //   <NavigationContainer
+  //     independent={true}
+  //     onStateChange={() => setIsLoggedin(false)}>
+  //     <SplashTab.Navigator initialRouteName="LOGIN" backBehavior="firstRoute">
+  //       <SplashTab.Screen name="LOGIN" children={LOGIN}></SplashTab.Screen>
+  //       <SplashTab.Screen name="SIGNUP" children={SIGNUP}></SplashTab.Screen>
+  //     </SplashTab.Navigator>
+  //   </NavigationContainer>
+  // );
+  return <Tabs />;
 };
 
 export default App;

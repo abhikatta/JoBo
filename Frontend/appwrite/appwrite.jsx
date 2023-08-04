@@ -13,4 +13,4 @@ const storage = new Storage(client);
 //   document.getElementById("uploader").files[0]
 // );
 
-export { account };
+export { account, storage };

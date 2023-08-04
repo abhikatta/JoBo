@@ -14,7 +14,7 @@ const Tabs = ({ navigation }) => {
   return (
     <NavigationContainer independent={true}>
       <Tab.Navigator
-        backBehavior="firstRoute"
+        backBehavior="history"
         screenOptions={{
           tabBarStyle: styles.navBar,
           tabBarHideOnKeyboard: true,
@@ -33,6 +33,7 @@ const Tabs = ({ navigation }) => {
           name="HOME"
           component={BooksScreen}
           options={{
+            unmountOnBlur: true,
             tabBarIcon: ({ focused }) => (
               <View style={styles.navIconView}>
                 <Image
@@ -51,6 +52,8 @@ const Tabs = ({ navigation }) => {
         <Tab.Screen
           name="FAVORITES"
           options={{
+            unmountOnBlur: true,
+
             tabBarIcon: ({ focused }) => (
               <View style={styles.navIconView}>
                 <Image
@@ -94,6 +97,8 @@ const Tabs = ({ navigation }) => {
         />
         <Tab.Screen
           options={{
+            unmountOnBlur: true,
+
             tabBarIcon: ({ focused }) => (
               <View style={styles.navIconView}>
                 <Image
@@ -115,6 +120,8 @@ const Tabs = ({ navigation }) => {
           name="SETTINGS"
           component={SettingScreen}
           options={{
+            unmountOnBlur: true,
+
             tabBarIcon: ({ focused }) => (
               <View style={styles.navIconView}>
                 <Image

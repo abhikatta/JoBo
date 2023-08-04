@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
     flexDirection: "column",
     paddingTop: 10,
   },
+
   button: {
     backgroundColor: "#00aaff",
     marginHorizontal: "20%",
@@ -36,5 +37,56 @@ export const styles = StyleSheet.create({
   showPassword: {
     alignContent: "center",
     marginLeft: "10%",
+  },
+  // camera:
+  cameraContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
+
+  permissonButton: {
+    backgroundColor: "#00aaff",
+    marginHorizontal: "20%",
+    padding: "3%",
+    alignItems: "center",
+    elevation: 10,
+    shadowColor: "#00aaff",
+    borderRadius: 10,
+  },
+  camera: {
+    flex: 1,
+  },
+  cameraButtonContainer: {
+    flex: 1,
+    marginTop: 600,
+    marginHorizontal: 30,
+    marginBottom: 100,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+  },
+  cameraButton: {
+    flex: 1,
+    tintColor: "lavender",
+    alignSelf: "center",
+    alignItems: "center",
+  },
+  cameraText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+  },
+  // booksScreen:
+  booksMain: {
+    flex: 1,
+    height: "100%",
+    width: "100%",
+  },
+  
+  booksColumn: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    backgroundColor:'#559988'
   },
 });
