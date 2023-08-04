@@ -7,6 +7,7 @@ import BooksScreen from "../Screens/BooksScreen";
 import SettingScreen from "../Screens/SettingScreen";
 import CameraScreen from "../Screens/CameraScreen";
 import { NavigationContainer } from "@react-navigation/native";
+import { styles } from "../styles";
 
 const Tabs = ({ navigation }) => {
   const Tab = createBottomTabNavigator();
@@ -76,6 +77,7 @@ const Tabs = ({ navigation }) => {
           options={{
             unmountOnBlur: true,
             tabBarStyle: { display: "none" },
+            tabBarActiveBackgroundColor: "maroon",
             tabBarIcon: ({ focused }) => (
               <Image
                 source={require("../assets/icons/new.png")}
@@ -143,20 +145,3 @@ const Tabs = ({ navigation }) => {
 };
 
 export default Tabs;
-const styles = StyleSheet.create({
-  navBar: {
-    borderRadius: 15,
-    position: "absolute",
-    bottom: "3%",
-    height: "7%",
-    left: "5%",
-    right: "5%",
-    backgroundColor: "#dddddd",
-    elevation: 5,
-    shadowColor: "maroon",
-  },
-  navIconView: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

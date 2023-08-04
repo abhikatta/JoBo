@@ -1,19 +1,22 @@
 import {
   View,
   TouchableOpacity,
+  ImageBackground,
   Text,
+  Image,
   TextInput,
   ScrollView,
   Alert,
 } from "react-native";
 import { useState } from "react";
 import { account } from "./appwrite/appwrite";
-import { NavigationContainer } from "@react-navigation/native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { styles } from "./styles";
+
 import Tabs from "./navigation/tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
 import { State } from "./State";
+import { styles } from "./styles";
 
 // Password recovery:
 // only redirects setting another one create mamnual updation of password
@@ -22,8 +25,8 @@ import { State } from "./State";
 //   "https://example.com"
 // );
 
-const App = () => {
-  const SplashTab = new createBottomTabNavigator();
+const App = ({ navigation }) => {
+  const SplashTab = createBottomTabNavigator();
   const [isLoggedIn, setIsLoggedin] = useState(false);
 
   const [email, setEmail] = useState("");
@@ -71,111 +74,193 @@ const App = () => {
   }
   const LOGIN = () => {
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          <TextInput
-            value={email}
-            numberOfLines={1}
-            maxLength={40}
-            placeholder="Email"
-            autoComplete="email"
-            style={styles.TextInput}
-            onChangeText={setEmail}
-          />
+      <ImageBackground
+        source={require("./assets/backgrounds/splashbackground.png")}
+        style={{ flex: 1 }}
+        resizeMode="cover">
+        <ScrollView>
+          <View style={styles.container}>
+            <Text
+              style={{
+                fontSize: 22,
+                marginHorizontal: "10%",
+                bottom: "5%",
+                justifyContent: "center",
+                alignContent: "center",
+              }}>
+              Hi there, enter your credentials to get started!
+            </Text>
+            <TextInput
+              value={email}
+              numberOfLines={1}
+              maxLength={40}
+              placeholder="Email"
+              autoComplete="email"
+              style={styles.TextInput}
+              onChangeText={setEmail}
+            />
 
-          <TextInput
-            value={password}
-            numberOfLines={1}
-            maxLength={40}
-            secureTextEntry={securePassword}
-            placeholder="Password"
-            style={styles.TextInput}
-            onChangeText={setPassword}
-          />
-          <BouncyCheckbox
-            style={styles.showPassword}
-            onPress={handlePassword}
-            isChecked={false}
-            size={20}
-            textStyle={{
-              textDecorationLine: "none",
-              fontSize: 13,
-            }}
-            text="Show Password"
-          />
+            <TextInput
+              value={password}
+              numberOfLines={1}
+              maxLength={40}
+              secureTextEntry={securePassword}
+              placeholder="Password"
+              style={styles.TextInput}
+              onChangeText={setPassword}
+            />
+            <BouncyCheckbox
+              style={styles.showPassword}
+              onPress={handlePassword}
+              isChecked={false}
+              size={20}
+              fillColor="#00aaff"
+              textStyle={{
+                textDecorationLine: "none",
+                fontSize: 13,
+              }}
+              text="Show Password"
+            />
 
-          <TouchableOpacity style={styles.button} onPress={login}>
-            <Text>Log In</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+            <TouchableOpacity style={styles.button} onPress={login}>
+              <Text>Log In</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </ImageBackground>
     );
   };
   const SIGNUP = () => {
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          <TextInput
-            value={email}
-            numberOfLines={1}
-            maxLength={40}
-            placeholder="Email"
-            autoComplete="email"
-            style={styles.TextInput}
-            onChangeText={setEmail}
-          />
-          <TextInput
-            value={username}
-            numberOfLines={1}
-            maxLength={40}
-            placeholder="Username"
-            autoComplete="username"
-            style={styles.TextInput}
-            onChangeText={setUsername}
-          />
+      <ImageBackground
+        source={require("./assets/backgrounds/splashbackground.png")}
+        style={{ flex: 1 }}
+        resizeMode="cover">
+        <ScrollView>
+          <View style={styles.container}>
+            <Text
+              style={{
+                fontSize: 22,
+                marginHorizontal: "10%",
+                bottom: "5%",
+                justifyContent: "center",
+                alignContent: "center",
+              }}>
+              Don't have an account? {"\n"}
+              create one.{"\n"}
+              OwO
+            </Text>
+            <TextInput
+              value={email}
+              numberOfLines={1}
+              maxLength={40}
+              placeholder="Email"
+              autoComplete="email"
+              style={styles.TextInput}
+              onChangeText={setEmail}
+            />
+            <TextInput
+              value={username}
+              numberOfLines={1}
+              maxLength={40}
+              placeholder="Username"
+              autoComplete="username"
+              style={styles.TextInput}
+              onChangeText={setUsername}
+            />
 
-          <TextInput
-            value={password}
-            numberOfLines={1}
-            maxLength={40}
-            secureTextEntry={securePassword}
-            placeholder="Password"
-            autoComplete="password"
-            style={styles.TextInput}
-            onChangeText={setPassword}
-          />
-          <BouncyCheckbox
-            style={styles.showPassword}
-            onPress={handlePassword}
-            isChecked={false}
-            size={20}
-            textStyle={{
-              textDecorationLine: "none",
-              fontSize: 13,
-            }}
-            text="Show Password"
-          />
+            <TextInput
+              value={password}
+              numberOfLines={1}
+              maxLength={40}
+              secureTextEntry={securePassword}
+              placeholder="Password"
+              autoComplete="password"
+              style={styles.TextInput}
+              onChangeText={setPassword}
+            />
+            <BouncyCheckbox
+              style={styles.showPassword}
+              onPress={handlePassword}
+              isChecked={false}
+              fillColor="#00aaff"
+              size={20}
+              textStyle={{
+                textDecorationLine: "none",
+                fontSize: 13,
+              }}
+              text="Show Password"
+            />
 
-          <TouchableOpacity style={styles.button} onPress={signup}>
-            <Text>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+            <TouchableOpacity style={styles.button} onPress={signup}>
+              <Text>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </ImageBackground>
     );
   };
   // return isLoggedIn ? (
-  //   <Tabs />
+  return <Tabs />;
   // ) : (
-  //   <NavigationContainer
-  //     independent={true}
-  //     onStateChange={() => setIsLoggedin(false)}>
-  //     <SplashTab.Navigator initialRouteName="LOGIN" backBehavior="firstRoute">
-  //       <SplashTab.Screen name="LOGIN" children={LOGIN}></SplashTab.Screen>
-  //       <SplashTab.Screen name="SIGNUP" children={SIGNUP}></SplashTab.Screen>
+  // return (
+  //   <NavigationContainer independent={true}>
+  //     <SplashTab.Navigator
+  //       backBehavior="history"
+  //       screenOptions={{
+  //         tabBarStyle: styles.navBar,
+  //         tabBarHideOnKeyboard: true,
+  //         tabBarIconStyle: {
+  //           top: "10%",
+  //           padding: "10%",
+  //           marginBottom: "10%",
+  //           marginTop: "10%",
+  //         },
+  //         tabBarLabelStyle: {
+  //           bottom: "10%",
+  //         },
+  //         tabBarActiveTintColor: "maroon",
+  //       }}>
+  //       <SplashTab.Screen
+  //         name="LOGIN"
+  //         children={LOGIN}
+  //         option={{
+  //           tabBarIcon: ({ focused }) => (
+  //             <View style={styles.navIconView}>
+  //               <Image
+  //                 resizeMode="contain"
+  //                 style={{
+  //                   width: 25,
+  //                   height: 25,
+  //                   tintColor: focused ? "maroon" : "black",
+  //                 }}
+  //                 source={require("./assets/icons/login.png")}
+  //               />
+  //             </View>
+  //           ),
+  //         }}
+  //       />
+  //       <SplashTab.Screen
+  //         name="SIGNUP"
+  //         children={SIGNUP}
+  //         option={{
+  //           tabBarIcon: ({ focused }) => (
+  //             <View style={{ justifyContent: "center", alignItems: "center" }}>
+  //               <Image
+  //                 resizeMode="contain"
+  //                 style={{
+  //                   width: 25,
+  //                   height: 25,
+  //                   tintColor: focused ? "maroon" : "black",
+  //                 }}
+  //                 source={require("./assets/icons/signup.png")}
+  //               />
+  //             </View>
+  //           ),
+  //         }}
+  //       />
   //     </SplashTab.Navigator>
   //   </NavigationContainer>
   // );
-  return <Tabs />;
 };
-
 export default App;

@@ -1,5 +1,21 @@
 import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
+  navBar: {
+    borderRadius: 15,
+    position: "absolute",
+    bottom: "1%",
+    height: "7%",
+    left: "5%",
+    right: "5%",
+    backgroundColor: "#dddddd",
+    elevation: 5,
+    shadowColor: "maroon",
+  },
+  navIconView: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   text: {
     textAlign: "center",
     fontSize: 16,
@@ -23,16 +39,18 @@ export const styles = StyleSheet.create({
   },
   TextInput: {
     padding: "3%",
+    shadowColor: "#00aaff",
+    elevation: 5,
 
-    borderWidth: 1,
+    borderBottomWidth: 3,
     marginHorizontal: "10%",
     marginVertical: "2%",
     borderRadius: 5,
     borderBottomColor: "#00aaff",
-    borderTopColor: "gray",
-    borderLeftColor: "gray",
-
-    borderColor: "gray",
+    borderTopColor: "#eeeeee",
+    borderLeftColor: "#eeeeee",
+    backgroundColor: "#dddddd",
+    borderRightColor: "#eeeeee",
   },
   showPassword: {
     alignContent: "center",
@@ -82,11 +100,11 @@ export const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
   },
-  
+
   booksColumn: {
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
-    backgroundColor:'#559988'
+    backgroundColor: "#559988",
   },
 });

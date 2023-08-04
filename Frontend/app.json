@@ -1,31 +1,29 @@
 {
   "expo": {
-    "name": "Frontend",
+    "name": "JoBo",
     "slug": "Frontend",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/JoBo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/JoBo.png",
         "backgroundColor": "#000000"
       },
       "package": "com.hypocom.JoBo"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/JoBo.png"
     }
   }
 }

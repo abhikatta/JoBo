@@ -87,28 +87,34 @@ export default function CameraScreen() {
         "https://proxy-hugging-api.vercel.app/api/image",
         {
           headers: {
-            'Content-Type':'application/json'
+            "Content-Type": "application/json",
           },
           method: "POST",
-          body:fileContentfake.toString()
-          
+          body: fileContentfake.toString(),
         }
       );
       const result = await response.json();
-      return result;
+      const newResult = JSON.parse(result);
+
+      if (newResult?.message?.generated_text) {
+        // If "generated_text" is present, return it as a string
+        const generatedText = newResult.message.generated_text;
+        return generatedText;
+      } else if (newResult?.message?.error) {
+        // If "error" is present, return the error message as a string
+        const errorMessage = newResult.message.error;
+        return errorMessage;
+      }
+      return "No response data found.";
     }
     alert("Photo Saved to Camera Roll.");
 
     query(asset.uri)
       .then((response) => {
-        response=JSON.stringify(response)
+        response = JSON.stringify(response);
         console.log(response);
-        JoBoText.imagePaths.push(<Text style={styles.text}>
-          {response}
-        </Text>
-        )
+        JoBoText.imagePaths.push(<Text style={styles.text}>{response}</Text>);
         console.log(response.message[0].generated_text);
-
       })
       .catch((errror) => {
         console.log("hf" + errror);
@@ -131,7 +137,9 @@ export default function CameraScreen() {
         type={type}>
         <View style={styles.cameraButtonContainer}>
           <View>
-            <TouchableOpacity style={styles.cameraButton} onPress={toggleCameraType}>
+            <TouchableOpacity
+              style={styles.cameraButton}
+              onPress={toggleCameraType}>
               <Image
                 resizeMode="contain"
                 source={require("../assets/icons/flip_camera.png")}
@@ -151,7 +159,9 @@ export default function CameraScreen() {
             </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity style={styles.cameraButton} onPress={toggleFlashType}>
+            <TouchableOpacity
+              style={styles.cameraButton}
+              onPress={toggleFlashType}>
               <Image
                 resizeMode="contain"
                 source={require("../assets/icons/flash.png")}
