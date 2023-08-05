@@ -7,9 +7,8 @@ import { account } from "../appwrite/appwrite";
 import { styles } from "./ProfileScreen";
 import Tabs from "../navigation/tabs";
 
+const Stack = createNativeStackNavigator();
 const SplashScreen = ({ navigation }) => {
-  const Stack = createNativeStackNavigator();
-
   const LogIn = ({ navigation }) => {
     const login = async () => {
       let session = await account.createEmailSession(email, password);

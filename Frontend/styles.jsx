@@ -41,7 +41,6 @@ export const styles = StyleSheet.create({
     padding: "3%",
     shadowColor: "#00aaff",
     elevation: 5,
-
     borderBottomWidth: 3,
     marginHorizontal: "10%",
     marginVertical: "2%",
@@ -95,16 +94,36 @@ export const styles = StyleSheet.create({
     color: "white",
   },
   // booksScreen:
-  booksMain: {
-    flex: 1,
-    height: "100%",
-    width: "100%",
+  homeMain: {
+    marginTop: "10%",
+    flexDirection: "column",
+    marginHorizontal: "5%",
+    marginBottom: "15%",
   },
+  homeCard: {
+    backgroundColor: "#ccddee",
+    shadowColor: "#ccddee",
+    elevation: 6,
+    resizeMode: "contain",
+    borderRadius: 10,
 
-  booksColumn: {
-    flex: 1,
+    marginVertical: 5,
+  },
+  cardOption: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    height: 30,
+    width: 30,
+  },
+  homeOptionBar: {
+    alignContent: "flex-end",
+    justifyContent: "flex-end",
+    marginHorizontal: "5%",
     flexDirection: "row",
-    flexWrap: "wrap",
-    backgroundColor: "#559988",
+  },
+  homeText: {
+    fontSize: 16,
+    marginLeft: 20,
+    marginRight: 20,
   },
 });

@@ -5,7 +5,7 @@ import { Image } from "react-native";
 import { styles } from "../styles";
 global.Buffer = require("buffer").Buffer;
 import * as FileSystem from "expo-file-system";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 export let JoBoText = {
   imagePaths: [],
 };

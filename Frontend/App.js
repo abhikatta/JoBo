@@ -26,9 +26,8 @@ import { styles } from "./styles";
 // );
 
 const App = ({ navigation }) => {
-  const SplashTab = createBottomTabNavigator();
+  const SplashTab = new createBottomTabNavigator();
   const [isLoggedIn, setIsLoggedin] = useState(false);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -200,67 +199,63 @@ const App = ({ navigation }) => {
       </ImageBackground>
     );
   };
-  // return isLoggedIn ? (
-  return <Tabs />;
-  // ) : (
-  // return (
-  //   <NavigationContainer independent={true}>
-  //     <SplashTab.Navigator
-  //       backBehavior="history"
-  //       screenOptions={{
-  //         tabBarStyle: styles.navBar,
-  //         tabBarHideOnKeyboard: true,
-  //         tabBarIconStyle: {
-  //           top: "10%",
-  //           padding: "10%",
-  //           marginBottom: "10%",
-  //           marginTop: "10%",
-  //         },
-  //         tabBarLabelStyle: {
-  //           bottom: "10%",
-  //         },
-  //         tabBarActiveTintColor: "maroon",
-  //       }}>
-  //       <SplashTab.Screen
-  //         name="LOGIN"
-  //         children={LOGIN}
-  //         option={{
-  //           tabBarIcon: ({ focused }) => (
-  //             <View style={styles.navIconView}>
-  //               <Image
-  //                 resizeMode="contain"
-  //                 style={{
-  //                   width: 25,
-  //                   height: 25,
-  //                   tintColor: focused ? "maroon" : "black",
-  //                 }}
-  //                 source={require("./assets/icons/login.png")}
-  //               />
-  //             </View>
-  //           ),
-  //         }}
-  //       />
-  //       <SplashTab.Screen
-  //         name="SIGNUP"
-  //         children={SIGNUP}
-  //         option={{
-  //           tabBarIcon: ({ focused }) => (
-  //             <View style={{ justifyContent: "center", alignItems: "center" }}>
-  //               <Image
-  //                 resizeMode="contain"
-  //                 style={{
-  //                   width: 25,
-  //                   height: 25,
-  //                   tintColor: focused ? "maroon" : "black",
-  //                 }}
-  //                 source={require("./assets/icons/signup.png")}
-  //               />
-  //             </View>
-  //           ),
-  //         }}
-  //       />
-  //     </SplashTab.Navigator>
-  //   </NavigationContainer>
-  // );
+  return isLoggedIn ? (
+    <Tabs navigation={navigation} />
+  ) : (
+    <NavigationContainer>
+      <SplashTab.Navigator
+        backBehavior="history"
+        screenOptions={{
+          headerShown: false,
+
+          tabBarStyle: styles.navBar,
+          tabBarHideOnKeyboard: true,
+          tabBarLabelStyle: {
+            marginBottom: "5%",
+          },
+
+          tabBarActiveTintColor: "maroon",
+        }}>
+        <SplashTab.Screen
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <View style={styles.navIconView}>
+                <Image
+                  resizeMode="contain"
+                  style={{
+                    width: 25,
+                    height: 25,
+                    tintColor: focused ? "maroon" : "black",
+                  }}
+                  source={require("./assets/icons/login.png")}
+                />
+              </View>
+            ),
+          }}
+          name="LOGIN"
+          children={LOGIN}
+        />
+        <SplashTab.Screen
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <View style={styles.navIconView}>
+                <Image
+                  resizeMode="contain"
+                  style={{
+                    width: 25,
+                    height: 25,
+                    tintColor: focused ? "maroon" : "black",
+                  }}
+                  source={require("./assets/icons/signup.png")}
+                />
+              </View>
+            ),
+          }}
+          name="SIGNUP"
+          children={SIGNUP}
+        />
+      </SplashTab.Navigator>
+    </NavigationContainer>
+  );
 };
 export default App;
