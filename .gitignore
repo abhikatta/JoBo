@@ -11,9 +11,10 @@ npm-debug.*
 *.orig.*
 web-build/
 */__pycache__/
-*/appwrite.config.jsx
+appwrite.config.jsx
 # macOS
 .DS_Store
 
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
+readme_context/

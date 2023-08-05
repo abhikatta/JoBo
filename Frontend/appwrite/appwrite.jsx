@@ -7,10 +7,4 @@ client.setEndpoint(SERVER_ENDPOINT).setProject(PROJECT_ID);
 const account = new Account(client);
 const storage = new Storage(client);
 
-// const promise = storage.createFile(
-//   "[BUCKET_ID]",
-//   ID.unique(),
-//   document.getElementById("uploader").files[0]
-// );
-
 export { account, storage };

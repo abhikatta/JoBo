@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, Image, View } from "react-native";
+import { Image, View } from "react-native";
 import React from "react";
 import FavoritesScreen from "../Screens/FavoritesScreen";
 import ProfileScreen from "../Screens/ProfileScreen";
@@ -52,8 +52,6 @@ const Tabs = ({ navigation }) => {
         <Tab.Screen
           name="FAVORITES"
           options={{
-            unmountOnBlur: true,
-
             tabBarIcon: ({ focused }) => (
               <View style={styles.navIconView}>
                 <Image
@@ -99,8 +97,6 @@ const Tabs = ({ navigation }) => {
         <Tab.Screen
           children={navigation}
           options={{
-            unmountOnBlur: true,
-
             tabBarIcon: ({ focused }) => (
               <View style={styles.navIconView}>
                 <Image
@@ -122,8 +118,6 @@ const Tabs = ({ navigation }) => {
           name="SETTINGS"
           component={SettingScreen}
           options={{
-            unmountOnBlur: true,
-
             tabBarIcon: ({ focused }) => (
               <View style={styles.navIconView}>
                 <Image

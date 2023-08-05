@@ -1,15 +1,11 @@
 import React from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { JoBoText } from "./CameraScreen";
-import { storage } from "../appwrite/appwrite";
+// import { storage } from "../appwrite/appwrite";
+
+import { Card } from "../components/Card";
 import { styles } from "../styles";
+
 const BooksScreen = ({ navigation }) => {
   // async function loadBooks() {
   // const books = await storage.listFiles("64ca5cf0c2f5a5cae817");
@@ -20,36 +16,18 @@ const BooksScreen = ({ navigation }) => {
     values.push(element);
   }
   // }
-  const Card = () => {
-    return values.map((homeText, index) => (
-      <View key={index} style={styles.homeCard}>
-        <View style={styles.homeOptionBar}>
-          <TouchableOpacity style={styles.cardOption}>
-            <Image
-              style={styles.cardOption}
-              resizeMode="contain"
-              source={require("../assets/icons/like.png")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.cardOption}>
-            <Image
-              style={styles.cardOption}
-              resizeMode="contain"
-              source={require("../assets/icons/edit.png")}
-            />
-          </TouchableOpacity>
-        </View>
-        <TextInput style={styles.homeText}>{homeText}</TextInput>
-      </View>
-    ));
-  };
+
   return (
     <View style={styles.homeMain}>
       <Text style={[styles.homeText, { fontSize: 30, marginLeft: 5 }]}>
         Your Journalized Notes
       </Text>
       <ScrollView style={{ marginBottom: "16.5%" }}>
-        <Card />
+        {values.map((text, index) => (
+          <View key={index}>
+            <Card text={text} index={index} />
+          </View>
+        ))}
       </ScrollView>
     </View>
   );

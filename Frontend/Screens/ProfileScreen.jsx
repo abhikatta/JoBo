@@ -2,10 +2,8 @@ import { Alert, Text, TouchableOpacity, View, BackHandler } from "react-native";
 import { account } from "../appwrite/appwrite";
 import { styles } from "../styles";
 import { State } from "../State";
-import { useState } from "react";
 
 const ProfileScreen = ({ navigation }) => {
-  const [isLoggedIn, setIsLoggedin] = useState(true);
   function user() {
     const currentUserDetails = { ...State };
     return currentUserDetails;

@@ -15,7 +15,10 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
+  noFavoritesImage: {
+    width: 200,
+    height: 200,
+  },
   text: {
     textAlign: "center",
     fontSize: 16,

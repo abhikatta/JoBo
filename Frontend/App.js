@@ -11,12 +11,12 @@ import {
 import { useState } from "react";
 import { account } from "./appwrite/appwrite";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-
 import Tabs from "./navigation/tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { State } from "./State";
 import { styles } from "./styles";
+import FavoritesPage from "./Screens/FavoritesScreen";
 
 // Password recovery:
 // only redirects setting another one create mamnual updation of password
