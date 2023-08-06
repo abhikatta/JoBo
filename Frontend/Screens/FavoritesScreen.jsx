@@ -4,12 +4,8 @@ import { styles } from "../styles";
 import { Card } from "../components/Card";
 import { JoBoText } from "./CameraScreen";
 const FavoritesPage = ({ navigation }) => {
-  const [nofavs, setNofavs] = useState(true);
-  const favs = [...JoBoText.imagePaths.slice(1, 5)];
-  for (let index = 4; index < 30; index += 3) {
-    const element = "test" + index;
-    favs.push(element);
-  }
+  const [nofavs, setNofavs] = useState(false);
+  const favs = [];
   return !nofavs ? (
     <View
       style={{
