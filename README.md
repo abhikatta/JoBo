@@ -20,16 +20,16 @@ Some screenshots of the UI:
 
 ### Login:
 
-<img src='Frontend\assets\readme_context\Screenshot_2023-08-05-22-52-51-650_host.exp.exponent.jpg' width=180 height=400>
+<img src='https://github.com/abhikatta/JoBo/assets/76813100/8c90aebe-6871-4a65-9bf0-fb969c549924' width=180 height=400>
 
 ### Home:
 
-<img src='Frontend\assets\readme_context\Screenshot_2023-08-05-22-53-21-056_host.exp.exponent.jpg' width=180 height=400>
+<img src='https://github.com/abhikatta/JoBo/assets/76813100/46bc0585-cc33-4112-a25e-bacc89b714db' width=180 height=400>
 
 ### Favorites:
 
-<img src='Frontend\assets\readme_context\Screenshot_2023-08-06-00-00-09-275_host.exp.exponent.jpg' width=180 height=400>
+<img src='https://github.com/abhikatta/JoBo/assets/76813100/20f87fd3-a32a-48bf-96c6-300371122148' width=180 height=400>
 
 ### Camera:
 
-<img src='Frontend\assets\readme_context\Screenshot_2023-08-06-00-01-27-051_host.exp.exponent.jpg' width=180 height=400>
+<img src='https://github.com/abhikatta/JoBo/assets/76813100/739bfa25-ced1-4584-8e90-4aaee789b286' width=180 height=400>
