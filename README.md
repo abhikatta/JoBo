@@ -1,7 +1,7 @@
 # JoBo
 
 #### Jounal Book📖
-
+##### Still in development🧑🏻‍💻
 - ### JoBo is a mobile application written in React Native.📱It uses [appwrite](https://appwrite.io) as backend and [TrOCR model from huggingface](huggingface.co/microsoft/trocr-large-handwritten) for OCR text detection.🤗
 
 ## Usage:🧑‍💻
@@ -29,6 +29,9 @@ Some screenshots of the UI:
 ### Favorites:
 
 <img src='https://github.com/abhikatta/JoBo/assets/76813100/20f87fd3-a32a-48bf-96c6-300371122148' width=180 height=400>
+or
+<img src='https://github.com/abhikatta/JoBo/assets/76813100/4b7ce0d2-76df-40cf-ae70-71a9a36e6e3b' width=180 height=400>
+
 
 ### Camera:
 
