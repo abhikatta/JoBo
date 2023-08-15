@@ -27,6 +27,7 @@ const Tabs = ({ navigation }) => {
           },
           tabBarLabelStyle: {
             bottom: "10%",
+            width: 100,
           },
           tabBarActiveTintColor: "maroon",
         }}>

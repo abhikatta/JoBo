@@ -32,8 +32,8 @@ const ProfileScreen = ({ navigation }) => {
       <Text style={styles.TextInput}>
         Email ID: {userDetails.currentUser.email}
       </Text>
-      <TouchableOpacity style={styles.button} onPress={() => logout()}>
-        <Text>Logout</Text>
+      <TouchableOpacity style={styles.button} onPress={() => logout}>
+        <Text style={styles.text}>Logout</Text>
       </TouchableOpacity>
     </View>
   );

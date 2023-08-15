@@ -12,5 +12,5 @@ def query(filename):
     return response.json()
 
 
-output = query(r'D:\UniPro\JoBo\Backend\Tests\test\test.png')
+output = query(r'D:\UniPro\JoBo\Backend\Tests\test\handwritten_long.jpeg')
 print(output)

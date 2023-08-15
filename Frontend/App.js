@@ -8,7 +8,7 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import { useState } from "react";
+import { cloneElement, useState } from "react";
 import { account } from "./appwrite/appwrite";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Tabs from "./navigation/tabs";
@@ -117,12 +117,13 @@ const App = ({ navigation }) => {
               textStyle={{
                 textDecorationLine: "none",
                 fontSize: 13,
+                width: 100,
               }}
               text="Show Password"
             />
 
             <TouchableOpacity style={styles.button} onPress={login}>
-              <Text>Log In</Text>
+              <Text style={styles.text}>Log In</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -186,13 +187,14 @@ const App = ({ navigation }) => {
               size={20}
               textStyle={{
                 textDecorationLine: "none",
+                width: 100,
                 fontSize: 13,
               }}
               text="Show Password"
             />
 
             <TouchableOpacity style={styles.button} onPress={signup}>
-              <Text>Sign Up</Text>
+              <Text style={styles.text}>Sign Up</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -218,6 +220,10 @@ const App = ({ navigation }) => {
         }}>
         <SplashTab.Screen
           options={{
+            tabBarLabelStyle: {
+              width: 45,
+              bottom: "10%",
+            },
             tabBarIcon: ({ focused }) => (
               <View style={styles.navIconView}>
                 <Image
@@ -237,6 +243,10 @@ const App = ({ navigation }) => {
         />
         <SplashTab.Screen
           options={{
+            tabBarLabelStyle: {
+              width: 45,
+              bottom: "10%",
+            },
             tabBarIcon: ({ focused }) => (
               <View style={styles.navIconView}>
                 <Image

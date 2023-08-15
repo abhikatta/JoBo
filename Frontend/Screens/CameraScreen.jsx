@@ -1,11 +1,11 @@
 import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { useState, useRef } from "react";
-import { Image } from "react-native";
+import { Button, Image } from "react-native";
 import { styles } from "../styles";
-global.Buffer = require("buffer").Buffer;
 import * as FileSystem from "expo-file-system";
 import { Text, TouchableOpacity, View } from "react-native";
+global.Buffer = require("buffer").Buffer;
 export let JoBoText = {
   imagePaths: [],
 };
@@ -44,11 +44,10 @@ export default function CameraScreen() {
     // Camera permissions are not granted yet
     return (
       <View style={styles.cameraContainer}>
-        <TouchableOpacity style={styles.permissonButton}>
-          <Text onPress={cameraRequestPermission} style={{ fontSize: 20 }}>
-            Grant Camera Permission
-          </Text>
-        </TouchableOpacity>
+        <Button
+          title="Grant Camera Permissions"
+          onPress={cameraRequestPermission}
+        />
       </View>
     );
   }
@@ -56,11 +55,10 @@ export default function CameraScreen() {
     // Camera permissions are not granted yet
     return (
       <View style={styles.cameraContainer}>
-        <TouchableOpacity style={styles.permissonButton}>
-          <Text onPress={mediaRequestPermission} style={{ fontSize: 20 }}>
-            Grant Media Permission
-          </Text>
-        </TouchableOpacity>
+        <Button
+          title="Grant Camera Permissions"
+          onPress={mediaRequestPermission}
+        />
       </View>
     );
   }
@@ -94,37 +92,26 @@ export default function CameraScreen() {
         }
       );
       const result = await response.json();
-      const newResult = JSON.parse(result);
-
-      if (newResult?.message?.generated_text) {
-        // If "generated_text" is present, return it as a string
-        const generatedText = newResult.message.generated_text;
-        return generatedText;
-      } else if (newResult?.message?.error) {
-        // If "error" is present, return the error message as a string
-        const errorMessage = newResult.message.error;
-        return errorMessage;
-      }
-      return "No response data found.";
+      return result;
     }
     alert("Photo Saved to Camera Roll.");
 
     query(asset.uri)
       .then((response) => {
         response = JSON.stringify(response);
+        const generated_text = response["message"][0]["generated_text"];
+        console.log(generated_text);
         console.log(response);
-        JoBoText.imagePaths.push(<Text style={styles.text}>{response}</Text>);
-        console.log(response.message[0].generated_text);
+        JoBoText.imagePaths.push(
+          <Text style={styles.text}>{generated_text}</Text>
+        );
       })
-      .catch((errror) => {
-        console.log("hf" + errror);
+      .catch((error) => {
+        console.log("Hugging face erro: " + error);
       });
 
     JoBoText.imagePaths.push(
-      <Image
-        style={{ width: window.screenX, height: window.screenY }}
-        source={{ uri: asset.uri }}
-      />
+      <Image style={{ width: 180, height: 400 }} source={{ uri: asset.uri }} />
     );
   };
   return (
@@ -155,7 +142,7 @@ export default function CameraScreen() {
                 source={require("../assets/icons/take_photo.png")}
                 style={styles.cameraButton}
               />
-              <Text style={styles.text}>JoBo </Text>
+              <Text style={styles.text}>JoBo</Text>
             </TouchableOpacity>
           </View>
           <View>
@@ -167,7 +154,7 @@ export default function CameraScreen() {
                 source={require("../assets/icons/flash.png")}
                 style={styles.cameraButton}
               />
-              <Text style={styles.text}>Flash </Text>
+              <Text style={styles.text}>Flash</Text>
             </TouchableOpacity>
           </View>
         </View>

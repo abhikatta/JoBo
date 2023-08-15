@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
   },
   text: {
     textAlign: "center",
-    fontSize: 16,
+    width: 100,
   },
   container: {
     flex: 1,
