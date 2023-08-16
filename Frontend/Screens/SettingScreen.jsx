@@ -4,7 +4,7 @@ import React from "react";
 const SettingScreen = ({ navigation, route }) => {
   return (
     <View>
-      <Text>This is the SettingPage</Text>
+      <Text>This is the Settings Page</Text>
     </View>
   );
 };

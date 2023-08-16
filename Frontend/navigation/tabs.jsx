@@ -35,6 +35,7 @@ const Tabs = ({ navigation }) => {
           name="HOME"
           component={BooksScreen}
           options={{
+            unmountOnBlur: true,
             tabBarIcon: ({ focused }) => (
               <View style={styles.navIconView}>
                 <Image

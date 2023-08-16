@@ -8,7 +8,7 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import { cloneElement, useState } from "react";
+import { useState } from "react";
 import { account } from "./appwrite/appwrite";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Tabs from "./navigation/tabs";
@@ -37,23 +37,23 @@ const App = ({ navigation }) => {
   };
 
   const login = async () => {
-    console.log("in login func 1");
+    console.log("Logging in...");
     try {
       const loggedIn = await account.createEmailSession(email, password);
       const user = await account.get(loggedIn.$id);
       if (loggedIn) {
         State.currentUser.email = email;
         setUsername(loggedIn.clientName);
-        console.log(isLoggedIn);
         setIsLoggedin(!isLoggedIn);
         State.currentUser.username = user.name;
+        console.log("Login successful!");
       }
     } catch (error) {
       Alert.alert("Sign in error!", error.message);
     }
   };
   async function signup() {
-    console.log("in sign func");
+    console.log("Signing up...");
 
     await account.create("unique()", email, password, username);
     try {
@@ -62,13 +62,13 @@ const App = ({ navigation }) => {
       if (loggedIn) {
         State.currentUser.email = email;
         setUsername(loggedIn.clientName);
-        console.log(isLoggedIn);
         State.loggedIn = true;
         setIsLoggedin(State.loggedIn);
         State.currentUser.username = user.name;
+        console.log("Sign up successful!");
       }
     } catch (error) {
-      Alert.alert("Sign in error!", error.message);
+      Alert.alert("Sign up error!", error.message);
     }
   }
   const LOGIN = () => {
@@ -78,6 +78,18 @@ const App = ({ navigation }) => {
         style={{ flex: 1 }}
         resizeMode="cover">
         <ScrollView>
+          <View>
+            <Text
+              style={{
+                fontSize: 50,
+                marginTop: "10%",
+                color: "#0088ff",
+                marginLeft: "10%",
+                textDecorationLine: "underline",
+              }}>
+              JoBo
+            </Text>
+          </View>
           <View style={styles.container}>
             <Text
               style={{
@@ -148,7 +160,6 @@ const App = ({ navigation }) => {
               }}>
               Don't have an account? {"\n"}
               create one.{"\n"}
-              OwO
             </Text>
             <TextInput
               value={email}

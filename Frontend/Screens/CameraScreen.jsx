@@ -7,7 +7,7 @@ import * as FileSystem from "expo-file-system";
 import { Text, TouchableOpacity, View } from "react-native";
 global.Buffer = require("buffer").Buffer;
 export let JoBoText = {
-  imagePaths: [],
+  OCRTEXT: [],
 };
 
 export default function CameraScreen() {
@@ -99,20 +99,22 @@ export default function CameraScreen() {
     query(asset.uri)
       .then((response) => {
         response = JSON.stringify(response);
-        const generated_text = response["message"][0]["generated_text"];
-        console.log(generated_text);
+        // const generated_text = response["message"][0]["generated_text"];
+        // console.log(generated_text);
         console.log(response);
-        JoBoText.imagePaths.push(
-          <Text style={styles.text}>{generated_text}</Text>
-        );
+        if (response !== null) {
+          JoBoText.OCRTEXT.push(response);
+        }
+        if (response === null) {
+        }
       })
       .catch((error) => {
         console.log("Hugging face erro: " + error);
       });
 
-    JoBoText.imagePaths.push(
-      <Image style={{ width: 180, height: 400 }} source={{ uri: asset.uri }} />
-    );
+    // JoBoText.OCRTEXT.push(
+    //   <Image style={{ width: 180, height: 400 }} source={{ uri: asset.uri }} />
+    // );
   };
   return (
     <View style={styles.cameraContainer}>

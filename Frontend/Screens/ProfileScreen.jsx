@@ -12,7 +12,7 @@ const ProfileScreen = ({ navigation }) => {
   async function logout() {
     await account.deleteSession("current");
     console.log("Deleted Current Session");
-    setIsLoggedin(false);
+
     Alert.alert("Logout & Exit?", "", [
       {
         text: "Yes",
@@ -32,7 +32,7 @@ const ProfileScreen = ({ navigation }) => {
       <Text style={styles.TextInput}>
         Email ID: {userDetails.currentUser.email}
       </Text>
-      <TouchableOpacity style={styles.button} onPress={() => logout}>
+      <TouchableOpacity style={styles.button} onPress={() => logout()}>
         <Text style={styles.text}>Logout</Text>
       </TouchableOpacity>
     </View>

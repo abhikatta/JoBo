@@ -10,11 +10,12 @@ const BooksScreen = ({ navigation }) => {
   // async function loadBooks() {
   // const books = await storage.listFiles("64ca5cf0c2f5a5cae817");
 
-  const values = [...JoBoText.imagePaths];
-  for (let index = 0; index < 30; index++) {
-    const element = "test" + index;
+  const values = [...JoBoText.OCRTEXT];
+  for (let index = 0; index < 7; index++) {
+    const element = "ocr test text " + index;
     values.push(element);
   }
+
   // }
 
   return (
