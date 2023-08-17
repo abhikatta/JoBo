@@ -1,10 +1,14 @@
 import { Camera, CameraType } from "expo-camera";
+import React from "react";
 import * as MediaLibrary from "expo-media-library";
 import { useState, useRef } from "react";
 import { Button, Image } from "react-native";
 import { styles } from "../styles";
 import * as FileSystem from "expo-file-system";
 import { Text, TouchableOpacity, View } from "react-native";
+import flipCameraIcon from "../assets/icons/flip_camera.png";
+import takePhotoIcon from "../assets/icons/take_photo.png";
+import flashIcon from "../assets/icons/flash.png";
 global.Buffer = require("buffer").Buffer;
 export let JoBoText = {
   OCRTEXT: [],
@@ -16,7 +20,6 @@ export default function CameraScreen() {
     Camera.useCameraPermissions();
   const [mediaPermissionResponse, mediaRequestPermission] =
     MediaLibrary.usePermissions();
-
   const [toggleFlash, setToggleFlash] = useState(false);
   const ref = useRef(null);
 
@@ -99,8 +102,6 @@ export default function CameraScreen() {
     query(asset.uri)
       .then((response) => {
         response = JSON.stringify(response);
-        // const generated_text = response["message"][0]["generated_text"];
-        // console.log(generated_text);
         console.log(response);
         if (response !== null) {
           JoBoText.OCRTEXT.push(response);
@@ -111,11 +112,23 @@ export default function CameraScreen() {
       .catch((error) => {
         console.log("Hugging face erro: " + error);
       });
-
-    // JoBoText.OCRTEXT.push(
-    //   <Image style={{ width: 180, height: 400 }} source={{ uri: asset.uri }} />
-    // );
   };
+  function RenderCameraButton(props) {
+    return (
+      <View>
+        <TouchableOpacity
+          style={styles.cameraButton}
+          onPress={props.buttonOnPress}>
+          <Image
+            resizeMode="contain"
+            source={props.buttonImage}
+            style={styles.cameraButton}
+          />
+          <Text style={styles.text}>{props.buttonName}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
   return (
     <View style={styles.cameraContainer}>
       <Camera
@@ -125,40 +138,21 @@ export default function CameraScreen() {
         flashMode={toggleFlash ? "torch" : "off"}
         type={type}>
         <View style={styles.cameraButtonContainer}>
-          <View>
-            <TouchableOpacity
-              style={styles.cameraButton}
-              onPress={toggleCameraType}>
-              <Image
-                resizeMode="contain"
-                source={require("../assets/icons/flip_camera.png")}
-                style={styles.cameraButton}
-              />
-              <Text style={styles.text}>Flip</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity style={styles.cameraButton} onPress={takePhoto}>
-              <Image
-                resizeMode="contain"
-                source={require("../assets/icons/take_photo.png")}
-                style={styles.cameraButton}
-              />
-              <Text style={styles.text}>JoBo</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity
-              style={styles.cameraButton}
-              onPress={toggleFlashType}>
-              <Image
-                resizeMode="contain"
-                source={require("../assets/icons/flash.png")}
-                style={styles.cameraButton}
-              />
-              <Text style={styles.text}>Flash</Text>
-            </TouchableOpacity>
-          </View>
+          <RenderCameraButton
+            buttonImage={flipCameraIcon}
+            buttonOnPress={toggleCameraType}
+            buttonName="Flip"
+          />
+          <RenderCameraButton
+            buttonImage={takePhotoIcon}
+            buttonOnPress={takePhoto}
+            buttonName="JoBo"
+          />
+          <RenderCameraButton
+            buttonImage={flashIcon}
+            buttonOnPress={toggleFlashType}
+            buttonName="Flash"
+          />
         </View>
       </Camera>
     </View>

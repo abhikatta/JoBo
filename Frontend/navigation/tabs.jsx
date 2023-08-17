@@ -54,6 +54,7 @@ const Tabs = ({ navigation }) => {
         <Tab.Screen
           name="FAVORITES"
           options={{
+            unmountOnBlur: true,
             tabBarIcon: ({ focused }) => (
               <View style={styles.navIconView}>
                 <Image

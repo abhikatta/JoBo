@@ -5,6 +5,7 @@ import { JoBoText } from "./CameraScreen";
 
 import { Card } from "../components/Card";
 import { styles } from "../styles";
+import { favs } from "./FavoritesScreen";
 
 const BooksScreen = ({ navigation }) => {
   // async function loadBooks() {
@@ -16,8 +17,6 @@ const BooksScreen = ({ navigation }) => {
     values.push(element);
   }
 
-  // }
-
   return (
     <View style={styles.homeMain}>
       <Text style={[styles.homeText, { fontSize: 30, marginLeft: 5 }]}>
@@ -26,7 +25,7 @@ const BooksScreen = ({ navigation }) => {
       <ScrollView style={{ marginBottom: "16.5%" }}>
         {values.map((text, index) => (
           <View key={index}>
-            <Card text={text} index={index} />
+            <Card text={text} favs={favs} index={index} />
           </View>
         ))}
       </ScrollView>

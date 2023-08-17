@@ -10,13 +10,12 @@ const ProfileScreen = ({ navigation }) => {
   }
 
   async function logout() {
-    await account.deleteSession("current");
-    console.log("Deleted Current Session");
-
     Alert.alert("Logout & Exit?", "", [
       {
         text: "Yes",
-        onPress: () => {
+        onPress: async () => {
+          await account.deleteSession("current");
+          console.log("Deleted Current Session");
           BackHandler.exitApp();
         },
       },
