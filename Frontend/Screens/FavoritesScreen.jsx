@@ -1,11 +1,15 @@
 import { View, Image, Text, TouchableOpacity, ScrollView } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { styles } from "../styles";
 import { Card } from "../components/Card";
-import { JoBoText } from "./CameraScreen";
-let favs = [];
-const FavoritesPage = ({ navigation }) => {
-  return !favs ? (
+
+const FavoritesPage = (props) => {
+  if (props.journals) {
+    let favs = [...props.journals];
+  } else {
+    favs = [];
+  }
+  return favs.length === 0 ? (
     <View
       style={{
         marginTop: "50%",

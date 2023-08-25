@@ -101,7 +101,8 @@ export default function CameraScreen() {
 
     query(asset.uri)
       .then((response) => {
-        response = JSON.stringify(response);
+        response = response.message[0].generated_text;
+        // response = JSON.stringify(response.json().message[0].generated_text);
         console.log(response);
         if (response !== null) {
           JoBoText.OCRTEXT.push(response);
