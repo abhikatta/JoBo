@@ -85,9 +85,35 @@ const App = ({ navigation }) => {
                 marginTop: "10%",
                 color: "#0088ff",
                 marginLeft: "10%",
-                textDecorationLine: "underline",
               }}>
-              JoBo
+              J
+              <Text
+                style={{
+                  fontSize: 50,
+                  marginTop: "10%",
+                  color: "#aa88ff",
+                  marginLeft: "10%",
+                }}>
+                o
+              </Text>
+              <Text
+                style={{
+                  fontSize: 50,
+                  marginTop: "10%",
+                  color: "#0088dd",
+                  marginLeft: "10%",
+                }}>
+                B
+              </Text>
+              <Text
+                style={{
+                  fontSize: 50,
+                  marginTop: "10%",
+                  color: "#00aaff",
+                  marginLeft: "10%",
+                }}>
+                o
+              </Text>
             </Text>
           </View>
           <View style={styles.container}>

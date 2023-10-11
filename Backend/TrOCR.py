@@ -2,11 +2,11 @@ from transformers import TrOCRProcessor, VisionEncoderDecoderModel
 from PIL import Image
 
 
-# processor = TrOCRProcessor.from_pretrained(
-#     'microsoft/trocr-large-handwritten')
+processor = TrOCRProcessor.from_pretrained(
+    'microsoft/trocr-large-handwritten')
 
-# model = VisionEncoderDecoderModel.from_pretrained(
-#     'microsoft/trocr-large-handwritten')
+model = VisionEncoderDecoderModel.from_pretrained(
+    'microsoft/trocr-large-handwritten')
 
 
 def do_ocr(image_path, processor, model):
@@ -24,4 +24,5 @@ def do_ocr(image_path, processor, model):
     return str(generated_text)
 
 
-# do_ocr(r'D:\Projects\UniPro\JoBo_test\JoBoBackend\app2\uploads\asd.jpeg',processor, model)
+do_ocr(r'D:\Projects\UniPro\JoBo_test\JoBoBackend\app2\uploads\asd.jpeg',
+       processor, model)

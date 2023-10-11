@@ -1,12 +1,22 @@
+import { useState } from "react";
 import { styles } from "../styles";
 
-const { View, TouchableOpacity, Image, TextInput } = require("react-native");
+const {
+  View,
+  TouchableOpacity,
+  Text,
+  Image,
+  TextInput,
+} = require("react-native");
 
-export const Card = ({ text, index }) => {
+export const Card = ({ text, date, index }) => {
+  const [editable, setEditable] = useState(false);
   return (
     <View key={index} style={styles.homeCard}>
       <View style={styles.homeOptionBar}>
-        <TouchableOpacity style={styles.cardOption}>
+        <TouchableOpacity
+          style={styles.cardOption}
+          onPress={() => setEditable((preEditable) => !preEditable)}>
           <Image
             style={styles.cardOption}
             resizeMode="contain"
@@ -21,7 +31,30 @@ export const Card = ({ text, index }) => {
           />
         </TouchableOpacity>
       </View>
-      <TextInput style={styles.homeText}>{text}</TextInput>
+      <View
+        style={[
+          styles.homeOptionBar,
+          {
+            alignContent: "flex-start",
+            alignSelf: "flex-start",
+            alignItems: "flex-start",
+          },
+        ]}>
+        <TextInput
+          editable={editable}
+          style={{ paddingTop: 10, alignSelf: "flex-start" }}>
+          {date}
+        </TextInput>
+      </View>
+      <TextInput
+        editable={editable}
+        selectionColor={"cyan"}
+        multiline={true}
+        numberOfLines={7}
+        cursorColor={"#837ed4"}
+        style={styles.homeText}>
+        {text}
+      </TextInput>
     </View>
   );
 };
