@@ -14,6 +14,13 @@ export const Card = ({ text, date, index }) => {
   return (
     <View key={index} style={styles.homeCard}>
       <View style={styles.homeOptionBar}>
+        <TouchableOpacity style={styles.cardOption}>
+          <Image
+            style={styles.cardOption}
+            resizeMode="contain"
+            source={require("../assets/icons/delete.png")}
+          />
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.cardOption}
           onPress={() => setEditable((preEditable) => !preEditable)}>
