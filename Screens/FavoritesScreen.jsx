@@ -1,11 +1,11 @@
-import { View, Image, Text, TouchableOpacity, ScrollView } from "react-native";
+import { View, Image, TouchableOpacity, ScrollView } from "react-native";
 import React from "react";
 import { styles } from "../styles";
 import { Card } from "../components/Card";
 
 const FavoritesPage = (props) => {
   if (props.journals) {
-    let favs = [...props.journals];
+    favs = [...props.journals];
   } else {
     favs = [];
   }

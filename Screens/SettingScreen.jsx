@@ -3,7 +3,7 @@ import React from "react";
 
 const SettingScreen = ({ navigation, route }) => {
   return (
-    <View>
+    <View style={{ alignContent: "center", alignItems: "center" }}>
       <Text>This is the Settings Page</Text>
     </View>
   );

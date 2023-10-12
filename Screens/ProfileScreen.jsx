@@ -1,36 +1,33 @@
 import { Alert, Text, TouchableOpacity, View, BackHandler } from "react-native";
-import { account } from "../appwrite/appwrite";
+import { auth } from "../Firebase/firebase";
 import { styles } from "../styles";
-import { State } from "../State";
+import { useState } from "react";
 
 const ProfileScreen = ({ navigation }) => {
-  function user() {
-    const currentUserDetails = { ...State };
-    return currentUserDetails;
-  }
-
+  const [userDetails, setUserDetails] = useState(
+    auth.currentUser && auth.currentUser
+  );
   async function logout() {
     Alert.alert("Logout & Exit?", "", [
       {
         text: "Yes",
         onPress: async () => {
-          await account.deleteSession("current");
+          auth.signOut();
           console.log("Deleted Current Session");
-          BackHandler.exitApp();
         },
       },
       { text: "No", onPress: () => null },
     ]);
   }
-  userDetails = user();
   return (
     <View>
       <Text style={styles.TextInput}>
-        Username: {userDetails.currentUser.username}
+        Username:{" "}
+        {userDetails.displayName === null
+          ? auth.currentUser.email.split("@")[0]
+          : auth.currentUser.displayName}
       </Text>
-      <Text style={styles.TextInput}>
-        Email ID: {userDetails.currentUser.email}
-      </Text>
+      <Text style={styles.TextInput}>Email ID: {userDetails.email}</Text>
       <TouchableOpacity style={styles.button} onPress={() => logout()}>
         <Text style={styles.text}>Logout</Text>
       </TouchableOpacity>

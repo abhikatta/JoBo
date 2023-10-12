@@ -59,7 +59,7 @@ export default function CameraScreen() {
     return (
       <View style={styles.cameraContainer}>
         <Button
-          title="Grant Camera Permissions"
+          title="Grant Media Permissions"
           onPress={mediaRequestPermission}
         />
       </View>
@@ -72,7 +72,7 @@ export default function CameraScreen() {
     );
   }
   function toggleFlashType() {
-    setToggleFlash(!toggleFlash);
+    setToggleFlash((prevFlash) => !prevFlash);
   }
   const takePhoto = async () => {
     const { uri } = await ref.current.takePictureAsync();
@@ -141,17 +141,17 @@ export default function CameraScreen() {
         <View style={styles.cameraButtonContainer}>
           <RenderCameraButton
             buttonImage={flipCameraIcon}
-            buttonOnPress={toggleCameraType}
+            buttonOnPress={() => toggleCameraType()}
             buttonName="Flip"
           />
           <RenderCameraButton
             buttonImage={takePhotoIcon}
-            buttonOnPress={takePhoto}
+            buttonOnPress={() => takePhoto()}
             buttonName="JoBo"
           />
           <RenderCameraButton
             buttonImage={flashIcon}
-            buttonOnPress={toggleFlashType}
+            buttonOnPress={() => toggleFlashType()}
             buttonName="Flash"
           />
         </View>
