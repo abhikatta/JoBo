@@ -24,8 +24,8 @@ const BooksScreen = ({ navigation }) => {
     const newJournalEntry = "Write your journal here..."; // New entry text
     setValues((prevValues) => [newJournalEntry, ...prevValues]);
   };
-  const deleteJournal = (index) => {
-    setValues((prevValues) => prevValues.filter(index));
+  const deleteJournal = (id) => {
+    setValues((prevValues) => prevValues.filter(id));
   };
   const getCurrentDate = () => {
     const date = new Date();
@@ -52,10 +52,12 @@ const BooksScreen = ({ navigation }) => {
         <Text>Type a new journal</Text>
       </TouchableOpacity>
       <ScrollView style={{ marginBottom: "16.5%" }}>
-        {values.map((text, index) => (
+        {values.map((entry, index) => (
           <View key={index}>
             <Card
-              text={text}
+              id={entry.id}
+              deleteJournal={deleteJournal}
+              text={entry.entry_text}
               date={getCurrentDate()}
               favs={favs}
               index={index}

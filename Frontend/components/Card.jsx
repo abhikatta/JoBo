@@ -9,12 +9,15 @@ const {
   TextInput,
 } = require("react-native");
 
-export const Card = ({ text, date, index }) => {
+export const Card = ({ text, id, deleteJournal, date, index }) => {
   const [editable, setEditable] = useState(false);
+
   return (
     <View key={index} style={styles.homeCard}>
       <View style={styles.homeOptionBar}>
-        <TouchableOpacity style={styles.cardOption}>
+        <TouchableOpacity
+          style={styles.cardOption}
+          onPress={() => deleteJournal()}>
           <Image
             style={styles.cardOption}
             resizeMode="contain"
