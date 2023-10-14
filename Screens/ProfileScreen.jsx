@@ -3,10 +3,7 @@ import { auth } from "../Firebase/firebase";
 import { styles } from "../styles";
 import { useState } from "react";
 
-const ProfileScreen = ({ navigation }) => {
-  const [userDetails, setUserDetails] = useState(
-    auth.currentUser && auth.currentUser
-  );
+const ProfileScreen = () => {
   async function logout() {
     Alert.alert("Logout & Exit?", "", [
       {
@@ -23,11 +20,25 @@ const ProfileScreen = ({ navigation }) => {
     <View>
       <Text style={styles.TextInput}>
         Username:{" "}
-        {userDetails.displayName === null
-          ? auth.currentUser.email.split("@")[0]
+        {auth.currentUser.displayName === null
+          ? auth.currentUser.email
+            ? auth.currentUser.email.split("@")[0]
+            : "Guest"
           : auth.currentUser.displayName}
       </Text>
-      <Text style={styles.TextInput}>Email ID: {userDetails.email}</Text>
+      <Text style={styles.TextInput}>
+        Email ID:{" "}
+        {auth.currentUser.email ? auth.currentUser.email : "guest@gmail.com"}
+      </Text>
+      {!auth.currentUser.email ? (
+        <>
+          <Text style={[styles.TextInput, { color: "red" }]}>
+            NOTE: All the data will be lost when you logout.
+          </Text>
+        </>
+      ) : (
+        ""
+      )}
       <TouchableOpacity style={styles.button} onPress={() => logout()}>
         <Text style={styles.text}>Logout</Text>
       </TouchableOpacity>

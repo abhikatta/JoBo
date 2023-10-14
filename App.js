@@ -11,40 +11,28 @@ import { useState, useEffect } from "react";
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  signInAnonymously,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
 
-// import { auth } from "./Firebase/firebase";
+import { auth } from "./Firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Tabs from "./navigation/tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { styles } from "./styles";
+import LOGINMAIN from "./Authentication/LoginScreen";
+import SIGNUPMAIN from "./Authentication/SignupScreen";
 
-// -------------IMPORTANT DO NOT DELETE THIS---------------
-
-// need to use this: not default firebase package:
-// import { auth, database } from "react-native-firebase";
-
-// -------------IMPORTANT DO NOT DELETE THIS---------------
-
-// import LOGIN from "./Authentication/Login";
-// import SIGNUP from "./Authentication/Signup";
-// Password recovery:
-// only redirects setting another one create mamnual updation of password
-// const promise = account.createPasswordRecovery(
-//   "email@example.com",
-//   "https://example.com"
-// );
-
-const App = ({ navigation }) => {
+const App = () => {
   const SplashTab = new createBottomTabNavigator();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [securePassword, setSecurePassword] = useState(true);
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [confirmPassword, setConfirmPassword] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [securePassword, setSecurePassword] = useState(true);
   const [userID, setUserID] = useState(null);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -57,26 +45,57 @@ const App = ({ navigation }) => {
     return unsubscribe;
   }, []);
 
-  const signup = async () => {
+  const login = async (email, password) => {
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      console.log(response.user);
+      setUserID(response.user);
+      // clearCredentials();
+    } catch (error) {
+      alert(error);
+      // clearCredentials();
+    }
+  };
+
+  const signup = async (username, email, password, confirmPassword) => {
+    if (password !== confirmPassword) {
+      alert("Passwords do not match. Please try again.");
+      return;
+    }
     try {
       const response = await createUserWithEmailAndPassword(
         auth,
         email,
         password
-      );
+      ).then((auth.currentUser.displayName = username));
       console.log(response);
       setUserID(response.user);
+      // clearCredentials();
     } catch (error) {
       alert(error);
+      // clearCredentials();
     }
   };
+  async function loginAnonymously() {
+    try {
+      const response = await signInAnonymously(auth);
+      // Handle the response here
+      console.log(response.user);
+      setUserID(response.user);
+      // clearCredentials();
+    } catch (error) {
+      // Handle the error here
+      console.error(error.message);
+      // clearCredentials();
 
+      // You might want to set an error state here to show an error message to the user
+    }
+  }
   async function loginInWithGoogle() {
     try {
       const provider = new GoogleAuthProvider();
       const response = await signInWithPopup(auth, provider);
       // Handle the response here
-      import auth from "react";
       console.log(response.user);
       setUserID(response.user);
     } catch (error) {
@@ -88,90 +107,21 @@ const App = ({ navigation }) => {
 
   const SIGNUP = () => {
     console.log("Started again in signup");
-    const handlePassword = () => {
-      setSecurePassword((prevSecurePassword) => !prevSecurePassword);
-    };
+
     return (
       <ImageBackground
         source={require("./assets/backgrounds/splashbackground.png")}
         style={{ flex: 1 }}
         resizeMode="cover">
         <ScrollView>
-          <View style={styles.container}>
-            <Text
-              style={{
-                fontSize: 22,
-                marginHorizontal: "10%",
-                bottom: "5%",
-                justifyContent: "center",
-                alignContent: "center",
-              }}>
-              Don't have an account? {"\n"}
-              create one.{"\n"}
-            </Text>
-            <TextInput
-              value={email}
-              numberOfLines={1}
-              maxLength={40}
-              placeholder="Email"
-              autoComplete="email"
-              style={styles.TextInput}
-              onChangeText={setEmail}
-            />
-            <TextInput
-              value={username}
-              numberOfLines={1}
-              maxLength={40}
-              placeholder="Username"
-              autoComplete="username"
-              style={styles.TextInput}
-              onChangeText={setUsername}
-            />
-            <TextInput
-              value={password}
-              numberOfLines={1}
-              maxLength={40}
-              secureTextEntry={securePassword}
-              placeholder="Password"
-              autoComplete="password"
-              style={styles.TextInput}
-              onChangeText={setPassword}
-            />
-            <BouncyCheckbox
-              style={styles.showPassword}
-              onPress={handlePassword}
-              isChecked={false}
-              fillColor="#00aaff"
-              size={20}
-              textStyle={{
-                textDecorationLine: "none",
-                width: 100,
-                fontSize: 13,
-              }}
-              text="Show Password"
-            />
-            <TouchableOpacity style={styles.button} onPress={signup}>
-              <Text style={styles.text}>Sign Up</Text>
-            </TouchableOpacity>
-          </View>
+          <SIGNUPMAIN signup={signup} />
         </ScrollView>
       </ImageBackground>
     );
   };
-  const login = async () => {
-    try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log(response.user);
-      setUserID(response.user);
-    } catch (error) {
-      alert(error);
-    }
-  };
+
   const LOGIN = () => {
     console.log("Started again in login");
-    const handlePassword = () => {
-      setSecurePassword((prevSecurePassword) => !prevSecurePassword);
-    };
     return (
       <ImageBackground
         source={require("./assets/backgrounds/splashbackground.png")}
@@ -216,56 +166,7 @@ const App = ({ navigation }) => {
               </Text>
             </Text>
           </View>
-          <View style={styles.container}>
-            <Text
-              style={{
-                fontSize: 22,
-                marginHorizontal: "10%",
-                bottom: "5%",
-                justifyContent: "center",
-                alignContent: "center",
-              }}>
-              Hi there, enter your credentials to get started!
-            </Text>
-            <TextInput
-              value={email}
-              numberOfLines={1}
-              maxLength={40}
-              placeholder="Email"
-              onChangeText={setEmail}
-              autoComplete="email"
-              style={styles.TextInput}
-            />
-
-            <TextInput
-              value={password}
-              numberOfLines={1}
-              maxLength={40}
-              secureTextEntry={securePassword}
-              placeholder="Password"
-              style={styles.TextInput}
-              onChangeText={setPassword}
-            />
-            <BouncyCheckbox
-              style={styles.showPassword}
-              onPress={handlePassword}
-              isChecked={false}
-              size={20}
-              fillColor="#00aaff"
-              textStyle={{
-                textDecorationLine: "none",
-                fontSize: 13,
-                width: 100,
-              }}
-              text="Show Password"
-            />
-            <TouchableOpacity style={styles.button} onPress={login}>
-              <Text style={styles.text}>Log In</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={loginInWithGoogle}>
-              <Text style={styles.text}>Log In With Google</Text>
-            </TouchableOpacity>
-          </View>
+          <LOGINMAIN login={login} loginAnonymously={loginAnonymously} />
         </ScrollView>
       </ImageBackground>
     );
