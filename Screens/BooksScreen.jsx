@@ -1,29 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
-// import { JoBoText } from "./CameraScreen";
-// import { storage } from "../appwrite/appwrite";
 import entries from "../journal_test_entries/entries";
 import { Card } from "../components/Card";
 import { styles } from "../styles";
 import { favs } from "./FavoritesScreen";
+import {
+  addDoc,
+  collection,
+  getDoc,
+  serverTimestamp,
+} from "firebase/firestore";
+import { auth, db } from "../Firebase/firebase";
 
-const BooksScreen = ({ navigation }) => {
-  // async function loadBooks() {
-  // const books = await storage.listFiles("64ca5cf0c2f5a5cae817");
-  // const values = [];
-  const [values, setValues] = useState([
-    entries.entry2,
-    entries.entry1,
-    entries.entry3,
-    entries.entry4,
-    entries.entry5,
-    entries.entry6,
-  ]);
+const BooksScreen = () => {
+  const [userDB, setUserDB] = useState(
+    (auth.currentUser && `users/${auth.currentUser.uid}/journals`) || null
+  );
 
-  const addNewJournal = () => {
-    const newJournalEntry = "Write your journal here..."; // New entry text
+  useEffect(() => {
+    if (auth.currentUser) {
+      setUserDB(`users/${auth.currentUser.uid}/journals`);
+    }
+  }, [auth.currentUser]);
+  const [values, setValues] = useState(Object.values(entries));
+  // [entries.entry2,
+  // entries.entry1,
+  // entries.entry3,
+  // entries.entry4,
+  // entries.entry5,
+  // entries.entry6,
+  // ]);
+
+  const addNewJournal = async () => {
+    const newJournalEntry = "khjdsgfhjdshjfgdsjh f fagh";
     setValues((prevValues) => [newJournalEntry, ...prevValues]);
+    for (const entry of values) {
+      const newJournalEntry = {
+        entry_text: entry.entry_text, // Assuming each entry is a string, modify this based on your data structure
+        id: entry.id,
+        timestamp: serverTimestamp(), // Server timestamp for the entry
+      };
+      values[entry] = newJournalEntry;
+    }
+    try {
+      // Loop through each journal entry in the values state
+      for (const entry of values) {
+        const newJournalEntry = {
+          entry_text: entry.entry_text, // Assuming each entry is a string, modify this based on your data structure
+          id: entry.id,
+          timestamp: serverTimestamp(), // Server timestamp for the entry
+        };
+
+        // Add the journal entry to the "notes" collection in Firebase Firestore
+        await addDoc(
+          collection(db, `users/${auth.currentUser.uid}/journals`),
+          newJournalEntry
+        );
+        console.log(
+          "Journal entry added to Firebase Firestore:",
+          newJournalEntry
+        );
+      }
+      console.log("All journal entries uploaded to Firebase Firestore.");
+    } catch (error) {
+      console.error("Error uploading journal entries to Firestore: ", error);
+    }
   };
+
   const deleteJournal = (id) => {
     setValues((prevValues) => prevValues.filter(id));
   };

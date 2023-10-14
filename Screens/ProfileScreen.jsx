@@ -1,11 +1,10 @@
-import { Alert, Text, TouchableOpacity, View, BackHandler } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { auth } from "../Firebase/firebase";
 import { styles } from "../styles";
-import { useState } from "react";
 
 const ProfileScreen = () => {
   async function logout() {
-    Alert.alert("Logout & Exit?", "", [
+    Alert.alert("Logout & Exit?", "Are you sure you want to logout?", [
       {
         text: "Yes",
         onPress: async () => {

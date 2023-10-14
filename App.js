@@ -1,11 +1,10 @@
 import {
   View,
-  TouchableOpacity,
   ImageBackground,
   Text,
   Image,
-  TextInput,
   ScrollView,
+  Alert,
 } from "react-native";
 import { useState, useEffect } from "react";
 import {
@@ -18,22 +17,59 @@ import {
 
 import { auth } from "./Firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Tabs from "./navigation/tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { styles } from "./styles";
 import LOGINMAIN from "./Authentication/LoginScreen";
 import SIGNUPMAIN from "./Authentication/SignupScreen";
+const TitleComponent = () => {
+  return (
+    <View>
+      <Text
+        style={{
+          fontSize: 50,
+          marginTop: "10%",
+          color: "#0088ff",
+          marginLeft: "10%",
+        }}>
+        J
+        <Text
+          style={{
+            fontSize: 50,
+            marginTop: "10%",
+            color: "#aa88ff",
+            marginLeft: "10%",
+          }}>
+          o
+        </Text>
+        <Text
+          style={{
+            fontSize: 50,
+            marginTop: "10%",
+            color: "#0088dd",
+            marginLeft: "10%",
+          }}>
+          B
+        </Text>
+        <Text
+          style={{
+            fontSize: 50,
+            marginTop: "10%",
+            color: "#00aaff",
+            marginLeft: "10%",
+          }}>
+          o
+        </Text>
+      </Text>
+    </View>
+  );
+};
 
 const App = () => {
   const SplashTab = new createBottomTabNavigator();
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
-  // const [username, setUsername] = useState("");
-  // const [securePassword, setSecurePassword] = useState(true);
   const [userID, setUserID] = useState(null);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -41,6 +77,7 @@ const App = () => {
       } else {
         setUserID(null);
       }
+      setLoading(false);
     });
     return unsubscribe;
   }, []);
@@ -50,10 +87,22 @@ const App = () => {
       const response = await signInWithEmailAndPassword(auth, email, password);
       console.log(response.user);
       setUserID(response.user);
-      // clearCredentials();
-    } catch (error) {
-      alert(error);
-      // clearCredentials();
+    } catch (e) {
+      if (
+        e.code === "auth/invalid-login-credentials" ||
+        e.code === "auth/invalid-email" ||
+        e.code === "auth/invalid-password"
+      ) {
+        Alert.alert(
+          "Invalid Credentials!",
+          "Email or Password incorrect. Please try again."
+        );
+      } else {
+        Alert.alert(
+          "Error",
+          `Oh, no. Something went wrong somewhere. Make sure you are connected to the internet and please try again.\nError info:${e.message}`
+        );
+      }
     }
   };
 
@@ -70,10 +119,12 @@ const App = () => {
       ).then((auth.currentUser.displayName = username));
       console.log(response);
       setUserID(response.user);
-      // clearCredentials();
     } catch (error) {
       alert(error);
-      // clearCredentials();
+      Alert.alert(
+        "Error.",
+        "Something went wrong. Make sure you fill in all required values and are connected to the internet."
+      );
     }
   };
   async function loginAnonymously() {
@@ -82,15 +133,14 @@ const App = () => {
       // Handle the response here
       console.log(response.user);
       setUserID(response.user);
-      // clearCredentials();
     } catch (error) {
       // Handle the error here
       console.error(error.message);
-      // clearCredentials();
-
+      Alert.alert("Error.", "Something went wrong. Please try again.");
       // You might want to set an error state here to show an error message to the user
     }
   }
+
   async function loginInWithGoogle() {
     try {
       const provider = new GoogleAuthProvider();
@@ -106,14 +156,14 @@ const App = () => {
   }
 
   const SIGNUP = () => {
-    console.log("Started again in signup");
-
     return (
       <ImageBackground
         source={require("./assets/backgrounds/splashbackground.png")}
         style={{ flex: 1 }}
         resizeMode="cover">
         <ScrollView>
+          <TitleComponent />
+
           <SIGNUPMAIN signup={signup} />
         </ScrollView>
       </ImageBackground>
@@ -121,51 +171,13 @@ const App = () => {
   };
 
   const LOGIN = () => {
-    console.log("Started again in login");
     return (
       <ImageBackground
         source={require("./assets/backgrounds/splashbackground.png")}
         style={{ flex: 1 }}
         resizeMode="cover">
         <ScrollView>
-          <View>
-            <Text
-              style={{
-                fontSize: 50,
-                marginTop: "10%",
-                color: "#0088ff",
-                marginLeft: "10%",
-              }}>
-              J
-              <Text
-                style={{
-                  fontSize: 50,
-                  marginTop: "10%",
-                  color: "#aa88ff",
-                  marginLeft: "10%",
-                }}>
-                o
-              </Text>
-              <Text
-                style={{
-                  fontSize: 50,
-                  marginTop: "10%",
-                  color: "#0088dd",
-                  marginLeft: "10%",
-                }}>
-                B
-              </Text>
-              <Text
-                style={{
-                  fontSize: 50,
-                  marginTop: "10%",
-                  color: "#00aaff",
-                  marginLeft: "10%",
-                }}>
-                o
-              </Text>
-            </Text>
-          </View>
+          <TitleComponent />
           <LOGINMAIN login={login} loginAnonymously={loginAnonymously} />
         </ScrollView>
       </ImageBackground>
