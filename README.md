@@ -10,35 +10,51 @@
 
 1. Install [node.js](https://nodejs.org/en/download).
 2. Install [Expo Go](https://expo.dev/client) on your mobile.
+3. Open a terminal and enter commands:
 
 ```
 git clone https://github.com/JoBo
 ```
 
-or if you want to clone a specific branch (without the '<' or '>'):
+## to clone a specific branch (use without the '<' or '>'):
 
 ```
 git clone --branch <branch_name> https://github.com/abhikatta/JoBo
 ```
 
-> Example:
+## The latest working branch :
 
-> ```
-> git clone --branch migrate_to_firebase https://github.com/abhikatta/JoBo
-> ```
+```
+git clone --branch migrate_to_firebase https://github.com/abhikatta/JoBo
+```
 
 ```
 cd JoBo
 ```
 
-if you're cloning the main branch:
+```
+npm i
+```
+
+```
+npx expo start --tunnel
+```
+
+## if you're cloning the main branch:
+
+```
+git clone https://github.com/JoBo
+```
 
 ```
 cd JoBo/Frontend
 ```
+
 ```
 npm i
 ```
+
 ```
 npx expo start --tunnel
+
 ```
