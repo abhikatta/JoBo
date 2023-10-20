@@ -36,8 +36,9 @@ if you're cloning the main branch:
 ```
 cd JoBo/Frontend
 ```
-
+```
 npm i
+```
+```
 npx expo start --tunnel
-
 ```
