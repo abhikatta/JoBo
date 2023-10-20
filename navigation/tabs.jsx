@@ -29,7 +29,7 @@ const Tabs = ({ navigation }) => {
             bottom: "10%",
             width: 100,
           },
-          tabBarActiveTintColor: "maroon",
+          tabBarActiveTintColor: "#009aff",
         }}>
         <Tab.Screen
           name="HOME"
@@ -43,7 +43,7 @@ const Tabs = ({ navigation }) => {
                   style={{
                     width: 25,
                     height: 25,
-                    tintColor: focused ? "maroon" : "black",
+                    tintColor: focused ? "#009aff" : "black",
                   }}
                   source={require("../assets/icons/home.png")}
                 />
@@ -62,7 +62,7 @@ const Tabs = ({ navigation }) => {
                   style={{
                     width: 25,
                     height: 25,
-                    tintColor: focused ? "maroon" : "black",
+                    tintColor: focused ? "#009aff" : "black",
                   }}
                   source={require("../assets/icons/favorites.png")}
                 />
@@ -77,21 +77,21 @@ const Tabs = ({ navigation }) => {
           options={{
             unmountOnBlur: true,
             tabBarStyle: { display: "none" },
-            tabBarActiveBackgroundColor: "maroon",
+            tabBarActiveBackgroundColor: "#009aff",
             tabBarIcon: ({ focused }) => (
               <Image
                 source={require("../assets/icons/new.png")}
                 resizeMode="contain"
                 style={{
-                  height: 60,
-                  width: 60,
-                  top: -10,
-                  backgroundColor: "#dddddd",
+                  height: "300%",
+                  width: "150%",
+                  top: "-70%",
+                  backgroundColor: "#fff",
                   borderTopLeftRadius: 20,
                   borderBottomLeftRadius: 10,
                   borderBottomRightRadius: 10,
                   borderTopRightRadius: 20,
-                  tintColor: focused ? "maroon" : "black",
+                  tintColor: focused ? "#009aff" : "black",
                 }}
               />
             ),
@@ -107,7 +107,7 @@ const Tabs = ({ navigation }) => {
                   style={{
                     width: 25,
                     height: 25,
-                    tintColor: focused ? "maroon" : "black",
+                    tintColor: focused ? "#009aff" : "black",
                   }}
                   source={require("../assets/icons/profile.png")}
                 />
@@ -128,7 +128,7 @@ const Tabs = ({ navigation }) => {
                   style={{
                     width: 25,
                     height: 25,
-                    tintColor: focused ? "maroon" : "black",
+                    tintColor: focused ? "#009aff" : "black",
                   }}
                   source={require("../assets/icons/settings.png")}
                 />

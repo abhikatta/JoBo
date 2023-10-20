@@ -1,3 +1,4 @@
+// To see how these would be displayed on the home screen
 export default entries = {
   entry1: {
     id: 1,

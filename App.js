@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   View,
   ImageBackground,
@@ -6,7 +7,8 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import { useState, useEffect } from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -15,14 +17,15 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 
-import { auth } from "./Firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+
+import { auth } from "./Firebase/firebase";
+
 import Tabs from "./navigation/tabs";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
-import { styles } from "./styles";
 import LOGINMAIN from "./Authentication/LoginScreen";
 import SIGNUPMAIN from "./Authentication/SignupScreen";
+import { styles } from "./styles";
+
 const TitleComponent = () => {
   return (
     <View>

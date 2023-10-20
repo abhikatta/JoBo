@@ -16,31 +16,34 @@ const ProfileScreen = () => {
     ]);
   }
   return (
-    <View>
-      <Text style={styles.TextInput}>
-        Username:{" "}
-        {auth.currentUser.displayName === null
-          ? auth.currentUser.email
-            ? auth.currentUser.email.split("@")[0]
-            : "Guest"
-          : auth.currentUser.displayName}
-      </Text>
-      <Text style={styles.TextInput}>
-        Email ID:{" "}
-        {auth.currentUser.email ? auth.currentUser.email : "guest@gmail.com"}
-      </Text>
-      {!auth.currentUser.email ? (
-        <>
-          <Text style={[styles.TextInput, { color: "red" }]}>
-            NOTE: All the data will be lost when you logout.
-          </Text>
-        </>
-      ) : (
-        ""
-      )}
-      <TouchableOpacity style={styles.button} onPress={() => logout()}>
-        <Text style={styles.text}>Logout</Text>
-      </TouchableOpacity>
+    <View
+      style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}>
+      <View style={{ alignContent: "center" }}>
+        <Text style={styles.TextInput}>
+          Username:{" "}
+          {auth.currentUser.displayName === null
+            ? auth.currentUser.email
+              ? auth.currentUser.email.split("@")[0]
+              : "Guest"
+            : auth.currentUser.displayName}
+        </Text>
+        <Text style={styles.TextInput}>
+          Email ID:{" "}
+          {auth.currentUser.email ? auth.currentUser.email : "guest@gmail.com"}
+        </Text>
+        {!auth.currentUser.email ? (
+          <>
+            <Text style={[styles.TextInput, { color: "red" }]}>
+              NOTE: All the data will be lost when you logout.
+            </Text>
+          </>
+        ) : (
+          ""
+        )}
+        <TouchableOpacity style={styles.button} onPress={() => logout()}>
+          <Text style={styles.text}>Logout</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

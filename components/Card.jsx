@@ -1,13 +1,7 @@
 import { useState } from "react";
 import { styles } from "../styles";
 
-const {
-  View,
-  TouchableOpacity,
-  Text,
-  Image,
-  TextInput,
-} = require("react-native");
+import { View, TouchableOpacity, Text, Image, TextInput } from "react-native";
 
 export const Card = ({ text, id, deleteJournal, date, index }) => {
   const [editable, setEditable] = useState(false);
@@ -17,7 +11,7 @@ export const Card = ({ text, id, deleteJournal, date, index }) => {
       <View style={styles.homeOptionBar}>
         <TouchableOpacity
           style={styles.cardOption}
-          onPress={() => deleteJournal()}>
+          onPress={() => deleteJournal(id)}>
           <Image
             style={styles.cardOption}
             resizeMode="contain"

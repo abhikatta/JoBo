@@ -1,99 +1,112 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
-import entries from "../journal_test_entries/entries";
+import { View, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
+// import entries from "../journal_test_entries/entries";
 import { Card } from "../components/Card";
 import { styles } from "../styles";
 import { favs } from "./FavoritesScreen";
 import {
   addDoc,
-  collection,
-  getDoc,
+  getDocs,
+  query,
   serverTimestamp,
+  where,
 } from "firebase/firestore";
-import { auth, db } from "../Firebase/firebase";
+import { auth, journalsCollection } from "../Firebase/firebase";
 
 const BooksScreen = () => {
-  const [userDB, setUserDB] = useState(
-    (auth.currentUser && `users/${auth.currentUser.uid}/journals`) || null
+  const [values, setValues] = useState([]);
+  const [user, setUser] = useState(
+    !auth.currentUser.isAnonymous && auth.currentUser
   );
 
   useEffect(() => {
-    if (auth.currentUser) {
-      setUserDB(`users/${auth.currentUser.uid}/journals`);
+    try {
+      user && getJournals() && console.log("Journals fetched.");
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Error!", error.message);
     }
   }, [auth.currentUser]);
-  const [values, setValues] = useState(Object.values(entries));
-  // [entries.entry2,
-  // entries.entry1,
-  // entries.entry3,
-  // entries.entry4,
-  // entries.entry5,
-  // entries.entry6,
-  // ]);
 
-  const addNewJournal = async () => {
-    const newJournalEntry = "khjdsgfhjdshjfgdsjh f fagh";
-    setValues((prevValues) => [newJournalEntry, ...prevValues]);
-    for (const entry of values) {
-      const newJournalEntry = {
-        entry_text: entry.entry_text, // Assuming each entry is a string, modify this based on your data structure
-        id: entry.id,
-        timestamp: serverTimestamp(), // Server timestamp for the entry
-      };
-      values[entry] = newJournalEntry;
-    }
+  const createNewJournal = async () => {
+    const journal = {
+      entry_text: "add a journal",
+      user_id: auth.currentUser.uid,
+
+      timestamp: serverTimestamp(),
+    };
+    addNewJournal(journal);
+  };
+
+  const addNewJournal = async (journalEntry) => {
     try {
-      // Loop through each journal entry in the values state
-      for (const entry of values) {
-        const newJournalEntry = {
-          entry_text: entry.entry_text, // Assuming each entry is a string, modify this based on your data structure
-          id: entry.id,
-          timestamp: serverTimestamp(), // Server timestamp for the entry
-        };
-
-        // Add the journal entry to the "notes" collection in Firebase Firestore
-        await addDoc(
-          collection(db, `users/${auth.currentUser.uid}/journals`),
-          newJournalEntry
-        );
-        console.log(
-          "Journal entry added to Firebase Firestore:",
-          newJournalEntry
-        );
-      }
-      console.log("All journal entries uploaded to Firebase Firestore.");
+      await addDoc(journalsCollection, journalEntry);
+      console.log("Journal entry added to Firebase Firestore:", journalEntry);
+      setValues((prevValues) => [journalEntry, ...prevValues]);
     } catch (error) {
-      console.error("Error uploading journal entries to Firestore: ", error);
+      console.error("Error uploading journal entry to Firestore:", error);
+      Alert.alert(
+        "Error!",
+        "Something went wrong. Check your internet connection and try again."
+      );
     }
   };
 
-  const deleteJournal = (id) => {
-    setValues((prevValues) => prevValues.filter(id));
+  // TODO:
+  const deleteJournal = async (id) => {
+    try {
+      console.log("Journal delete function isn't implemented yet!");
+    } catch (error) {
+      console.error("Error deleting journal entry:", error);
+      Alert.alert("Error!", "Failed to delete the journal entry.", error);
+    }
   };
-  const getCurrentDate = () => {
-    const date = new Date();
-    const day = date.getDate();
-    const month = date.getMonth() + 1; // Months are zero-based, so we add 1
-    const year = date.getFullYear();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
 
-    // Pad single digit day, month, hours, and minutes with leading zero
-    const formattedDay = day < 10 ? `0${day}` : day;
-    const formattedMonth = month < 10 ? `0${month}` : month;
-    const formattedHours = hours < 10 ? `0${hours}` : hours;
-    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  const getJournals = async () => {
+    if (auth.currentUser.isAnonymous) {
+      console.log("In guest mode");
+      Alert.alert(
+        "Error getting data!",
+        "You're in Guest mode, login to get your journals."
+      );
+      return;
+    } else {
+      try {
+        const q = query(
+          journalsCollection,
+          where("id", "==", auth.currentUser.uid)
+        );
 
-    return `${formattedDay}-${formattedMonth}-${year} ${formattedHours}:${formattedMinutes}`;
+        const querySnapshot = await getDocs(q);
+        const journals = querySnapshot.docs.map((doc) => {
+          return {
+            id: doc.user_id,
+            timestamp: doc.timestamp,
+            ...doc.data(),
+          };
+        });
+
+        setValues(journals);
+        console.log("Journals retrieved from Firebase Firestore:", journals);
+      } catch (error) {
+        console.error("Error getting journal entries from Firestore:", error);
+        Alert.alert("Error getting data!", "Something went wrong.");
+      }
+    }
   };
+
   return (
     <View style={styles.homeMain}>
       <Text style={[styles.homeText, { fontSize: 30, marginLeft: 5 }]}>
         Your Journalized Notes
       </Text>
-      <TouchableOpacity onPress={addNewJournal} style={styles.button}>
+      <TouchableOpacity onPress={createNewJournal} style={styles.button}>
         <Text>Type a new journal</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={getJournals} style={styles.button}>
+        <Text>get Journal notes</Text>
+      </TouchableOpacity>
+
       <ScrollView style={{ marginBottom: "16.5%" }}>
         {values.map((entry, index) => (
           <View key={index}>
@@ -101,7 +114,8 @@ const BooksScreen = () => {
               id={entry.id}
               deleteJournal={deleteJournal}
               text={entry.entry_text}
-              date={getCurrentDate()}
+              // updateJournal={update}
+              date={entry.timestamp.toString()}
               favs={favs}
               index={index}
             />

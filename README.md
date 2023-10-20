@@ -13,9 +13,33 @@
 
 ```
 git clone https://github.com/JoBo
+```
+
+or if you want to clone a specific branch (without the '<' or '>'):
+
+```
+git clone --branch <branch_name> https://github.com/abhikatta/JoBo
+```
+
+> Example:
+
+> ```
+> git clone --branch migrate_to_firebase https://github.com/abhikatta/JoBo
+> ```
+
+```
+cd JoBo
+```
+
+if you're cloning the main branch:
+
+```
 cd JoBo/Frontend
+```
+
 npm i
 npx expo start --tunnel
+
 ```
 
 Some screenshots of the UI:
@@ -37,3 +61,4 @@ or
 ### Camera:
 
 <img src='https://github.com/abhikatta/JoBo/assets/76813100/739bfa25-ced1-4584-8e90-4aaee789b286' width=180 height=400>
+```

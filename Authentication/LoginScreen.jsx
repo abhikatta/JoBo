@@ -41,6 +41,7 @@ const LOGINMAIN = ({ login, loginAnonymously }) => {
         maxLength={40}
         secureTextEntry={securePassword}
         placeholder="Password"
+        autoComplete="password"
         style={styles.TextInput}
         onChangeText={(password) => setPassword(password)}
       />

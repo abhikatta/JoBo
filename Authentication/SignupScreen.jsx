@@ -1,8 +1,9 @@
-import { View, TouchableOpacity, Text, TextInput } from "react-native";
+import { View, TouchableOpacity, Text, TextInput, Alert } from "react-native";
 
 import { styles } from "../styles";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useState } from "react";
+import { auth } from "../Firebase/firebase";
 
 const SIGNUPMAIN = ({ signup }) => {
   const [email, setEmail] = useState("");
@@ -19,7 +20,13 @@ const SIGNUPMAIN = ({ signup }) => {
     setPassword("");
   };
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        flex: 1,
+        marginTop: "20%",
+        flexDirection: "column",
+        paddingTop: "20%",
+      }}>
       <Text
         style={{
           fontSize: 22,
@@ -85,8 +92,18 @@ const SIGNUPMAIN = ({ signup }) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          signup(username, email, password, confirmPassword),
+          try {
+            signup(username, email, password, confirmPassword),
+              (auth.currentUser.displayName = username);
             clearCredentials();
+          } catch (error) {
+            Alert.alert(
+              "Error",
+              "Something went wrong somewhere. Please try again."
+            );
+          } finally {
+            clearCredentials();
+          }
         }}>
         <Text style={styles.text}>Sign Up</Text>
       </TouchableOpacity>

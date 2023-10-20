@@ -1,18 +1,23 @@
-import { Camera, CameraType } from "expo-camera";
-import React from "react";
-import * as MediaLibrary from "expo-media-library";
 import { useState, useRef } from "react";
-import { Button, Image } from "react-native";
-import { styles } from "../styles";
-import * as FileSystem from "expo-file-system";
-import { Text, TouchableOpacity, View } from "react-native";
-import flipCameraIcon from "../assets/icons/flip_camera.png";
-import takePhotoIcon from "../assets/icons/take_photo.png";
-import flashIcon from "../assets/icons/flash.png";
+import {
+  Alert,
+  Button,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { Camera, CameraType } from "expo-camera";
+
 global.Buffer = require("buffer").Buffer;
-export let JoBoText = {
-  OCRTEXT: [],
-};
+import * as MediaLibrary from "expo-media-library";
+import * as FileSystem from "expo-file-system";
+
+import { addDoc, serverTimestamp } from "firebase/firestore";
+
+import { styles } from "../styles";
+import { auth, journalsCollection } from "../Firebase/firebase";
+import { nanoid } from "nanoid";
 
 export default function CameraScreen() {
   const [type, setType] = useState(CameraType.back);
@@ -20,6 +25,7 @@ export default function CameraScreen() {
     Camera.useCameraPermissions();
   const [mediaPermissionResponse, mediaRequestPermission] =
     MediaLibrary.usePermissions();
+
   const [toggleFlash, setToggleFlash] = useState(false);
   const ref = useRef(null);
 
@@ -59,7 +65,7 @@ export default function CameraScreen() {
     return (
       <View style={styles.cameraContainer}>
         <Button
-          title="Grant Media Permissions"
+          title="Grant Camera Permissions"
           onPress={mediaRequestPermission}
         />
       </View>
@@ -72,8 +78,28 @@ export default function CameraScreen() {
     );
   }
   function toggleFlashType() {
-    setToggleFlash((prevFlash) => !prevFlash);
+    setToggleFlash(!toggleFlash);
   }
+
+  async function pushToFirebase(text) {
+    const newJournal = {
+      entry_text: text,
+      id: auth.currentUser.uid,
+      doc_id: nanoid(),
+      timestamp: serverTimestamp(),
+    };
+    try {
+      await addDoc(journalsCollection, newJournal);
+      console.log("Journal entry added to Firebase Firestore:", newJournal);
+    } catch (error) {
+      console.error("Error uploading journal entry to Firestore:", error);
+      Alert.alert(
+        "Error!",
+        "Something went wrong. Check your internet connection and try again."
+      );
+    }
+  }
+
   const takePhoto = async () => {
     const { uri } = await ref.current.takePictureAsync();
     console.log(uri);
@@ -97,40 +123,22 @@ export default function CameraScreen() {
       const result = await response.json();
       return result;
     }
+
     alert("Photo Saved to Camera Roll.");
 
     query(asset.uri)
       .then((response) => {
-        // response = response.message[0].generated_text;
-        console.log(response);
-        response = JSON.stringify(response.json());
-        console.log(response);
         if (response !== null) {
-          JoBoText.OCRTEXT.push(response);
-        }
-        if (response === null) {
+          pushToFirebase(JSON.stringify(response.message[0].generated_text));
+          console.log("Got response" + response);
+        } else {
+          console.log("Error, null response. Try again.");
         }
       })
       .catch((error) => {
         console.log("Hugging face erro: " + error);
       });
   };
-  function RenderCameraButton(props) {
-    return (
-      <View>
-        <TouchableOpacity
-          style={styles.cameraButton}
-          onPress={props.buttonOnPress}>
-          <Image
-            resizeMode="contain"
-            source={props.buttonImage}
-            style={styles.cameraButton}
-          />
-          <Text style={styles.text}>{props.buttonName}</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
   return (
     <View style={styles.cameraContainer}>
       <Camera
@@ -140,21 +148,40 @@ export default function CameraScreen() {
         flashMode={toggleFlash ? "torch" : "off"}
         type={type}>
         <View style={styles.cameraButtonContainer}>
-          <RenderCameraButton
-            buttonImage={flipCameraIcon}
-            buttonOnPress={() => toggleCameraType()}
-            buttonName="Flip"
-          />
-          <RenderCameraButton
-            buttonImage={takePhotoIcon}
-            buttonOnPress={() => takePhoto()}
-            buttonName="JoBo"
-          />
-          <RenderCameraButton
-            buttonImage={flashIcon}
-            buttonOnPress={() => toggleFlashType()}
-            buttonName="Flash"
-          />
+          <View>
+            <TouchableOpacity
+              style={styles.cameraButton}
+              onPress={toggleCameraType}>
+              <Image
+                resizeMode="contain"
+                source={require("../assets/icons/flip_camera.png")}
+                style={styles.cameraButton}
+              />
+              <Text style={styles.text}>Flip</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity style={styles.cameraButton} onPress={takePhoto}>
+              <Image
+                resizeMode="contain"
+                source={require("../assets/icons/take_photo.png")}
+                style={styles.cameraButton}
+              />
+              <Text style={styles.text}>JoBo</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity
+              style={styles.cameraButton}
+              onPress={toggleFlashType}>
+              <Image
+                resizeMode="contain"
+                source={require("../assets/icons/flash.png")}
+                style={styles.cameraButton}
+              />
+              <Text style={styles.text}>Flash</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Camera>
     </View>

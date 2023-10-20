@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-
 export const styles = StyleSheet.create({
   navBar: {
     borderRadius: 15,
@@ -8,7 +7,7 @@ export const styles = StyleSheet.create({
     height: "7%",
     left: "5%",
     right: "5%",
-    backgroundColor: "#dddddd",
+    backgroundColor: "#fff",
     elevation: 5,
     shadowColor: "maroon",
   },
@@ -30,7 +29,6 @@ export const styles = StyleSheet.create({
     flexDirection: "column",
     paddingTop: 10,
   },
-
   button: {
     backgroundColor: "#00aaff",
     marginHorizontal: "20%",
@@ -52,7 +50,7 @@ export const styles = StyleSheet.create({
     borderBottomColor: "#00aaff",
     borderTopColor: "#eeeeee",
     borderLeftColor: "#eeeeee",
-    backgroundColor: "#dddddd",
+    backgroundColor: "#fff",
     borderRightColor: "#eeeeee",
   },
   showPassword: {
@@ -64,11 +62,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-
   permissonButton: {
     backgroundColor: "#00aaff",
     marginHorizontal: "20%",
     padding: "3%",
+    justifyContent: "center",
     alignItems: "center",
     elevation: 10,
     shadowColor: "#00aaff",
@@ -82,13 +80,14 @@ export const styles = StyleSheet.create({
     marginTop: 600,
     marginHorizontal: 30,
     marginBottom: 100,
+
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
   },
   cameraButton: {
     flex: 1,
-    tintColor: "lavender",
+
     alignSelf: "center",
     alignItems: "center",
   },
@@ -105,7 +104,7 @@ export const styles = StyleSheet.create({
     marginBottom: "15%",
   },
   homeCard: {
-    backgroundColor: "#ccddee",
+    backgroundColor: "#ddd",
     shadowColor: "#ccddee",
     elevation: 6,
     resizeMode: "contain",

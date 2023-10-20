@@ -20,4 +20,4 @@ export const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 });
 
-export const journalsCollection = collection(db, "notes");
+export const journalsCollection = collection(db, "journals");
