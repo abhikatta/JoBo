@@ -6,11 +6,11 @@
 
 - ### JoBo is a mobile application written in React Native.📱It uses [firebase](https://firebase.google.com/) as backend and [TrOCR model from huggingface](huggingface.co/microsoft/trocr-large-handwritten) for OCR text detection.🤗
 
-## Usage:🧑‍💻
+# Usage:🧑‍💻
 
-1. Install [node.js](https://nodejs.org/en/download).
-2. Install [Expo Go](https://expo.dev/client) on your mobile.
-3. Open a terminal and enter commands:
+## 1. Install [node.js](https://nodejs.org/en/download).
+## 2. Install [Expo Go](https://expo.dev/client) on your mobile.
+## 3. Open a terminal and enter commands:
 
 ```
 git clone https://github.com/JoBo
@@ -22,7 +22,7 @@ git clone https://github.com/JoBo
 git clone --branch <branch_name> https://github.com/abhikatta/JoBo
 ```
 
-## The latest working branch :
+## 4. The latest working branch :
 
 ```
 git clone --branch migrate_to_firebase https://github.com/abhikatta/JoBo
