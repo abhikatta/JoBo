@@ -12,7 +12,7 @@
 ## 2. Install [Expo Go](https://expo.dev/client) on your mobile.
 ## 3. Open a terminal and enter commands:
 
-##  The latest working branch :
+#  The latest working branch :
 
 ```
 git clone --branch migrate_to_firebase https://github.com/abhikatta/JoBo
