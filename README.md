@@ -29,7 +29,8 @@ npm i
 ```
 npx expo start --tunnel
 ```
-
+That's it!
+---
 ## if you're cloning the main branch:
 
 ```
