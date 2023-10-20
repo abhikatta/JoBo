@@ -12,17 +12,7 @@
 ## 2. Install [Expo Go](https://expo.dev/client) on your mobile.
 ## 3. Open a terminal and enter commands:
 
-```
-git clone https://github.com/JoBo
-```
-
-## to clone a specific branch (use without the '<' or '>'):
-
-```
-git clone --branch <branch_name> https://github.com/abhikatta/JoBo
-```
-
-## 4. The latest working branch :
+##  The latest working branch :
 
 ```
 git clone --branch migrate_to_firebase https://github.com/abhikatta/JoBo
@@ -57,4 +47,10 @@ npm i
 ```
 npx expo start --tunnel
 
+```
+
+## or to clone a specific branch (use without the '<' or '>'):
+
+```
+git clone --branch <branch_name> https://github.com/abhikatta/JoBo
 ```
