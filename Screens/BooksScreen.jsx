@@ -7,6 +7,7 @@ import { favs } from "./FavoritesScreen";
 import {
   addDoc,
   getDocs,
+  orderBy,
   query,
   serverTimestamp,
   where,
@@ -18,7 +19,19 @@ const BooksScreen = () => {
   const [user, setUser] = useState(
     !auth.currentUser.isAnonymous && auth.currentUser
   );
-
+  async function LoadModel() {
+    try {
+      const response = await fetch(
+        "https://proxy-hugging-api.vercel.app/api/image"
+      );
+      console.log(JSON.stringify(response));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    LoadModel();
+  }, []);
   useEffect(() => {
     try {
       user && getJournals() && console.log("Journals fetched.");
@@ -55,13 +68,15 @@ const BooksScreen = () => {
   // TODO:
   const deleteJournal = async (id) => {
     try {
+      console.log(id);
       console.log("Journal delete function isn't implemented yet!");
     } catch (error) {
       console.error("Error deleting journal entry:", error);
       Alert.alert("Error!", "Failed to delete the journal entry.", error);
     }
   };
-
+  // TODO:
+  const updateJournal = async () => {};
   const getJournals = async () => {
     if (auth.currentUser.isAnonymous) {
       console.log("In guest mode");
@@ -77,10 +92,11 @@ const BooksScreen = () => {
           where("id", "==", auth.currentUser.uid)
         );
 
-        const querySnapshot = await getDocs(q);
+        const querySnapshot = await getDocs(q, orderBy("timestamp", "desc"));
         const journals = querySnapshot.docs.map((doc) => {
           return {
             id: doc.user_id,
+            doc_id: doc.data().id,
             timestamp: doc.timestamp,
             ...doc.data(),
           };
@@ -107,15 +123,15 @@ const BooksScreen = () => {
         <Text>get Journal notes</Text>
       </TouchableOpacity>
 
-      <ScrollView style={{ marginBottom: "16.5%" }}>
+      <ScrollView style={{ height: "75%" }}>
         {values.map((entry, index) => (
           <View key={index}>
             <Card
-              id={entry.id}
+              id={entry.doc_id}
               deleteJournal={deleteJournal}
-              text={entry.entry_text}
-              // updateJournal={update}
-              date={entry.timestamp.toString()}
+              text={JSON.parse(entry.entry_text)}
+              updateJournal={updateJournal}
+              date={entry.timestamp.toDate().toString()}
               favs={favs}
               index={index}
             />

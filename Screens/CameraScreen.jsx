@@ -89,7 +89,8 @@ export default function CameraScreen() {
       timestamp: serverTimestamp(),
     };
     try {
-      await addDoc(journalsCollection, newJournal);
+      const newJournalRef = await addDoc(journalsCollection, newJournal);
+      newJournal.doc_id = newJournalRef.id;
       console.log("Journal entry added to Firebase Firestore:", newJournal);
     } catch (error) {
       console.error("Error uploading journal entry to Firestore:", error);

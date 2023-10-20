@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
   text: {
     textAlign: "center",
     width: 100,
+    color: "#204060",
   },
   container: {
     flex: 1,
@@ -87,7 +88,7 @@ export const styles = StyleSheet.create({
   },
   cameraButton: {
     flex: 1,
-
+    tintColor: "#204060",
     alignSelf: "center",
     alignItems: "center",
   },

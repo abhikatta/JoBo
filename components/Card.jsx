@@ -3,7 +3,14 @@ import { styles } from "../styles";
 
 import { View, TouchableOpacity, Text, Image, TextInput } from "react-native";
 
-export const Card = ({ text, id, deleteJournal, date, index }) => {
+export const Card = ({
+  text,
+  id,
+  deleteJournal,
+  updateJournal,
+  date,
+  index,
+}) => {
   const [editable, setEditable] = useState(false);
 
   return (
@@ -20,7 +27,12 @@ export const Card = ({ text, id, deleteJournal, date, index }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.cardOption}
-          onPress={() => setEditable((preEditable) => !preEditable)}>
+          onPress={() =>
+            setEditable((preEditable) => {
+              !preEditable;
+              updateJournal();
+            })
+          }>
           <Image
             style={styles.cardOption}
             resizeMode="contain"
