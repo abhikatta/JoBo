@@ -5,10 +5,10 @@ import { View, TouchableOpacity, Text, Image, TextInput } from "react-native";
 
 export const Card = ({
   text,
-  id,
   deleteJournal,
   updateJournal,
   date,
+  doc_id,
   index,
 }) => {
   const [editable, setEditable] = useState(false);
@@ -18,7 +18,7 @@ export const Card = ({
       <View style={styles.homeOptionBar}>
         <TouchableOpacity
           style={styles.cardOption}
-          onPress={() => deleteJournal(id)}>
+          onPress={() => deleteJournal(doc_id)}>
           <Image
             style={styles.cardOption}
             resizeMode="contain"
@@ -30,7 +30,6 @@ export const Card = ({
           onPress={() =>
             setEditable((preEditable) => {
               !preEditable;
-              updateJournal();
             })
           }>
           <Image
@@ -58,6 +57,7 @@ export const Card = ({
         ]}>
         <TextInput
           editable={editable}
+          onChangeText={updateJournal}
           style={{ paddingTop: 10, alignSelf: "flex-start" }}>
           {date}
         </TextInput>

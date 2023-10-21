@@ -17,7 +17,6 @@ import { addDoc, serverTimestamp } from "firebase/firestore";
 
 import { styles } from "../styles";
 import { auth, journalsCollection } from "../Firebase/firebase";
-import { nanoid } from "nanoid";
 
 export default function CameraScreen() {
   const [type, setType] = useState(CameraType.back);
@@ -85,12 +84,10 @@ export default function CameraScreen() {
     const newJournal = {
       entry_text: text,
       id: auth.currentUser.uid,
-      doc_id: nanoid(),
       timestamp: serverTimestamp(),
     };
     try {
-      const newJournalRef = await addDoc(journalsCollection, newJournal);
-      newJournal.doc_id = newJournalRef.id;
+      await addDoc(journalsCollection, newJournal);
       console.log("Journal entry added to Firebase Firestore:", newJournal);
     } catch (error) {
       console.error("Error uploading journal entry to Firestore:", error);
@@ -130,8 +127,8 @@ export default function CameraScreen() {
     query(asset.uri)
       .then((response) => {
         if (response !== null) {
-          pushToFirebase(JSON.stringify(response.message[0].generated_text));
           console.log("Got response" + response);
+          pushToFirebase(JSON.stringify(response.message[0].generated_text));
         } else {
           console.log("Error, null response. Try again.");
         }

@@ -6,10 +6,13 @@ import { styles } from "../styles";
 import { favs } from "./FavoritesScreen";
 import {
   addDoc,
+  doc,
   getDocs,
   orderBy,
   query,
+  deleteDoc,
   serverTimestamp,
+  setDoc,
   where,
 } from "firebase/firestore";
 import { auth, journalsCollection } from "../Firebase/firebase";
@@ -39,13 +42,12 @@ const BooksScreen = () => {
       console.log(error);
       Alert.alert("Error!", error.message);
     }
-  }, [auth.currentUser]);
+  }, []);
 
   const createNewJournal = async () => {
     const journal = {
-      entry_text: "add a journal",
-      user_id: auth.currentUser.uid,
-
+      entry_text: "Write a new journal...",
+      id: auth.currentUser.uid,
       timestamp: serverTimestamp(),
     };
     addNewJournal(journal);
@@ -65,10 +67,20 @@ const BooksScreen = () => {
     }
   };
 
-  // TODO:
-  const deleteJournal = async (id) => {
+  const deleteJournal = async (doc_id) => {
     try {
-      console.log(id);
+      Alert.alert("Warning!", "Are you sure you want to delete the journal?", [
+        {
+          text: "Yes",
+          onPress: async () => {
+            const docRef = doc(journalsCollection, doc_id);
+            await deleteDoc(docRef);
+            console.log("Journal deleted successfully.");
+          },
+        },
+        { text: "No", onPress: () => null },
+      ]);
+      console.log(doc_id);
       console.log("Journal delete function isn't implemented yet!");
     } catch (error) {
       console.error("Error deleting journal entry:", error);
@@ -76,7 +88,17 @@ const BooksScreen = () => {
     }
   };
   // TODO:
-  const updateJournal = async () => {};
+  // FIX UPDATE FUNCTION:
+  const updateJournal = async (text, doc_id) => {
+    try {
+      const docRef = doc(journalsCollection, doc_id);
+      await setDoc(docRef, { entry_text: text }, { merge: true });
+    } catch (error) {
+      console.error("Error updating journal entry:", error);
+      Alert.alert("Error!", "Failed to update the journal entry.", error);
+    }
+  };
+
   const getJournals = async () => {
     if (auth.currentUser.isAnonymous) {
       console.log("In guest mode");
@@ -94,11 +116,12 @@ const BooksScreen = () => {
 
         const querySnapshot = await getDocs(q, orderBy("timestamp", "desc"));
         const journals = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
           return {
-            id: doc.user_id,
-            doc_id: doc.data().id,
-            timestamp: doc.timestamp,
-            ...doc.data(),
+            id: data.id,
+            doc_id: doc.id,
+            timestamp: data.timestamp,
+            ...data,
           };
         });
 
@@ -131,6 +154,7 @@ const BooksScreen = () => {
               deleteJournal={deleteJournal}
               text={JSON.parse(entry.entry_text)}
               updateJournal={updateJournal}
+              doc_id={entry.doc_id}
               date={entry.timestamp.toDate().toString()}
               favs={favs}
               index={index}
