@@ -47,7 +47,9 @@ const BooksScreen = () => {
   const createNewJournal = async () => {
     const journal = {
       entry_text: "Write a new journal...",
-      id: auth.currentUser.uid,
+      id: !auth.currentUser.isAnonymous
+        ? auth.currentUser.uid
+        : auth.currentUser.getIdToken(),
       timestamp: serverTimestamp(),
     };
     addNewJournal(journal);
@@ -100,15 +102,32 @@ const BooksScreen = () => {
   };
 
   const getJournals = async () => {
-    if (auth.currentUser.isAnonymous) {
-      console.log("In guest mode");
-      Alert.alert(
-        "Error getting data!",
-        "You're in Guest mode, login to get your journals."
-      );
-      return;
-    } else {
-      try {
+    // console.log("In guest mode");
+    // Alert.alert(
+    //   "Error getting data!",
+    //   "You're in Guest mode, login to get your journals."
+    // );
+    // return;
+    try {
+      if (auth.currentUser.isAnonymous) {
+        const q = query(
+          journalsCollection,
+          where("id", "==", auth.currentUser.getIdToken())
+        );
+
+        const querySnapshot = await getDocs(q, orderBy("timestamp", "desc"));
+        const journals = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            id: data.id,
+            doc_id: doc.id,
+            timestamp: data.timestamp,
+            ...data,
+          };
+        });
+
+        setValues(journals);
+      } else {
         const q = query(
           journalsCollection,
           where("id", "==", auth.currentUser.uid)
@@ -127,10 +146,10 @@ const BooksScreen = () => {
 
         setValues(journals);
         console.log("Journals retrieved from Firebase Firestore:", journals);
-      } catch (error) {
-        console.error("Error getting journal entries from Firestore:", error);
-        Alert.alert("Error getting data!", "Something went wrong.");
       }
+    } catch (error) {
+      console.error("Error getting journal entries from Firestore:", error);
+      Alert.alert("Error getting data!", "Something went wrong.");
     }
   };
 
@@ -141,9 +160,6 @@ const BooksScreen = () => {
       </Text>
       <TouchableOpacity onPress={createNewJournal} style={styles.button}>
         <Text>Type a new journal</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={getJournals} style={styles.button}>
-        <Text>get Journal notes</Text>
       </TouchableOpacity>
 
       <ScrollView style={{ height: "75%" }}>

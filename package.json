@@ -41,8 +41,5 @@
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
-  "browser": {
-    "crypto": false
-  },
   "private": true
 }

@@ -4,6 +4,7 @@ import { getFirestore, collection } from "firebase/firestore";
 
 import { initializeAuth, getReactNativePersistence } from "firebase/auth";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
+// This is only of the developement server, prod server will be deployed later
 const firebaseConfig = {
   apiKey: "AIzaSyBKcrWGV2Obl2v8ryHcCFEhcjuG22PNM_s",
   authDomain: "jobo-57289.firebaseapp.com",

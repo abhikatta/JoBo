@@ -21,11 +21,11 @@ const ProfileScreen = () => {
       <View style={{ alignContent: "center" }}>
         <Text style={styles.TextInput}>
           Username:{" "}
-          {auth.currentUser.displayName === null
-            ? auth.currentUser.email
-              ? auth.currentUser.email.split("@")[0]
-              : "Guest"
-            : auth.currentUser.displayName}
+          {!auth.currentUser.isAnonymous
+            ? auth.currentUser.displayName
+              ? auth.currentUser.displayName
+              : auth.currentUser.email.split("@")[0]
+            : "Guest"}
         </Text>
         <Text style={styles.TextInput}>
           Email ID:{" "}

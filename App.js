@@ -10,6 +10,7 @@ import {
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import {
+  updateProfile,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInAnonymously,
@@ -77,6 +78,7 @@ const App = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserID(user);
+        console.log(user);
       } else {
         setUserID(null);
       }
@@ -119,17 +121,19 @@ const App = () => {
         auth,
         email,
         password
-      ).then((auth.currentUser.displayName = username));
-      console.log(response);
+      );
+      updateProfile(auth.currentUser, { displayName: username });
+      console.log(response.user);
       setUserID(response.user);
     } catch (error) {
-      alert(error);
       Alert.alert(
         "Error.",
         "Something went wrong. Make sure you fill in all required values and are connected to the internet."
       );
+      alert(error);
     }
   };
+
   async function loginAnonymously() {
     try {
       const response = await signInAnonymously(auth);
