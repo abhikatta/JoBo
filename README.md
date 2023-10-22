@@ -4,7 +4,7 @@
 
 ##### Still in development🧑🏻‍💻
 
-- ### JoBo is a mobile application written in React Native.📱It uses [firebase](https://firebase.google.com/) as backend and [TrOCR model from huggingface](huggingface.co/microsoft/trocr-large-handwritten) for OCR text detection.🤗
+- ### JoBo is a mobile application written in React Native.📱It uses [firebase](https://firebase.google.com/) as backend and [TrOCR model from huggingface](huggingface.co/microsoft/trocr-large-handwritten) for OCR text detection.
 
 # Usage:🧑‍💻
 
