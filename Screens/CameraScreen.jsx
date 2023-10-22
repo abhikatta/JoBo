@@ -64,7 +64,7 @@ export default function CameraScreen() {
     return (
       <View style={styles.cameraContainer}>
         <Button
-          title="Grant Camera Permissions"
+          title="Grant Media Permissions"
           onPress={mediaRequestPermission}
         />
       </View>
@@ -84,6 +84,7 @@ export default function CameraScreen() {
     const newJournal = {
       entry_text: text,
       id: auth.currentUser.uid,
+      liked: false,
       timestamp: serverTimestamp(),
     };
     try {
@@ -105,24 +106,23 @@ export default function CameraScreen() {
     console.log(asset.uri);
 
     async function query(file) {
+      const URL = "https://proxy-hugging-api.vercel.app/api/image";
+      // const URL = "http://10.74.20.123:5000/process_image";
       const fileContentfake = await FileSystem.readAsStringAsync(file, {
         encoding: FileSystem.EncodingType.Base64,
       });
-      const response = await fetch(
-        "https://proxy-hugging-api.vercel.app/api/image",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "POST",
-          body: fileContentfake.toString(),
-        }
-      );
+      const response = await fetch(URL, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: fileContentfake.toString(),
+      });
       const result = await response.json();
       return result;
     }
 
-    alert("Photo Saved to Camera Roll.");
+    Alert.alert("Photo Saved.", "Photo has been saved to camera roll.");
 
     query(asset.uri)
       .then((response) => {
@@ -134,7 +134,13 @@ export default function CameraScreen() {
         }
       })
       .catch((error) => {
-        console.log("Hugging face erro: " + error);
+        console.log("Hugging face error: " + error);
+        if (error instanceof TypeError) {
+          Alert.alert(
+            "Error!",
+            "The model is probably re-loading, please try after some time."
+          );
+        }
       });
   };
   return (

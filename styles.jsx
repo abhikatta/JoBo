@@ -8,8 +8,8 @@ export const styles = StyleSheet.create({
     left: "5%",
     right: "5%",
     backgroundColor: "#fff",
-    elevation: 5,
-    shadowColor: "maroon",
+    elevation: 15,
+    shadowColor: "#00aaff",
   },
   navIconView: {
     justifyContent: "center",

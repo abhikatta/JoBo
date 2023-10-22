@@ -2,12 +2,35 @@ import { useState } from "react";
 import { styles } from "../styles";
 
 import { View, TouchableOpacity, Text, Image, TextInput } from "react-native";
+import {
+  QuerySnapshot,
+  getDoc,
+  doc,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { auth, journalsCollection } from "../Firebase/firebase";
+
+const handlelike = async (doc_id, liked) => {
+  const journalRef = doc(journalsCollection, doc_id);
+
+  try {
+    await updateDoc(journalRef, {
+      liked: !liked, // Toggle the liked status
+    });
+    console.log("Liked status updated successfully!");
+  } catch (error) {
+    console.error("Error updating liked status: ", error);
+  }
+};
 
 export const Card = ({
   text,
   deleteJournal,
   updateJournal,
   date,
+  liked,
   doc_id,
   index,
 }) => {
@@ -16,15 +39,17 @@ export const Card = ({
   return (
     <View key={index} style={styles.homeCard}>
       <View style={styles.homeOptionBar}>
-        <TouchableOpacity
-          style={styles.cardOption}
-          onPress={() => deleteJournal(doc_id)}>
-          <Image
+        {deleteJournal && (
+          <TouchableOpacity
             style={styles.cardOption}
-            resizeMode="contain"
-            source={require("../assets/icons/delete.png")}
-          />
-        </TouchableOpacity>
+            onPress={() => deleteJournal(doc_id)}>
+            <Image
+              style={styles.cardOption}
+              resizeMode="contain"
+              source={require("../assets/icons/delete.png")}
+            />
+          </TouchableOpacity>
+        )}
         <TouchableOpacity
           style={styles.cardOption}
           onPress={() =>
@@ -38,11 +63,17 @@ export const Card = ({
             source={require("../assets/icons/edit.png")}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.cardOption}>
+        <TouchableOpacity
+          style={styles.cardOption}
+          onPress={() => handlelike(doc_id, liked)}>
           <Image
             style={styles.cardOption}
             resizeMode="contain"
-            source={require("../assets/icons/like.png")}
+            source={
+              liked
+                ? require("../assets/icons/liked.png")
+                : require("../assets/icons/like.png")
+            }
           />
         </TouchableOpacity>
       </View>

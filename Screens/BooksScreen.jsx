@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
-// import entries from "../journal_test_entries/entries";
 import { Card } from "../components/Card";
 import { styles } from "../styles";
 import { favs } from "./FavoritesScreen";
@@ -8,14 +7,15 @@ import {
   addDoc,
   doc,
   getDocs,
-  orderBy,
   query,
   deleteDoc,
   serverTimestamp,
   setDoc,
   where,
+  collection,
+  onSnapshot,
 } from "firebase/firestore";
-import { auth, journalsCollection } from "../Firebase/firebase";
+import { auth, db, journalsCollection } from "../Firebase/firebase";
 
 const BooksScreen = () => {
   const [values, setValues] = useState([]);
@@ -32,17 +32,29 @@ const BooksScreen = () => {
       console.log(error);
     }
   }
+
   useEffect(() => {
-    LoadModel();
+    const unsubscribe = onSnapshot(journalsCollection, () => {
+      LoadModel();
+      getJournals();
+    });
+    return () => {
+      // Unsubscribe from the snapshot listener when the component is unmounted
+      unsubscribe();
+    };
   }, []);
-  useEffect(() => {
-    try {
-      user && getJournals() && console.log("Journals fetched.");
-    } catch (error) {
-      console.log(error);
-      Alert.alert("Error!", error.message);
-    }
-  }, []);
+  // useEffect(() => {
+  // LoadModel();
+
+  // }, []);
+  // useEffect(() => {
+  //   try {
+  //     user && getJournals() && console.log("Journals fetched.");
+  //   } catch (error) {
+  //     console.log(error);
+  //     Alert.alert("Error!", error.message);
+  //   }
+  // }, [auth.currentUser]);
 
   const createNewJournal = async () => {
     const journal = {
@@ -115,12 +127,13 @@ const BooksScreen = () => {
           where("id", "==", auth.currentUser.getIdToken())
         );
 
-        const querySnapshot = await getDocs(q, orderBy("timestamp", "desc"));
+        const querySnapshot = await getDocs(q);
         const journals = querySnapshot.docs.map((doc) => {
           const data = doc.data();
           return {
             id: data.id,
             doc_id: doc.id,
+            liked: data.liked,
             timestamp: data.timestamp,
             ...data,
           };
@@ -133,12 +146,13 @@ const BooksScreen = () => {
           where("id", "==", auth.currentUser.uid)
         );
 
-        const querySnapshot = await getDocs(q, orderBy("timestamp", "desc"));
+        const querySnapshot = await getDocs(q);
         const journals = querySnapshot.docs.map((doc) => {
           const data = doc.data();
           return {
             id: data.id,
             doc_id: doc.id,
+            liked: data.liked,
             timestamp: data.timestamp,
             ...data,
           };
@@ -171,6 +185,7 @@ const BooksScreen = () => {
               text={JSON.parse(entry.entry_text)}
               updateJournal={updateJournal}
               doc_id={entry.doc_id}
+              liked={entry.liked}
               date={entry.timestamp.toDate().toString()}
               favs={favs}
               index={index}
