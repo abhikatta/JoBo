@@ -120,6 +120,10 @@ const Tabs = ({ navigation }) => {
           name="SETTINGS"
           component={SettingScreen}
           options={{
+            unmountOnBlur: true,
+
+            // tabBarStyle: { display: "none" },
+
             tabBarIcon: ({ focused }) => (
               <View style={styles.navIconView}>
                 <Image

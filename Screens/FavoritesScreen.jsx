@@ -54,7 +54,11 @@ const FavoritesPage = () => {
 
         setFavs(journals);
       } else {
-        const q = query(journalsCollection, where("liked", "==", true));
+        const q = query(
+          journalsCollection,
+          where("liked", "==", true),
+          where("id", "==", auth.currentUser.uid)
+        );
 
         const querySnapshot = await getDocs(q);
         const journals = querySnapshot.docs.map((doc) => {
@@ -80,7 +84,7 @@ const FavoritesPage = () => {
   };
 
   return favs.length === 0 ? (
-    <>
+    <View style={styles.homeMain}>
       <Text style={[styles.homeText, { fontSize: 30, marginLeft: 5 }]}>
         Your Favorite Notes
       </Text>
@@ -95,7 +99,7 @@ const FavoritesPage = () => {
             source={require("../assets/backgrounds/no_favorites_background.png")}></Image>
         </TouchableOpacity>
       </View>
-    </>
+    </View>
   ) : (
     <View style={styles.homeMain}>
       <Text style={[styles.homeText, { fontSize: 30, marginLeft: 5 }]}>

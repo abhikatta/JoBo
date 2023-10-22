@@ -1,16 +1,8 @@
 import { useState } from "react";
 import { styles } from "../styles";
-
-import { View, TouchableOpacity, Text, Image, TextInput } from "react-native";
-import {
-  QuerySnapshot,
-  getDoc,
-  doc,
-  query,
-  updateDoc,
-  where,
-} from "firebase/firestore";
-import { auth, journalsCollection } from "../Firebase/firebase";
+import { View, TouchableOpacity, Image, TextInput } from "react-native";
+import { doc, updateDoc } from "firebase/firestore";
+import { journalsCollection } from "../Firebase/firebase";
 
 const handlelike = async (doc_id, liked) => {
   const journalRef = doc(journalsCollection, doc_id);

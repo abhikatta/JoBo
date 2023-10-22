@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
+import { View, Text, ScrollView, Alert } from "react-native";
 import { Card } from "../components/Card";
 import { styles } from "../styles";
 import { favs } from "./FavoritesScreen";
@@ -42,7 +42,7 @@ const BooksScreen = () => {
       // Unsubscribe from the snapshot listener when the component is unmounted
       unsubscribe();
     };
-  }, []);
+  }, [auth.currentUser]);
   // useEffect(() => {
   // LoadModel();
 
@@ -167,14 +167,76 @@ const BooksScreen = () => {
     }
   };
 
-  return (
+  return !values ? (
     <View style={styles.homeMain}>
-      <Text style={[styles.homeText, { fontSize: 30, marginLeft: 5 }]}>
-        Your Journalized Notes
+      <Text
+        style={[
+          styles.homeText,
+          {
+            fontSize: 25,
+            marginLeft: 5,
+          },
+        ]}>
+        <Text
+          style={[
+            styles.homeText,
+            {
+              color: "black",
+              fontSize: 25,
+              marginLeft: 5,
+            },
+          ]}>
+          Your{" "}
+        </Text>
+        <Text
+          style={[
+            styles.homeText,
+            {
+              fontWeight: "900",
+
+              fontSize: 25,
+
+              marginLeft: 5,
+            },
+          ]}>
+          Jo
+        </Text>
+        <Text
+          style={[
+            styles.homeText,
+            { color: "black", fontSize: 25, marginLeft: 5 },
+          ]}>
+          urnalized
+        </Text>
+        <Text
+          style={[
+            styles.homeText,
+            {
+              fontSize: 25,
+              marginLeft: 5,
+            },
+          ]}>
+          {" "}
+        </Text>
+        <Text
+          style={[
+            styles.homeText,
+            {
+              fontSize: 25,
+              fontWeight: "900",
+              marginLeft: 5,
+            },
+          ]}>
+          Bo
+        </Text>
+        <Text
+          style={[
+            styles.homeText,
+            { color: "black", fontSize: 25, marginLeft: 5 },
+          ]}>
+          oks
+        </Text>
       </Text>
-      <TouchableOpacity onPress={createNewJournal} style={styles.button}>
-        <Text>Type a new journal</Text>
-      </TouchableOpacity>
 
       <ScrollView style={{ height: "75%" }}>
         {values.map((entry, index) => (
@@ -186,13 +248,36 @@ const BooksScreen = () => {
               updateJournal={updateJournal}
               doc_id={entry.doc_id}
               liked={entry.liked}
-              date={entry.timestamp.toDate().toString()}
+              date={entry.timestamp?.toDate().toString()}
               favs={favs}
               index={index}
             />
           </View>
         ))}
       </ScrollView>
+    </View>
+  ) : (
+    <View
+      style={[
+        styles.homeMain,
+        {
+          borderWidth: 1,
+          borderRadius: 40,
+          padding: 50,
+          alignItems: "center",
+          flex: 0.95,
+          flexDirection: "column",
+          justifyContent: "center",
+        },
+      ]}>
+      <Text style={{ textAlign: "center" }}>
+        You don't have any JoBo yet. Click on{" "}
+        <Text
+          style={{ color: "#00aafa", fontStyle: "italic", fontWeight: "bold" }}>
+          NEW JOBO{"  "}
+        </Text>
+        <Text>to get started!</Text>
+      </Text>
     </View>
   );
 };

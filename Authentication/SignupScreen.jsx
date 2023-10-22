@@ -1,5 +1,4 @@
 import { View, TouchableOpacity, Text, TextInput, Alert } from "react-native";
-
 import { styles } from "../styles";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useState } from "react";

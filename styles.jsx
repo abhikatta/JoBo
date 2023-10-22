@@ -21,8 +21,8 @@ export const styles = StyleSheet.create({
   },
   text: {
     textAlign: "center",
-    width: 100,
-    color: "#204060",
+    width: "auto",
+    color: "white",
   },
   container: {
     flex: 1,
@@ -37,6 +37,13 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     elevation: 10,
     shadowColor: "#00aaff",
+    borderRadius: 10,
+    marginVertical: "2%",
+  },
+  settingsButton: {
+    marginHorizontal: "20%",
+    padding: "3%",
+    alignItems: "center",
     borderRadius: 10,
     marginVertical: "2%",
   },
@@ -100,6 +107,7 @@ export const styles = StyleSheet.create({
   // booksScreen:
   homeMain: {
     marginTop: "10%",
+    alignItems: "center",
     flexDirection: "column",
     marginHorizontal: "5%",
     marginBottom: "15%",
