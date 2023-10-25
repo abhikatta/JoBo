@@ -1,6 +1,6 @@
 {
-  "name": "frontend",
-  "version": "1.0.0",
+  "name": "jobo",
+  "version": "1.9.7",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
