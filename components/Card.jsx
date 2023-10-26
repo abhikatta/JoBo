@@ -32,6 +32,7 @@ export const Card = ({
     <View key={index} style={styles.homeCard}>
       <View style={styles.homeOptionBar}>
         {deleteJournal && (
+          // for favorites
           <TouchableOpacity
             style={styles.cardOption}
             onPress={() => deleteJournal(doc_id)}>
@@ -80,13 +81,13 @@ export const Card = ({
         ]}>
         <TextInput
           editable={editable}
-          onChangeText={updateJournal}
           style={{ paddingTop: 10, alignSelf: "flex-start" }}>
           {date}
         </TextInput>
       </View>
       <TextInput
         editable={editable}
+        onChangeText={(e) => updateJournal(e, doc_id)}
         selectionColor={"cyan"}
         multiline={true}
         numberOfLines={7}

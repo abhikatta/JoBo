@@ -53,7 +53,7 @@ const Tabs = ({ navigation }) => {
         <Tab.Screen
           name="FAVORITES"
           options={{
-            unmountOnBlur: true,
+            // unmountOnBlur: true,
             tabBarIcon: ({ focused }) => (
               <View style={styles.navIconView}>
                 <Image
@@ -120,7 +120,7 @@ const Tabs = ({ navigation }) => {
           name="SETTINGS"
           component={SettingScreen}
           options={{
-            unmountOnBlur: true,
+            // unmountOnBlur: true,
 
             // tabBarStyle: { display: "none" },
 

@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { styles } from "../styles";
 import { Card } from "../components/Card";
-import { getDocs, onSnapshot, query, where } from "firebase/firestore";
+import { doc, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { auth, journalsCollection } from "../Firebase/firebase";
 
 const FavoritesPage = () => {
@@ -89,7 +89,7 @@ const FavoritesPage = () => {
       <Text style={[styles.homeText, { fontSize: 30, marginLeft: 5 }]}>
         Your Favorite Notes
       </Text>
-      <ScrollView style={{ marginBottom: "16.5%" }}>
+      <ScrollView style={{ height: "92%", width: "100%" }}>
         {/* <Card text={text} index={index} /> */}
         {favs.map((entry, index) => (
           <View key={index}>

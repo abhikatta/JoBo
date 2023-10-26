@@ -4,18 +4,20 @@ import { Card } from "../components/Card";
 import { styles } from "../styles";
 import { favs } from "./FavoritesScreen";
 import {
-  addDoc,
+  // addDoc,
   doc,
   getDocs,
   query,
   deleteDoc,
-  serverTimestamp,
+  // serverTimestamp,
   setDoc,
   where,
-  collection,
+  // collection,
   onSnapshot,
+  updateDoc,
 } from "firebase/firestore";
-import { auth, db, journalsCollection } from "../Firebase/firebase";
+import { auth, journalsCollection } from "../Firebase/firebase";
+// import { db } from "../Firebase/firebase";
 
 const BooksScreen = () => {
   const [values, setValues] = useState([]);
@@ -34,52 +36,57 @@ const BooksScreen = () => {
   }
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(journalsCollection, () => {
-      LoadModel();
-      getJournals();
-    });
-    return () => {
-      // Unsubscribe from the snapshot listener when the component is unmounted
-      unsubscribe();
-    };
-  }, [auth.currentUser]);
-  // useEffect(() => {
-  // LoadModel();
-
-  // }, []);
-  // useEffect(() => {
-  //   try {
-  //     user && getJournals() && console.log("Journals fetched.");
-  //   } catch (error) {
-  //     console.log(error);
-  //     Alert.alert("Error!", error.message);
-  //   }
-  // }, [auth.currentUser]);
-
-  const createNewJournal = async () => {
-    const journal = {
-      entry_text: "Write a new journal...",
-      id: !auth.currentUser.isAnonymous
-        ? auth.currentUser.uid
-        : auth.currentUser.getIdToken(),
-      timestamp: serverTimestamp(),
-    };
-    addNewJournal(journal);
-  };
-
-  const addNewJournal = async (journalEntry) => {
-    try {
-      await addDoc(journalsCollection, journalEntry);
-      console.log("Journal entry added to Firebase Firestore:", journalEntry);
-      setValues((prevValues) => [journalEntry, ...prevValues]);
-    } catch (error) {
-      console.error("Error uploading journal entry to Firestore:", error);
-      Alert.alert(
-        "Error!",
-        "Something went wrong. Check your internet connection and try again."
-      );
+    if (!auth.currentUser.isAnonymous) {
+      try {
+        const unsubscribe = onSnapshot(journalsCollection, () => {
+          LoadModel();
+          getJournals();
+        });
+        return () => {
+          // Unsubscribe from the snapshot listener when the component is unmounted
+          unsubscribe();
+        };
+      } catch (error) {
+        Alert.alert("Error", "Something went wrong. Please try again.");
+      }
+    } else {
+      return;
     }
-  };
+  }, [auth.currentUser]);
+
+  useEffect(() => {
+    try {
+      user && getJournals() && console.log("Journals fetched.");
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Error!", error.message);
+    }
+  }, [auth.currentUser]);
+
+  // const createNewJournal = async () => {
+  //   const journal = {
+  //     entry_text: "Write a new journal...",
+  //     id: !auth.currentUser.isAnonymous
+  //       ? auth.currentUser.uid
+  //       : auth.currentUser.getIdToken(),
+  //     timestamp: serverTimestamp(),
+  //   };
+  //   addNewJournal(journal);
+  // };
+
+  // const addNewJournal = async (journalEntry) => {
+  //   try {
+  //     await addDoc(journalsCollection, journalEntry);
+  //     console.log("Journal entry added to Firebase Firestore:", journalEntry);
+  //     setValues((prevValues) => [journalEntry, ...prevValues]);
+  //   } catch (error) {
+  //     console.error("Error uploading journal entry to Firestore:", error);
+  //     Alert.alert(
+  //       "Error!",
+  //       "Something went wrong. Check your internet connection and try again."
+  //     );
+  //   }
+  // };
 
   const deleteJournal = async (doc_id) => {
     try {
@@ -105,8 +112,12 @@ const BooksScreen = () => {
   // FIX UPDATE FUNCTION:
   const updateJournal = async (text, doc_id) => {
     try {
+      console.log(`Updated ${doc_id} with ${text}`);
       const docRef = doc(journalsCollection, doc_id);
-      await setDoc(docRef, { entry_text: text }, { merge: true });
+      // await doc(docRef, { entry_text: text }, { merge: true });
+      // await updateDoc(docRef, { entry_text: text });
+      await updateDoc(docRef, { text });
+      // await updateDoc(docRef,{})
     } catch (error) {
       console.error("Error updating journal entry:", error);
       Alert.alert("Error!", "Failed to update the journal entry.", error);
@@ -142,7 +153,7 @@ const BooksScreen = () => {
         });
 
         setValues(journals);
-        console.log("Journals retrieved from Firebase Firestore:", journals);
+        console.log("Journals retrieved from Firebase Firestore:", values);
       }
     } catch (error) {
       console.error("Error getting journal entries from Firestore:", error);
@@ -221,7 +232,7 @@ const BooksScreen = () => {
         </Text>
       </Text>
 
-      <ScrollView style={{ height: "75%" }}>
+      <ScrollView style={{ height: "92%", width: "100%" }}>
         {values.map((entry, index) => (
           <View key={index}>
             <Card
@@ -231,7 +242,7 @@ const BooksScreen = () => {
               updateJournal={updateJournal}
               doc_id={entry.doc_id}
               liked={entry.liked}
-              date={entry.timestamp?.toDate().toString()}
+              date={entry.timestamp.toDate().toString()}
               favs={favs}
               index={index}
             />
