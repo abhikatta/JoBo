@@ -122,24 +122,7 @@ const BooksScreen = () => {
     // return;
     try {
       if (auth.currentUser.isAnonymous) {
-        const q = query(
-          journalsCollection,
-          where("id", "==", auth.currentUser.getIdToken())
-        );
-
-        const querySnapshot = await getDocs(q);
-        const journals = querySnapshot.docs.map((doc) => {
-          const data = doc.data();
-          return {
-            id: data.id,
-            doc_id: doc.id,
-            liked: data.liked,
-            timestamp: data.timestamp,
-            ...data,
-          };
-        });
-
-        setValues(journals);
+        return;
       } else {
         const q = query(
           journalsCollection,
