@@ -17,6 +17,7 @@ const SIGNUPMAIN = ({ signup }) => {
     setEmail("");
     setUsername("");
     setPassword("");
+    setConfirmPassword("");
   };
   return (
     <View
@@ -93,8 +94,7 @@ const SIGNUPMAIN = ({ signup }) => {
         onPress={() => {
           try {
             signup(username, email, password, confirmPassword),
-              (auth.currentUser.displayName = username);
-            clearCredentials();
+              clearCredentials();
           } catch (error) {
             Alert.alert(
               "Error",
