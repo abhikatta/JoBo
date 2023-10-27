@@ -22,3 +22,4 @@ if __name__ == '__main__':
     file.close()
     with open('output.txt', 'w') as out:
         out.write(text)
+    out.close()
