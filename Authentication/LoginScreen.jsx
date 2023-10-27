@@ -18,7 +18,6 @@ const LOGINMAIN = ({ login, loginAnonymously }) => {
   const clearCredentials = () => {
     setEmail("");
     setPassword("");
-    ResetEmailPrompt("");
   };
   const emailPrompt = () => {
     setResetEmailPrompt((prevSend) => !prevSend);
@@ -47,8 +46,8 @@ const LOGINMAIN = ({ login, loginAnonymously }) => {
       <Text
         style={{
           fontSize: 22,
-          marginHorizontal: "10%",
-          bottom: "5%",
+          textAlign: "center",
+          marginHorizontal: "2%",
           justifyContent: "center",
           alignContent: "center",
         }}>
@@ -103,13 +102,8 @@ const LOGINMAIN = ({ login, loginAnonymously }) => {
         }}>
         <Text style={styles.text}>Log In Anonymously</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          console.log("pressed reset password");
-        }}>
-        <Text
-          onPress={() => emailPrompt()}
-          style={{ color: "black", textAlign: "center" }}>
+      <TouchableOpacity onPress={() => emailPrompt()}>
+        <Text style={{ color: "black", textAlign: "center", marginTop: "5%" }}>
           Forgot password? Click here to reset your password.
         </Text>
       </TouchableOpacity>

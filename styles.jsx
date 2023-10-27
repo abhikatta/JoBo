@@ -25,10 +25,9 @@ export const styles = StyleSheet.create({
     color: "white",
   },
   container: {
-    flex: 1,
-    marginTop: "50%",
-    flexDirection: "column",
-    paddingTop: 10,
+    alignContent: "space-between",
+    justifyContent: "center",
+    paddingTop: "50%",
   },
   button: {
     backgroundColor: "#00aaff",
