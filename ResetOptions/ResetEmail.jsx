@@ -2,6 +2,7 @@ import { updateEmail } from "firebase/auth";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { auth } from "../Firebase/firebase";
 import { useState } from "react";
+import { styles } from "../styles";
 
 const RESETEMAIl = () => {
   const [email, setEmail] = useState("");
@@ -15,6 +16,7 @@ const RESETEMAIl = () => {
     if (email.length > 0 && confirmEmail.length > 0 && email === confirmEmail) {
       try {
         updateEmail(auth.currentUser, email);
+        Alert.alert("Success.", "Your email has been successfully changed.");
         clearCredentials();
       } catch (error) {
         Alert.alert(
@@ -40,7 +42,6 @@ const RESETEMAIl = () => {
         value={email}
         numberOfLines={1}
         maxLength={40}
-        secureTextEntry={secureEmail}
         autoCapitalize="none"
         placeholder="Email"
         autoComplete="off"
@@ -53,7 +54,6 @@ const RESETEMAIl = () => {
         maxLength={40}
         autoComplete="off"
         autoCapitalize="none"
-        secureTextEntry={secureEmail}
         placeholder="Confirm Email"
         style={styles.TextInput}
         onChangeText={(email) => setConfirmEmail(email)}

@@ -97,8 +97,12 @@ const Tabs = ({ navigation }) => {
           }}
         />
         <Tab.Screen
+          name="PROFILE"
+          component={ProfileScreen}
           children={navigation}
           options={{
+            // unmountOnBlur: true,
+
             tabBarIcon: ({ focused }) => (
               <View style={styles.navIconView}>
                 <Image
@@ -113,14 +117,12 @@ const Tabs = ({ navigation }) => {
               </View>
             ),
           }}
-          name="PROFILE"
-          component={ProfileScreen}
         />
         <Tab.Screen
           name="SETTINGS"
           component={SettingScreen}
           options={{
-            // unmountOnBlur: true,
+            unmountOnBlur: true,
 
             // tabBarStyle: { display: "none" },
 

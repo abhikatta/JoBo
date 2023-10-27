@@ -2,6 +2,7 @@ import { useState } from "react";
 import { updateProfile } from "firebase/auth";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { auth } from "../Firebase/firebase";
+import { styles } from "../styles";
 
 const RESETUSERNAME = () => {
   const [username, setUsername] = useState("");
@@ -18,7 +19,11 @@ const RESETUSERNAME = () => {
       username === confirmUsername
     ) {
       try {
-        updateProfile(auth.currentUser, { displayName: username });
+        updateProfile(auth.currentUser, {
+          displayName: username,
+        });
+        Alert.alert("Success.", "Your Username has been successfully changed.");
+
         clearCredentials();
       } catch (error) {
         Alert.alert(
@@ -44,7 +49,6 @@ const RESETUSERNAME = () => {
         value={username}
         numberOfLines={1}
         maxLength={40}
-        secureTextEntry={secureUsername}
         autoCapitalize="none"
         placeholder="Username"
         autoComplete="off"
@@ -57,7 +61,6 @@ const RESETUSERNAME = () => {
         maxLength={40}
         autoComplete="off"
         autoCapitalize="none"
-        secureTextEntry={secureUsername}
         placeholder="Confirm Username"
         style={styles.TextInput}
         onChangeText={(username) => setConfirmUsername(username)}

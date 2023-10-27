@@ -1,16 +1,6 @@
 import { useState } from "react";
-import {
-  Linking,
-  TextInput,
-  View,
-  Text,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import { Linking, View, Text, TouchableOpacity, Alert } from "react-native";
 import { styles } from "../styles";
-import { updatePassword } from "firebase/auth";
-import { auth } from "../Firebase/firebase";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
 import RESETPASSWORD from "../ResetOptions/ResetPassword";
 import RESETUSERNAME from "../ResetOptions/ResetUsername";
 import RESETEMAIL from "../ResetOptions/ResetEmail";
@@ -45,20 +35,21 @@ const SettingScreen = () => {
         <RESETPASSWORD />
       </View>
     );
-  } else if (resetCredential === "email") {
-    return (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          alignSelf: "center",
-          alignContent: "center",
-          justifyContent: "center",
-        }}>
-        <RESETEMAIL />
-      </View>
-    );
-  } else {
+  }
+  //  else if (resetCredential === "email") {
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 1,
+  //         flexDirection: "column",
+  //         alignSelf: "center",
+  //         alignContent: "center",
+  //         justifyContent: "center",
+  //       }}>
+  //       <RESETEMAIL />
+  //     </View>
+  //   );}
+  else {
     return (
       <>
         <View
@@ -141,13 +132,13 @@ const SettingScreen = () => {
                 Reset Username
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={[styles.settingsButton]}
               onPress={() => SetResetCredential("email")}>
               <Text style={[styles.text, { color: "black" }]}>
                 Change Email
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               style={[styles.settingsButton]}
               onPress={() => SetResetCredential("password")}>

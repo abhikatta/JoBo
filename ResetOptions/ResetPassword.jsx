@@ -3,6 +3,7 @@ import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { auth } from "../Firebase/firebase";
 import { useState } from "react";
+import { styles } from "../styles";
 
 const RESETPASSWORD = () => {
   const [password, setPassword] = useState("");
@@ -23,6 +24,7 @@ const RESETPASSWORD = () => {
     ) {
       try {
         updatePassword(auth.currentUser, password);
+        Alert.alert("Success.", "Your password has been successfully changed.");
         clearCredentials();
       } catch (error) {
         Alert.alert(
