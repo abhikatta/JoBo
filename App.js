@@ -26,7 +26,15 @@ import Tabs from "./navigation/tabs";
 import LOGINMAIN from "./Authentication/LoginScreen";
 import SIGNUPMAIN from "./Authentication/SignupScreen";
 import { styles } from "./styles";
-import { addDoc } from "firebase/firestore";
+import {
+  addDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 
 const TitleComponent = () => {
   return (
@@ -70,22 +78,10 @@ const App = () => {
   const [userID, setUserID] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSetPref = async () => {
-    const userPref = {
-      theme: "light",
-      id: auth.currentUser.uid,
-    };
-    try {
-      await addDoc(userPref, userPreferencesCollection);
-    } catch (error) {
-      console.log(error.code, error.message);
-    }
-  };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserID(user);
-
         console.log(user);
       } else {
         setUserID(null);
@@ -100,6 +96,7 @@ const App = () => {
       const response = await signInWithEmailAndPassword(auth, email, password);
       console.log(response.user);
       setUserID(response.user);
+      createUserPref();
     } catch (e) {
       if (
         e.code === "auth/invalid-login-credentials" ||
@@ -125,6 +122,23 @@ const App = () => {
     }
   };
 
+  // create a pref collection for new user:
+  const createUserPref = async () => {
+    if (!auth.currentUser.isAnonymous) {
+      try {
+        await setDoc(doc(userPreferencesCollection, auth.currentUser.uid), {
+          theme: "light",
+        });
+      } catch (error) {
+        console.log(error.code, error.message);
+        Alert.alert(
+          "Error",
+          "Something went wrong while trying to set user preferences."
+        );
+      }
+    }
+  };
+
   const signup = async (username, email, password, confirmPassword) => {
     if (password !== confirmPassword) {
       alert("Passwords do not match. Please try again.");
@@ -139,6 +153,9 @@ const App = () => {
       updateProfile(auth.currentUser, { displayName: username });
       console.log(response.user);
       setUserID(response.user);
+      userID && createUserPref();
+
+      // handleSetPref();
     } catch (error) {
       if (error.code === "auth/email-already-exists") {
         Alert.alert(

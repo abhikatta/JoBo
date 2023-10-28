@@ -8,7 +8,7 @@ import { auth } from "../Firebase/firebase";
 const LOGINMAIN = ({ login, loginAnonymously }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [securePassword, setSecurePassword] = useState(true);
+  const [securePassword, setSecurePassword] = useState(false);
   const [passwordResetEmail, setPasswordResetEmail] = useState("");
   const [ResetEmailPrompt, setResetEmailPrompt] = useState(false);
 
@@ -21,10 +21,13 @@ const LOGINMAIN = ({ login, loginAnonymously }) => {
     setPassword("");
     setPasswordResetEmail("");
   };
+
+  // secure entry bug fix:
   useEffect(() => {
     console.log(securePassword);
     setSecurePassword((prev) => !prev);
   }, [ResetEmailPrompt]);
+
   const emailPrompt = () => {
     setResetEmailPrompt((prevSend) => !prevSend);
   };

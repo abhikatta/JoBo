@@ -1,13 +1,31 @@
 import { useState } from "react";
 import { Linking, View, Text, TouchableOpacity, Alert } from "react-native";
 import { styles } from "../styles";
-import RESETPASSWORD from "../ResetOptions/ResetPassword";
-import RESETUSERNAME from "../ResetOptions/ResetUsername";
-import RESETEMAIL from "../ResetOptions/ResetEmail";
+import RESETPASSWORD from "../Options/ResetPassword";
+import RESETUSERNAME from "../Options/ResetUsername";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../Firebase/firebase";
 
 // TODO:
 const SettingScreen = () => {
   const [resetCredential, SetResetCredential] = useState("");
+
+  // set theme :
+  const handleTheme = async () => {
+    if (!auth.currentUser.isAnonymous) {
+      try {
+        const docRef = doc(db, "userprefs", auth.currentUser.uid);
+        const theme = await getDoc(docRef);
+        if (theme.exists()) {
+          console.log(theme.data());
+        } else {
+          console.log("error loggin theme");
+        }
+      } catch (error) {
+        console.log("error loggin theme:" + error);
+      }
+    }
+  };
 
   if (resetCredential === "username") {
     return (
@@ -35,21 +53,7 @@ const SettingScreen = () => {
         <RESETPASSWORD />
       </View>
     );
-  }
-  //  else if (resetCredential === "email") {
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         flexDirection: "column",
-  //         alignSelf: "center",
-  //         alignContent: "center",
-  //         justifyContent: "center",
-  //       }}>
-  //       <RESETEMAIL />
-  //     </View>
-  //   );}
-  else {
+  } else {
     return (
       <>
         <View
@@ -79,12 +83,14 @@ const SettingScreen = () => {
             </Text>
             <TouchableOpacity
               style={styles.settingsButton}
-              onPress={() =>
+              onPress={() => {
+                // testPrefLog();
+                handleTheme();
                 Alert.alert(
                   "Upcoming feature!",
                   "Feature will be added soon. Stay tuned."
-                )
-              }>
+                );
+              }}>
               <Text style={[styles.text, { color: "black" }]}>
                 Theme: Light
               </Text>
@@ -132,13 +138,6 @@ const SettingScreen = () => {
                 Reset Username
               </Text>
             </TouchableOpacity>
-            {/* <TouchableOpacity
-              style={[styles.settingsButton]}
-              onPress={() => SetResetCredential("email")}>
-              <Text style={[styles.text, { color: "black" }]}>
-                Change Email
-              </Text>
-            </TouchableOpacity> */}
             <TouchableOpacity
               style={[styles.settingsButton]}
               onPress={() => SetResetCredential("password")}>
