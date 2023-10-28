@@ -44,3 +44,7 @@ b.
 - you can basically send a state and props and it'd work just fine.
 
 all done except usage in guest mode.
+
+doing:
+
+- theme
