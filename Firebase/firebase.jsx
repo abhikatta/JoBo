@@ -22,3 +22,4 @@ export const auth = initializeAuth(app, {
 });
 
 export const journalsCollection = collection(db, "journals");
+export const userPreferencesCollection = collection(db, "userprefs");

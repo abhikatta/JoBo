@@ -1,6 +1,6 @@
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { styles } from "../styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../Firebase/firebase";
@@ -12,27 +12,36 @@ const LOGINMAIN = ({ login, loginAnonymously }) => {
   const [passwordResetEmail, setPasswordResetEmail] = useState("");
   const [ResetEmailPrompt, setResetEmailPrompt] = useState(false);
 
-  const handlePassword = () => {
+  const handleShowPassword = () => {
     setSecurePassword((prevSecurePassword) => !prevSecurePassword);
   };
+
   const clearCredentials = () => {
     setEmail("");
     setPassword("");
+    setPasswordResetEmail("");
   };
+  useEffect(() => {
+    console.log(securePassword);
+    setSecurePassword((prev) => !prev);
+  }, [ResetEmailPrompt]);
   const emailPrompt = () => {
     setResetEmailPrompt((prevSend) => !prevSend);
   };
+
   const resetPasswordEmail = async (email) => {
     try {
       await sendPasswordResetEmail(auth, email);
       Alert.alert("Sent!", "A link to reset your password has been sent.", [
         {
           text: "OK",
-          onPress: () => emailPrompt(),
+          onPress: () => {
+            emailPrompt();
+            clearCredentials();
+          },
         },
       ]);
     } catch (error) {
-      console.log(error.code);
       if (error.code === "auth/invalid-email") {
         Alert.alert(
           "Error",
@@ -75,8 +84,8 @@ const LOGINMAIN = ({ login, loginAnonymously }) => {
 
       <BouncyCheckbox
         style={styles.showPassword}
-        onPress={handlePassword}
-        isChecked={false}
+        onPress={handleShowPassword}
+        isChecked={securePassword}
         size={20}
         fillColor="#00aaff"
         textStyle={{
@@ -102,7 +111,10 @@ const LOGINMAIN = ({ login, loginAnonymously }) => {
         }}>
         <Text style={styles.text}>Log In Anonymously</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => emailPrompt()}>
+      <TouchableOpacity
+        onPress={() => {
+          emailPrompt();
+        }}>
         <Text style={{ color: "black", textAlign: "center", marginTop: "5%" }}>
           Forgot password? Click here to reset your password.
         </Text>
@@ -140,7 +152,11 @@ const LOGINMAIN = ({ login, loginAnonymously }) => {
         }}>
         <Text style={styles.text}>Reset Passsword</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => emailPrompt()}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          emailPrompt();
+        }}>
         <Text style={styles.text}>Go Back</Text>
       </TouchableOpacity>
     </View>

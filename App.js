@@ -20,12 +20,13 @@ import {
 
 import { onAuthStateChanged } from "firebase/auth";
 
-import { auth } from "./Firebase/firebase";
+import { auth, userPreferencesCollection } from "./Firebase/firebase";
 
 import Tabs from "./navigation/tabs";
 import LOGINMAIN from "./Authentication/LoginScreen";
 import SIGNUPMAIN from "./Authentication/SignupScreen";
 import { styles } from "./styles";
+import { addDoc } from "firebase/firestore";
 
 const TitleComponent = () => {
   return (
@@ -68,10 +69,23 @@ const App = () => {
   const SplashTab = new createBottomTabNavigator();
   const [userID, setUserID] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const handleSetPref = async () => {
+    const userPref = {
+      theme: "light",
+      id: auth.currentUser.uid,
+    };
+    try {
+      await addDoc(userPref, userPreferencesCollection);
+    } catch (error) {
+      console.log(error.code, error.message);
+    }
+  };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserID(user);
+
         console.log(user);
       } else {
         setUserID(null);
@@ -96,10 +110,16 @@ const App = () => {
           "Invalid Credentials!",
           "Email or Password incorrect. Please try again."
         );
+      } else if (e.code === "auth/network-request-failed") {
+        Alert.alert(
+          "No Internet Connection!",
+          "Please make sure you are connected to the internet and try again."
+        );
       } else {
         Alert.alert(
-          "Error",
-          `Oh, no. Something went wrong somewhere. Make sure you are connected to the internet and please try again.\nError info:${e.message}`
+          "Error!",
+          `Oh no, something went wrong somewhere. Please make sure you are connected to
+          the internet and your credentials are correct and try again after some time.`
         );
       }
     }
@@ -120,41 +140,44 @@ const App = () => {
       console.log(response.user);
       setUserID(response.user);
     } catch (error) {
-      Alert.alert(
-        "Error.",
-        "Something went wrong. Make sure you fill in all required values and are connected to the internet."
-      );
-      alert(error);
+      if (error.code === "auth/email-already-exists") {
+        Alert.alert(
+          "Error creating account!",
+          "This email is already in use, please use another email id."
+        );
+      } else {
+        Alert.alert(
+          "Error!",
+          "Something went wrong. Please Make sure you fill in all required values and are connected to the internet."
+        );
+        alert(error);
+      }
     }
   };
 
   async function loginAnonymously() {
     try {
       const response = await signInAnonymously(auth);
-      // Handle the response here
       console.log(response.user);
       setUserID(response.user);
     } catch (error) {
-      // Handle the error here
       console.error(error.message);
       Alert.alert("Error.", "Something went wrong. Please try again.");
-      // You might want to set an error state here to show an error message to the user
     }
   }
 
-  async function loginInWithGoogle() {
-    try {
-      const provider = new GoogleAuthProvider();
-      const response = await signInWithPopup(auth, provider);
-      // Handle the response here
-      console.log(response.user);
-      setUserID(response.user);
-    } catch (error) {
-      // Handle the error here
-      console.error(error.message);
-      // You might want to set an error state here to show an error message to the user
-    }
-  }
+  // TODO:
+
+  // async function loginInWithGoogle() {
+  //   try {
+  //     const provider = new GoogleAuthProvider();
+  //     const response = await signInWithPopup(auth, provider);
+  //     console.log(response.user);
+  //     setUserID(response.user);
+  //   } catch (error) {
+  //     console.error(error.message);
+  //   }
+  // }
 
   const SIGNUP = () => {
     return (
