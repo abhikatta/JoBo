@@ -5,7 +5,7 @@ import RESETPASSWORD from "../Options/ResetPassword";
 import RESETUSERNAME from "../Options/ResetUsername";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../Firebase/firebase";
-
+import * as app from "../app.json";
 // TODO:
 const SettingScreen = () => {
   const [resetCredential, SetResetCredential] = useState("");
@@ -135,7 +135,7 @@ const SettingScreen = () => {
               style={styles.settingsButton}
               onPress={() => SetResetCredential("username")}>
               <Text style={[styles.text, { color: "black" }]}>
-                Reset Username
+                Change Username
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -169,7 +169,7 @@ const SettingScreen = () => {
             marginBottom: 100,
             textAlign: "center",
           }}>
-          JoBo v1.9.7
+          {app.expo.name} v{app.expo.version}
         </Text>
       </>
     );

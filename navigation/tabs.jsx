@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Image, View } from "react-native";
+import { Image, View, Platform } from "react-native";
 import React from "react";
 import FavoritesScreen from "../Screens/FavoritesScreen";
 import ProfileScreen from "../Screens/ProfileScreen";
@@ -23,7 +23,7 @@ const Tabs = ({ navigation }) => {
             top: "10%",
             padding: "10%",
             marginBottom: "10%",
-            marginTop: "10%",
+            marginTop: Platform.OS === "ios" ? "5%" : "10%",
           },
           tabBarLabelStyle: {
             bottom: "10%",
@@ -75,7 +75,8 @@ const Tabs = ({ navigation }) => {
           component={CameraScreen}
           options={{
             unmountOnBlur: true,
-            tabBarStyle: { display: "none" },
+            tabBarStyle: { display: Platform.OS === "ios" ? "" : "none" },
+
             tabBarActiveBackgroundColor: "#009aff",
             tabBarIcon: ({ focused }) => (
               <Image

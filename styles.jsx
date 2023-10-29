@@ -1,12 +1,12 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   navBar: {
     borderRadius: 15,
     position: "absolute",
-    bottom: "1%",
-    height: "7%",
-    left: "5%",
-    right: "5%",
+    bottom: Platform.OS === "ios" ? "-2%" : "1%",
+    height: Platform.OS === "ios" ? "10%" : "7%",
+    left: Platform.OS === "ios" ? "0%" : "5%",
+    right: Platform.OS === "ios" ? "0%" : "5%",
     backgroundColor: "#fff",
     elevation: 15,
     shadowColor: "#00aaff",
@@ -54,6 +54,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: "10%",
     marginVertical: "2%",
     borderRadius: 5,
+    color: "black",
     borderBottomColor: "#00aaff",
     borderTopColor: "#eeeeee",
     borderLeftColor: "#eeeeee",

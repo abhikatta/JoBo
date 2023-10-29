@@ -7,9 +7,9 @@ import requests
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
-HF_TOKEN = ""  # your hugging face token
+HF_TOKEN = "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"  # your hugging face token
 API_URL = "https://api-inference.huggingface.co/models/microsoft/trocr-large-handwritten"
-HEADERS = {"Authorization": "Bearer {HF_TOKEN}"}
+HEADERS = {"Authorization": f"Bearer {HF_TOKEN}"}
 
 
 def split_to_images(original_image):
@@ -18,7 +18,7 @@ def split_to_images(original_image):
     results = reader.readtext(original_image)
 
     # Create a directory to save individual text region images
-    output_directory = './output_text_regions'
+    output_directory = r'D:\Projects\JoBo\full-model-python-flask-app\flask_app\final_build\output_text_regions'
     try:
         shutil.rmtree(output_directory)
         os.makedirs(output_directory, exist_ok=True)

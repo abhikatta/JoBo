@@ -143,6 +143,7 @@ export default function CameraScreen() {
         }
       });
   };
+
   return (
     <View style={styles.cameraContainer}>
       <Camera

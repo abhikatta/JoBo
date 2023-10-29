@@ -1,7 +1,8 @@
 import requests
 
 # Specify the URL of the Flask server endpoint
-URL = "http://10.74.20.123:5000/process_image"
+# "http://10.74.20.123:5000/process_image"
+URL = "http://127.0.0.1:5000/process_image"
 
 # Specify the path to the image file you want to send
 if __name__ == '__main__':
