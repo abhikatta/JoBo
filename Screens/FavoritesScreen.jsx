@@ -9,7 +9,14 @@ import {
 import React, { useEffect, useState } from "react";
 import { styles } from "../styles";
 import { Card } from "../components/Card";
-import { doc, getDocs, onSnapshot, query, where } from "firebase/firestore";
+import {
+  doc,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+  updateDoc,
+} from "firebase/firestore";
 import { auth, journalsCollection } from "../Firebase/firebase";
 
 const FavoritesPage = () => {
@@ -26,13 +33,17 @@ const FavoritesPage = () => {
 
   const updateJournal = async (text, doc_id) => {
     try {
+      console.log(`Updated ${doc_id} with ${text}`);
       const docRef = doc(journalsCollection, doc_id);
-      await setDoc(docRef, { entry_text: text }, { merge: true });
+      await updateDoc(docRef, {
+        entry_text: JSON.stringify(text),
+      });
     } catch (error) {
       console.error("Error updating journal entry:", error);
       Alert.alert("Error!", "Failed to update the journal entry.", error);
     }
   };
+
   const getJournals = async () => {
     try {
       if (auth.currentUser.isAnonymous) {
@@ -68,7 +79,7 @@ const FavoritesPage = () => {
   };
 
   return favs.length === 0 ? (
-    <View style={styles.homeMain}>
+    <View style={styles.JoBos}>
       <Text style={[styles.homeText, { fontSize: 30, marginLeft: 5 }]}>
         Your Favorite Notes
       </Text>
@@ -85,7 +96,7 @@ const FavoritesPage = () => {
       </View>
     </View>
   ) : (
-    <View style={styles.homeMain}>
+    <View style={styles.JoBos}>
       <Text style={[styles.homeText, { fontSize: 30, marginLeft: 5 }]}>
         Your Favorite Notes
       </Text>

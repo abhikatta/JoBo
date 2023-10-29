@@ -11,11 +11,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   updateProfile,
-  GoogleAuthProvider,
+  // GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInAnonymously,
   signInWithEmailAndPassword,
-  signInWithPopup,
+  // signInWithPopup,
 } from "firebase/auth";
 
 import { onAuthStateChanged } from "firebase/auth";
@@ -26,15 +26,7 @@ import Tabs from "./navigation/tabs";
 import LOGINMAIN from "./Authentication/LoginScreen";
 import SIGNUPMAIN from "./Authentication/SignupScreen";
 import { styles } from "./styles";
-import {
-  addDoc,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-} from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 const TitleComponent = () => {
   return (

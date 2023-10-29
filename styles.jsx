@@ -65,6 +65,7 @@ export const styles = StyleSheet.create({
     alignContent: "center",
     marginLeft: "10%",
   },
+
   // camera:
   cameraContainer: {
     flex: 1,
@@ -103,6 +104,7 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
+
   // booksScreen:
   homeMain: {
     marginTop: "10%",
@@ -121,23 +123,18 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   homeCard: {
-    backgroundColor: "#ddd",
+    backgroundColor: "#fff",
+    borderColor: "#00aadd",
+    borderWidth: 2,
     shadowColor: "#ccddee",
-    elevation: 6,
+    elevation: 15,
     resizeMode: "contain",
     borderRadius: 20,
     marginVertical: 5,
   },
   JoBos: {
-    borderWidth: 1,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    padding: "2%",
     alignItems: "center",
-    width: "96%",
-    height: "90%",
-    flexDirection: "column",
-    // marginTop: "1%",
+    height: "88%",
     flexDirection: "column",
     marginHorizontal: "2%",
   },

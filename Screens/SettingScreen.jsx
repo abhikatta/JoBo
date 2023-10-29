@@ -55,8 +55,9 @@ const SettingScreen = () => {
     );
   } else {
     return (
-      <>
+      <View style={styles.JoBos}>
         <View
+          // style={styles.JoBos}
           style={{
             flex: 1,
             justifyContent: "center",
@@ -147,31 +148,38 @@ const SettingScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-
-        <TouchableOpacity
-          onPress={() =>
-            Linking.openURL(
-              "https://github.com/abhikatta/jobo/tree/migrate_to_firebase"
-            )
-          }
+        <View
           style={{
-            marginHorizontal: "20%",
-            padding: "3%",
             alignItems: "center",
             marginVertical: "2%",
-            bottom: -10,
+            bottom: -90,
             textAlign: "center",
           }}>
-          <Text style={{ textDecorationLine: "underline" }}>Github</Text>
-        </TouchableOpacity>
-        <Text
-          style={{
-            marginBottom: 100,
-            textAlign: "center",
-          }}>
-          {expo.name} v{expo.version}
-        </Text>
-      </>
+          <TouchableOpacity
+            onPress={() =>
+              Linking.openURL(
+                "https://github.com/abhikatta/jobo/tree/migrate_to_firebase"
+              )
+            }
+            style={{
+              marginHorizontal: "20%",
+              padding: "3%",
+              alignItems: "center",
+              marginVertical: "2%",
+              bottom: -10,
+              textAlign: "center",
+            }}>
+            <Text style={{ textDecorationLine: "underline" }}>Github</Text>
+          </TouchableOpacity>
+          <Text
+            style={{
+              marginBottom: 100,
+              textAlign: "center",
+            }}>
+            {expo.name} v{expo.version}
+          </Text>
+        </View>
+      </View>
     );
   }
 };

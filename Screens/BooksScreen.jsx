@@ -113,10 +113,9 @@ const BooksScreen = () => {
     try {
       console.log(`Updated ${doc_id} with ${text}`);
       const docRef = doc(journalsCollection, doc_id);
-      // await doc(docRef, { entry_text: text }, { merge: true });
-      // await updateDoc(docRef, { entry_text: text });
-      await updateDoc(docRef, { text });
-      // await updateDoc(docRef,{})
+      await updateDoc(docRef, {
+        entry_text: JSON.stringify(text),
+      });
     } catch (error) {
       console.error("Error updating journal entry:", error);
       Alert.alert("Error!", "Failed to update the journal entry.", error);
@@ -217,16 +216,24 @@ const BooksScreen = () => {
   return values.length > 0 ? (
     <View style={styles.JoBos}>
       <LOGGEDINTITLECOMPONENT />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => createNewJournal()}>
-        <Text style={styles.text}>Write a new journal</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => deleteAllJournals()}>
-        <Text style={styles.text}>Delete all journals</Text>
-      </TouchableOpacity>
+
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+        }}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => createNewJournal()}>
+          <Text style={styles.text}>Write a new journal</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => deleteAllJournals()}>
+          <Text style={styles.text}>Delete all journals</Text>
+        </TouchableOpacity>
+      </View>
+
       <ScrollView
         style={{
           height: Platform.OS === "android" ? "75%" : "auto",

@@ -17,7 +17,13 @@ const ProfileScreen = () => {
   }
   return (
     <View
-      style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}>
+      style={[
+        {
+          flexDirection: "column",
+          justifyContent: "center",
+        },
+        styles.JoBos,
+      ]}>
       <View style={{ alignContent: "center" }}>
         <Text style={styles.TextInput}>
           Username:{" "}

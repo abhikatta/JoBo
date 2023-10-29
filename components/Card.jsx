@@ -27,6 +27,13 @@ export const Card = ({
   index,
 }) => {
   const [editable, setEditable] = useState(false);
+  const [newText, setNewText] = useState("");
+
+  const handleTextChange = async () => {
+    if (newText) {
+      await updateJournal(newText, doc_id);
+    }
+  };
 
   return (
     <View key={index} style={styles.homeCard}>
@@ -45,11 +52,15 @@ export const Card = ({
         )}
         <TouchableOpacity
           style={styles.cardOption}
-          onPress={() =>
-            setEditable((preEditable) => {
-              !preEditable;
-            })
-          }>
+          onPress={() => {
+            if (!editable) {
+              setEditable((preEditable) => !preEditable);
+            } else {
+              setEditable((preEditable) => !preEditable);
+
+              handleTextChange();
+            }
+          }}>
           <Image
             style={styles.cardOption}
             resizeMode="contain"
@@ -87,7 +98,7 @@ export const Card = ({
       </View>
       <TextInput
         editable={editable}
-        onChangeText={(e) => updateJournal(e, doc_id)}
+        onChangeText={(e) => setNewText(e)}
         selectionColor={"cyan"}
         multiline={true}
         numberOfLines={7}
