@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import {
   Alert,
-  BackHandler,
   Button,
   Image,
   Platform,
@@ -9,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Camera, CameraType } from "expo-camera";
+import { Camera } from "expo-camera";
 
 global.Buffer = require("buffer").Buffer;
 import * as MediaLibrary from "expo-media-library";
@@ -21,7 +20,6 @@ import { styles } from "../styles";
 import { auth, journalsCollection } from "../Firebase/firebase";
 
 export default function CameraScreen({ navigation }) {
-  // const [type, setType] = useState(CameraType.back);
   const [cameraPermissionResponse, cameraRequestPermission] =
     Camera.useCameraPermissions();
   const [mediaPermissionResponse, mediaRequestPermission] =
@@ -75,11 +73,6 @@ export default function CameraScreen({ navigation }) {
     );
   }
 
-  // function toggleCameraType() {
-  //   setType((current) =>
-  //     current === CameraType.front ? CameraType.back : CameraType.front
-  //   );
-  // }
   function toggleFlashType() {
     setToggleFlash(!toggleFlash);
   }
@@ -154,10 +147,7 @@ export default function CameraScreen({ navigation }) {
         ratio="16:9"
         ref={ref}
         style={styles.camera}
-        flashMode={toggleFlash ? "torch" : "off"}
-        // type={type}
-      >
-        {/* <View> */}
+        flashMode={toggleFlash ? "torch" : "off"}>
         <View style={styles.cameraButtonContainer}>
           <View>
             <TouchableOpacity style={styles.cameraButton} onPress={takePhoto}>
@@ -169,26 +159,13 @@ export default function CameraScreen({ navigation }) {
               <Text style={styles.text}>JoBo</Text>
             </TouchableOpacity>
           </View>
-          {Platform.OS === "android" ? (
-            <></>
-          ) : (
-            // <TouchableOpacity
-            //   style={styles.cameraButton}
-            //   onPress={toggleCameraType}>
-            //   <Image
-            //     resizeMode="contain"
-            //     source={require("../assets/icons/flip_camera.png")}
-            //     style={styles.cameraButton}
-            //   />
-            //   <Text style={styles.text}>Flip</Text>
-            // </TouchableOpacity>
+          {Platform.OS === "ios" && (
             <View>
               <TouchableOpacity style={styles.button} onPress={goBack}>
                 <Text style={{ color: "white" }}>Go back</Text>
               </TouchableOpacity>
             </View>
           )}
-          {/* </View> */}
           <View>
             <TouchableOpacity
               style={styles.cameraButton}
