@@ -75,9 +75,9 @@ const Tabs = ({ navigation }) => {
           component={CameraScreen}
           options={{
             unmountOnBlur: true,
-            tabBarStyle: { display: Platform.OS === "ios" ? "" : "none" },
-
+            tabBarStyle: { display: Platform.OS === "ios" ? "none" : "none" },
             tabBarActiveBackgroundColor: "#009aff",
+
             tabBarIcon: ({ focused }) => (
               <Image
                 source={require("../assets/icons/new.png")}

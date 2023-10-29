@@ -88,9 +88,8 @@ export const styles = StyleSheet.create({
     marginTop: 600,
     marginHorizontal: 30,
     marginBottom: 100,
-
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     alignItems: "flex-end",
   },
   cameraButton: {
