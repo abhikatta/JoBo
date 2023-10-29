@@ -5,7 +5,7 @@ import RESETPASSWORD from "../Options/ResetPassword";
 import RESETUSERNAME from "../Options/ResetUsername";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../Firebase/firebase";
-import * as app from "../app.json";
+import { expo } from "../app.json";
 // TODO:
 const SettingScreen = () => {
   const [resetCredential, SetResetCredential] = useState("");
@@ -169,7 +169,7 @@ const SettingScreen = () => {
             marginBottom: 100,
             textAlign: "center",
           }}>
-          {app.expo.name} v{app.expo.version}
+          {expo.name} v{expo.version}
         </Text>
       </>
     );
