@@ -2,7 +2,7 @@
   "expo": {
     "name": "JoBo",
     "slug": "Frontend",
-    "version": "1.9.11",
+    "version": "1.9.12",
     "orientation": "portrait",
     "icon": "./assets/JoBo.png",
     "userInterfaceStyle": "dark",
