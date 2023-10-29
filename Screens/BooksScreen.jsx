@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, Alert } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Alert,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import { Card } from "../components/Card";
 import { styles } from "../styles";
 import { favs } from "./FavoritesScreen";
 import {
-  // addDoc,
   doc,
   getDocs,
   query,
   deleteDoc,
-  // serverTimestamp,
-  setDoc,
   where,
-  // collection,
   onSnapshot,
   updateDoc,
+  serverTimestamp,
+  addDoc,
 } from "firebase/firestore";
 import { auth, journalsCollection } from "../Firebase/firebase";
-// import { db } from "../Firebase/firebase";
-
+import LOGGEDINTITLECOMPONENT from "../components/LoggedInTitle";
 const BooksScreen = () => {
   const [values, setValues] = useState([]);
   const [user, setUser] = useState(
@@ -39,7 +43,6 @@ const BooksScreen = () => {
     if (!auth.currentUser.isAnonymous) {
       try {
         const unsubscribe = onSnapshot(journalsCollection, () => {
-          LoadModel();
           getJournals();
         });
         return () => {
@@ -63,30 +66,27 @@ const BooksScreen = () => {
     }
   }, [auth.currentUser]);
 
-  // const createNewJournal = async () => {
-  //   const journal = {
-  //     entry_text: "Write a new journal...",
-  //     id: !auth.currentUser.isAnonymous
-  //       ? auth.currentUser.uid
-  //       : auth.currentUser.getIdToken(),
-  //     timestamp: serverTimestamp(),
-  //   };
-  //   addNewJournal(journal);
-  // };
-
-  // const addNewJournal = async (journalEntry) => {
-  //   try {
-  //     await addDoc(journalsCollection, journalEntry);
-  //     console.log("Journal entry added to Firebase Firestore:", journalEntry);
-  //     setValues((prevValues) => [journalEntry, ...prevValues]);
-  //   } catch (error) {
-  //     console.error("Error uploading journal entry to Firestore:", error);
-  //     Alert.alert(
-  //       "Error!",
-  //       "Something went wrong. Check your internet connection and try again."
-  //     );
-  //   }
-  // };
+  const createNewJournal = async () => {
+    try {
+      const journal = {
+        entry_text: JSON.stringify("Type a new journal.."),
+        id: auth.currentUser.uid,
+        liked: false,
+        timestamp: serverTimestamp(),
+      };
+      if (journal) {
+        await addDoc(journalsCollection, journal);
+        console.log("Journal entry added to Firebase Firestore:", journal);
+        setValues((prevValues) => [journal, ...prevValues]);
+      }
+    } catch (error) {
+      console.error("Error uploading journal entry to Firestore:", error);
+      Alert.alert(
+        "Error!",
+        "Something went wrong. Check your internet connection and try again."
+      );
+    }
+  };
 
   const deleteJournal = async (doc_id) => {
     try {
@@ -102,7 +102,6 @@ const BooksScreen = () => {
         { text: "No", onPress: () => null },
       ]);
       console.log(doc_id);
-      console.log("Journal delete function isn't implemented yet!");
     } catch (error) {
       console.error("Error deleting journal entry:", error);
       Alert.alert("Error!", "Failed to delete the journal entry.", error);
@@ -124,13 +123,56 @@ const BooksScreen = () => {
     }
   };
 
+  const deleteAllJournals = async () => {
+    try {
+      if (auth.currentUser.isAnonymous) {
+        return;
+      } else {
+        Alert.alert(
+          "Delete all JoBos?",
+          "Are you absolutely sure you want to delete all your JoBos? This action is irreversible!",
+          [
+            {
+              text: "Yes",
+              onPress: async () => {
+                const querySnapshot = await getDocs(
+                  query(
+                    journalsCollection,
+                    where("id", "==", auth.currentUser.uid)
+                  )
+                );
+
+                querySnapshot.forEach((doc) => {
+                  deleteDoc(doc.ref)
+                    .then(() => {
+                      console.log(`Document ${doc.id} successfully deleted!`);
+                    })
+                    .catch((error) => {
+                      console.error(
+                        `Error deleting document: ${doc.id}\n`,
+                        error
+                      );
+                    });
+                });
+              },
+            },
+            {
+              text: "Maybe not",
+              onPress: () => null,
+            },
+          ]
+        );
+      }
+    } catch (error) {
+      console.error(
+        "Error trying to delete all journal entries from Firestore:",
+        error
+      );
+      Alert.alert("Error deleting data!", "Something went wrong.");
+    }
+  };
+
   const getJournals = async () => {
-    // console.log("In guest mode");
-    // Alert.alert(
-    //   "Error getting data!",
-    //   "You're in Guest mode, login to get your journals."
-    // );
-    // return;
     try {
       if (auth.currentUser.isAnonymous) {
         return;
@@ -141,6 +183,7 @@ const BooksScreen = () => {
         );
 
         const querySnapshot = await getDocs(q);
+
         const journals = querySnapshot.docs.map((doc) => {
           const data = doc.data();
           return {
@@ -161,78 +204,34 @@ const BooksScreen = () => {
     }
   };
 
-  return !values ? (
-    <View style={styles.homeMain}>
-      <Text
-        style={[
-          styles.homeText,
-          {
-            fontSize: 25,
-            marginLeft: 5,
-          },
-        ]}>
-        <Text
-          style={[
-            styles.homeText,
-            {
-              color: "black",
-              fontSize: 25,
-              marginLeft: 5,
-            },
-          ]}>
-          Your{" "}
-        </Text>
-        <Text
-          style={[
-            styles.homeText,
-            {
-              fontWeight: "900",
+  function timestampToDate(timeInSeconds) {
+    const date = Date(timeInSeconds * 1000)
+      .toString()
+      .split(" ")
+      .splice(0, 5);
+    return date.map((v, i) => {
+      return v + " ";
+    });
+  }
 
-              fontSize: 25,
-
-              marginLeft: 5,
-            },
-          ]}>
-          Jo
-        </Text>
-        <Text
-          style={[
-            styles.homeText,
-            { color: "black", fontSize: 25, marginLeft: 5 },
-          ]}>
-          urnalized
-        </Text>
-        <Text
-          style={[
-            styles.homeText,
-            {
-              fontSize: 25,
-              marginLeft: 5,
-            },
-          ]}>
-          {" "}
-        </Text>
-        <Text
-          style={[
-            styles.homeText,
-            {
-              fontSize: 25,
-              fontWeight: "900",
-              marginLeft: 5,
-            },
-          ]}>
-          Bo
-        </Text>
-        <Text
-          style={[
-            styles.homeText,
-            { color: "black", fontSize: 25, marginLeft: 5 },
-          ]}>
-          oks
-        </Text>
-      </Text>
-
-      <ScrollView style={{ height: "92%", width: "100%" }}>
+  return values.length > 0 ? (
+    <View style={styles.JoBos}>
+      <LOGGEDINTITLECOMPONENT />
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => createNewJournal()}>
+        <Text style={styles.text}>Write a new journal</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => deleteAllJournals()}>
+        <Text style={styles.text}>Delete all journals</Text>
+      </TouchableOpacity>
+      <ScrollView
+        style={{
+          height: Platform.OS === "android" ? "75%" : "auto",
+          width: "100%",
+        }}>
         {values.map((entry, index) => (
           <View key={index}>
             <Card
@@ -242,7 +241,7 @@ const BooksScreen = () => {
               updateJournal={updateJournal}
               doc_id={entry.doc_id}
               liked={entry.liked}
-              date={entry.timestamp.toDate().toString()}
+              date={timestampToDate(entry.timestamp?.seconds)}
               favs={favs}
               index={index}
             />
@@ -251,19 +250,7 @@ const BooksScreen = () => {
       </ScrollView>
     </View>
   ) : (
-    <View
-      style={[
-        styles.homeMain,
-        {
-          borderWidth: 1,
-          borderRadius: 40,
-          padding: 50,
-          alignItems: "center",
-          flex: 0.95,
-          flexDirection: "column",
-          justifyContent: "center",
-        },
-      ]}>
+    <View style={[styles.homeMain, styles.noJoboCard]}>
       <Text style={{ textAlign: "center" }}>
         You don't have any JoBo yet. Click on{" "}
         <Text
@@ -272,6 +259,11 @@ const BooksScreen = () => {
         </Text>
         <Text>to get started!</Text>
       </Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => createNewJournal()}>
+        <Text style={styles.text}>Write a new journal</Text>
+      </TouchableOpacity>
     </View>
   );
 };
