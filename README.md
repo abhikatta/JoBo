@@ -14,28 +14,6 @@
 
 ## 3. Open a terminal and enter commands:
 
-### The latest working branch :
-
-```
-git clone --branch migrate_to_firebase https://github.com/abhikatta/JoBo
-```
-
-```
-cd JoBo
-```
-
-```
-npm i
-```
-
-```
-npx expo start --tunnel
-```
-
----
-
-That's it!
-
 ## if you're cloning the main branch:
 
 ```
