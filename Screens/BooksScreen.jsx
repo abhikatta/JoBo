@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
+import { encryptText, decryptText } from "../utils/encrpytion";
 import { Card } from "../components/Card";
 import { styles } from "../styles";
 import { favs } from "./FavoritesScreen";
@@ -23,6 +24,7 @@ import {
 } from "firebase/firestore";
 import { auth, journalsCollection } from "../Firebase/firebase";
 import LOGGEDINTITLECOMPONENT from "../components/LoggedInTitle";
+import { timestampToDate } from "../utils/timeConverter";
 const BooksScreen = () => {
   const [values, setValues] = useState([]);
   const [user, setUser] = useState(
@@ -67,9 +69,12 @@ const BooksScreen = () => {
   }, [auth.currentUser]);
 
   const createNewJournal = async () => {
+    var originalText = "Type a new journal..";
+
     try {
       const journal = {
-        entry_text: JSON.stringify("Type a new journal.."),
+        // entry_text: JSON.stringify(encryptText(originalText)),
+        entry_text: encryptText(originalText),
         id: auth.currentUser.uid,
         liked: false,
         timestamp: serverTimestamp(),
@@ -114,7 +119,7 @@ const BooksScreen = () => {
       console.log(`Updated ${doc_id} with ${text}`);
       const docRef = doc(journalsCollection, doc_id);
       await updateDoc(docRef, {
-        entry_text: JSON.stringify(text),
+        entry_text: encryptText(text),
       });
     } catch (error) {
       console.error("Error updating journal entry:", error);
@@ -190,7 +195,8 @@ const BooksScreen = () => {
             doc_id: doc.id,
             liked: data.liked,
             timestamp: data.timestamp,
-            ...data,
+            entry_text: decryptText(data.entry_text),
+            // ...decryptText(data),
           };
         });
 
@@ -202,16 +208,6 @@ const BooksScreen = () => {
       Alert.alert("Error getting data!", "Something went wrong.");
     }
   };
-
-  function timestampToDate(timeInSeconds) {
-    const date = Date(timeInSeconds * 1000)
-      .toString()
-      .split(" ")
-      .splice(0, 5);
-    return date.map((v, i) => {
-      return v + " ";
-    });
-  }
 
   return values.length > 0 ? (
     <View style={styles.JoBos}>
@@ -244,7 +240,7 @@ const BooksScreen = () => {
             <Card
               id={entry.doc_id}
               deleteJournal={deleteJournal}
-              text={JSON.parse(entry.entry_text)}
+              text={entry.entry_text}
               updateJournal={updateJournal}
               doc_id={entry.doc_id}
               liked={entry.liked}

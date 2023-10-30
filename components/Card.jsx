@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { styles } from "../styles";
-import { View, TouchableOpacity, Image, TextInput } from "react-native";
+import { View, TouchableOpacity, Image, TextInput, Alert } from "react-native";
 import { doc, updateDoc } from "firebase/firestore";
 import { journalsCollection } from "../Firebase/firebase";
 
@@ -27,11 +27,31 @@ export const Card = ({
   index,
 }) => {
   const [editable, setEditable] = useState(false);
-  const [newText, setNewText] = useState("");
-
+  const [newText, setNewText] = useState(text);
   const handleTextChange = async () => {
-    if (newText) {
+    if (editable) {
+      setNewText(newText);
       await updateJournal(newText, doc_id);
+      //   Alert.alert(
+      //     "Publish Changes?",
+      //     "Are you sure you want to edit changes to your journal?",
+      //     [
+      //       {
+      //         text: "Yes",
+      //         onPress: async () => {
+      //           setNewText(newText);
+      //           await updateJournal(newText, doc_id);
+      //         },
+      //       },
+      //       {
+      //         text: "No",
+      //         onPress: async () => {
+      //           setNewText(text);
+      //           return;
+      //         },
+      //       },
+      //     ]
+      //   );
     }
   };
 

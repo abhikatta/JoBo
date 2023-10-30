@@ -18,6 +18,8 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { auth, journalsCollection } from "../Firebase/firebase";
+import { decryptText, encryptText } from "../utils/encrpytion";
+import { timestampToDate } from "../utils/timeConverter";
 
 const FavoritesPage = () => {
   const [favs, setFavs] = useState([]);
@@ -36,7 +38,7 @@ const FavoritesPage = () => {
       console.log(`Updated ${doc_id} with ${text}`);
       const docRef = doc(journalsCollection, doc_id);
       await updateDoc(docRef, {
-        entry_text: JSON.stringify(text),
+        entry_text: encryptText(text),
       });
     } catch (error) {
       console.error("Error updating journal entry:", error);
@@ -63,13 +65,19 @@ const FavoritesPage = () => {
             doc_id: doc.id,
             liked: data.liked,
             timestamp: data.timestamp,
-            ...data,
+            entry_text: decryptText(data.entry_text),
+            // ...decryptText(data),
           };
+          // return {
+          //   id: data.id,
+          //   doc_id: doc.id,
+          //   liked: data.liked,
+          //   timestamp: data.timestamp,
+          //   ...data,
+          // };
         });
 
         setFavs(journals);
-        console.log("FAvs:" + favs);
-
         console.log("Journals retrieved from Firebase Firestore:", journals);
       }
     } catch (error) {
@@ -106,11 +114,11 @@ const FavoritesPage = () => {
           <View key={index}>
             <Card
               id={entry.doc_id}
-              text={JSON.parse(entry.entry_text)}
+              text={entry.entry_text}
               doc_id={entry.doc_id}
               updateJournal={updateJournal}
               liked={entry.liked}
-              date={entry.timestamp.toDate().toString()}
+              date={timestampToDate(entry.timestamp?.seconds)}
               index={index}
             />
           </View>
