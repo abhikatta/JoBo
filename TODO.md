@@ -42,3 +42,9 @@ b.
 - use states to handle favorites and delete favorite and delete scanned from the booksscreen and favsscreen
   ref:https://scrimba.com/learn/learnreact/complex-state-updating-state-objects-cJLgWJSN
 - you can basically send a state and props and it'd work just fine.
+
+all done except usage in guest mode.
+
+doing:
+
+- theme
