@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "JoBo",
+    "slug": "Frontend",
+    "version": "1.10.1",
+    "orientation": "portrait",
+    "icon": "./assets/JoBo.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/JoBo.png",
+        "backgroundColor": "#000000"
+      },
+      "package": "com.hypocom.JoBo"
+    },
+    "web": {
+      "favicon": "./assets/JoBo.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fdd3ad1c-0c16-4d4e-b6c7-6e80dddeb32e"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/fdd3ad1c-0c16-4d4e-b6c7-6e80dddeb32e"
+    }
+  }
+}
