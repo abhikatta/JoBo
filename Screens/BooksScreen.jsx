@@ -260,7 +260,9 @@ const BooksScreen = () => {
           style={{ color: "#00aafa", fontStyle: "italic", fontWeight: "bold" }}>
           NEW JOBO{"  "}
         </Text>
-        <Text>to get started!</Text>
+        <Text>
+          to get started!{"\n\n"}OR{"\n"}
+        </Text>
       </Text>
       <TouchableOpacity
         style={styles.button}
