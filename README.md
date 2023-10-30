@@ -30,7 +30,6 @@ npm i
 
 ```
 npx expo start --tunnel
-
 ```
 
 ## or to clone a specific branch (use without the '<' or '>'):
