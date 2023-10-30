@@ -55,4 +55,11 @@ npx expo start --tunnel
 ```
 git clone --branch <branch_name> https://github.com/abhikatta/JoBo
 ```
+
 Download app here: <a href='https://expo.dev/artifacts/eas/3h9MQnFWfq6Ep4zR3HWv64.apk'>JoBo</a>
+<br></br>
+## Some screenshots of the app:
+ <img src="https://github.com/abhikatta/JoBo/assets/76813100/19221a1d-a008-4a99-bbfb-1892071d4082" width="200" height="400">
+ <img src="https://github.com/abhikatta/JoBo/assets/76813100/7f69ed94-4df4-4cad-8335-0ce49e20b574" width="200" height="400">
+ <img src="https://github.com/abhikatta/JoBo/assets/76813100/62747f0e-4ff8-4e54-9637-feb13d6750f5" width="200" height="400">
+ <img src="https://github.com/abhikatta/JoBo/assets/76813100/7f40b8a8-26be-44a0-974f-6c59c5b224cb" width="200" height="400">
