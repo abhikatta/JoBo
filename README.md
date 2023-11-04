@@ -1,6 +1,6 @@
 # JoBo
 
-#### Jounal Book📖
+#### Jounalizing Book📖
 
 ##### Still in development🧑🏻‍💻
 
@@ -21,7 +21,7 @@ git clone https://github.com/JoBo
 ```
 
 ```
-cd JoBo/Frontend
+cd JoBo
 ```
 
 ```
