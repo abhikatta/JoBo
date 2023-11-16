@@ -38,4 +38,4 @@ npx expo start --tunnel
 git clone --branch <branch_name> https://github.com/abhikatta/JoBo
 ```
 
-Download apk file for android from <a href="https://expo.dev/artifacts/eas/oW4UL5zUQStq2rFCFLQMMr.apk">here</a>.
+Download apk(v.1.9.12) file for android from <a href="https://expo.dev/artifacts/eas/oW4UL5zUQStq2rFCFLQMMr.apk">here</a>.
